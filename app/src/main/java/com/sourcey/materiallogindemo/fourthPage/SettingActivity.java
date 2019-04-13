@@ -1,6 +1,7 @@
 package com.sourcey.materiallogindemo.fourthPage;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -76,6 +77,31 @@ public class SettingActivity extends AppCompatActivity {
                     }
                 }
         );
+        /**問卷**/
+        logoutbutton = (Button) findViewById(R.id.scale1);//DASS21
+        logoutbutton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Uri uri=Uri.parse("https://goo.gl/forms/pCvfYzdEsMA8iF0a2");
+                        Intent i=new Intent(Intent.ACTION_VIEW,uri);
+                        startActivity(i);
+                    }
+                }
+        );
+
+        logoutbutton = (Button) findViewById(R.id.scale2);//Altman
+        logoutbutton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Uri uri=Uri.parse("https://goo.gl/forms/VNMWPoKLgOjVTYND3");
+                        Intent i=new Intent(Intent.ACTION_VIEW,uri);
+                        startActivity(i);
+                    }
+                }
+        );
+        /*******************************************************************************************/
     }
 
     //按下返回鍵回到homepage畫面

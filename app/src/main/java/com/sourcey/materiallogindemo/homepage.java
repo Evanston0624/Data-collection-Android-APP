@@ -34,9 +34,9 @@ import java.util.concurrent.ExecutionException;
 public class homepage extends TabActivity {
     TabHost tabHost;
     GPSBroadcastReceiver Gpsreceiver = new GPSBroadcastReceiver();
-
+    /**更新設定**/
     public String Url = "http://140.116.82.102:8080/app_webpage/app_dl/version_n.txt";
-    public String version_now = "2";//當前版本號
+    public String version_now = "4";//當前版本號
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
