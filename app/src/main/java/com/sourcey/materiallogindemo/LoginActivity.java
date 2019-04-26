@@ -360,7 +360,6 @@ class SearchAccount {
         } catch (Exception e) {
             Log.e("log_tag", e.toString());
         }
-
         return DA;
     }
 }

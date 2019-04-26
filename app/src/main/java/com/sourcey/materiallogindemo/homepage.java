@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -42,6 +43,7 @@ public class homepage extends TabActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage);
+        firstRun();
         initGPS();
         startService();
         tabHost = getTabHost();
@@ -204,6 +206,37 @@ public class homepage extends TabActivity {
             Toast.makeText(getBaseContext(), "GPS服務正在啟動", Toast.LENGTH_LONG).show();
             Intent serviceIntent = new Intent(this, GPS.class);
             this.startService(serviceIntent);
+        }
+    }
+    private void firstRun() {
+        SharedPreferences sharedPreferences = getSharedPreferences("FirstRun",0);
+        Boolean first_run = sharedPreferences.getBoolean("First",true);
+        if (first_run){
+            sharedPreferences.edit().putBoolean("First",false).apply();
+
+            long firsttime = System.currentTimeMillis()/1000;
+            SharedPreferences pref = getSharedPreferences("time", MODE_PRIVATE);
+            pref.edit()
+                    .putLong("firsttime", firsttime)
+                    .apply();//此時資料才真正寫入到設定檔中
+            Toast.makeText(getBaseContext(), "問卷時間儲存", Toast.LENGTH_LONG).show();
+        }
+        else {
+            long firsttime = getSharedPreferences("time", MODE_PRIVATE)
+                    .getLong("firsttime",1);
+            long newtime = System.currentTimeMillis()/1000;
+            if (newtime-firsttime >= 561600) {
+                Toast.makeText(getBaseContext(), "!!!填寫週問卷的日子到了!!!", Toast.LENGTH_LONG).show();
+                firsttime = newtime;
+                SharedPreferences pref = getSharedPreferences("time", MODE_PRIVATE);
+                pref.edit()
+                        .putLong("firsttime", firsttime)
+                        .apply();//此時資料才真正寫入到設定檔中
+                Intent intent = new Intent();
+                intent.setClass(homepage.this, SettingActivity.class);
+                startActivity(intent);
+                //homepage.this.finish();
+            }
         }
     }
 }
