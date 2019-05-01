@@ -17,24 +17,37 @@ import java.util.Map;
 
 import android.Manifest;
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.MediaRecorder;
+import android.media.RingtoneManager;
+import android.os.Build;
 import android.os.Environment;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.provider.CallLog;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NotificationCompat;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.sourcey.materiallogindemo.MYSQL.DBConnector;
+import com.sourcey.materiallogindemo.R;
+
+import static android.app.Notification.DEFAULT_VIBRATE;
+import static android.content.ContentValues.TAG;
 
 /**
  * @author fanchangfa
@@ -51,7 +64,10 @@ public class Phone_listener extends Service {
 
         return null;
     }
-
+    /****/
+    private static final String CHANNEL_ID = "1250012";
+    private static final String TAG = Phone_listener.class.getSimpleName();
+    /****/
     @Override
     public void onCreate() {
         // TODO Auto-generated method stub
@@ -65,7 +81,47 @@ public class Phone_listener extends Service {
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
-        startForeground(startId, new Notification());
+        /**t創建通知細節**/
+        Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        NotificationCompat.Builder notificationBuilder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID);
+            NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, TAG, NotificationManager.IMPORTANCE_DEFAULT);
+            notificationChannel.enableVibration(true);
+            ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(notificationChannel);
+        } else {
+            notificationBuilder =  new NotificationCompat.Builder(this);
+        }
+        notificationBuilder
+//                .setContentTitle(notification.getTitle())
+                .setContentText(String.format("電話接收系統啟動"))//訊息
+                // .setDefaults(DEFAULT_SOUND | DEFAULT_VIBRATE)
+                .setAutoCancel(true)
+                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                .setContentIntent(pendingIntent)
+                .setLargeIcon(icon)
+                .setColor(Color.RED)
+                .setSmallIcon(R.mipmap.ic_launcher);
+
+        notificationBuilder.setDefaults(DEFAULT_VIBRATE);
+        notificationBuilder.setLights(Color.YELLOW, 1000, 300);
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(0, notificationBuilder.build());
+        /**創建通知視窗**/
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,TAG,
+                    NotificationManager.IMPORTANCE_HIGH);
+            notificationManager.createNotificationChannel(channel);
+
+            Notification notification = new Notification.Builder(getApplicationContext(),CHANNEL_ID).build();
+            startForeground(1, notification);
+        }
+        else {
+            startForeground(startId, new Notification());
+        }
+        /****/
         //创建PowerManager对象
         pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         //保持cpu一直运行，不管屏幕是否黑屏

@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
@@ -275,9 +276,13 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             Toast.makeText(getBaseContext(), "電話服務啟動", Toast.LENGTH_LONG).show();
             Intent it = new Intent(LoginActivity.this, Phone_listener.class);
-            startService(it); //開始Service
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                startForegroundService(it);
+            }
+            else {
+                startService(it); //開始Service
+            }
         }
-
     }
     /***********************************確定帳號密碼是否正確*************************************/
     private void check_and_login(String account,String password,boolean TrueFalse){

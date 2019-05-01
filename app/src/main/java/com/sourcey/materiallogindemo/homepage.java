@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
@@ -205,7 +206,12 @@ public class homepage extends TabActivity {
         } else {
             Toast.makeText(getBaseContext(), "GPS服務正在啟動", Toast.LENGTH_LONG).show();
             Intent serviceIntent = new Intent(this, GPS.class);
-            this.startService(serviceIntent);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                this.startForegroundService(serviceIntent);
+            }
+            else {
+                this.startService(serviceIntent); //開始Service
+            }
         }
     }
     private void firstRun() {
