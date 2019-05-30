@@ -468,6 +468,7 @@ public class PhotosActivity extends AppCompatActivity {
                     writeedittext.setText("");
                 }
             });
+            //重製標記
 //            writealertdialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
 //                @Override
 //                public void onCancel(DialogInterface dialog) {
@@ -555,7 +556,7 @@ public class PhotosActivity extends AppCompatActivity {
             emotionalertdialog.show();
         }
     };
-    /**************************************錄影 Initial data****************************************/
+    /**************************************錄影 Initial data********************************************/
     private ImageButton imageVideoButton;
     private AlertDialog.Builder videobuilder;
     private LayoutInflater videolayoutinflater;
@@ -882,7 +883,7 @@ public class PhotosActivity extends AppCompatActivity {
         }
     }
 
-    /**************************************錄音 Initial data****************************************/
+    /**************************************錄音 Initial data********************************************/
     private ImageButton imageMicButton;
     private AlertDialog.Builder micbuilder;
     private LayoutInflater miclayoutinflater;
@@ -983,7 +984,7 @@ public class PhotosActivity extends AppCompatActivity {
                             mood[4] = "0";
                             mood[5] = "0";
                             mood[6] = "0";
-                            prepareNewData_NoneTagEmotion();
+                            //prepareNewData(true);
                         }
                     }
                 });
@@ -1425,8 +1426,7 @@ public class PhotosActivity extends AppCompatActivity {
         HashMap<String, List<String>> Subject = SQL.SelectSubject(buffer.getAccount(), str_wav);
         if (icontype == "1") {
             Calendar now_mCal = Calendar.getInstance();
-            CharSequence now_s, new_s;
-            now_s = DateFormat.format("ss", now_mCal.getTime());
+            CharSequence now_s, new_s;            now_s = DateFormat.format("ss", now_mCal.getTime());
 
             do {
                 Calendar new_mCal = Calendar.getInstance();

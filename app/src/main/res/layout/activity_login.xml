@@ -32,7 +32,7 @@
                 android:id="@+id/input_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Account"
+                android:hint="帳號"
                 android:inputType="textEmailAddress"
                 android:text=""/>
         </android.support.design.widget.TextInputLayout>
@@ -49,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:hint="Password"
+                android:hint="密碼"
                 android:text=""/>
         </android.support.design.widget.TextInputLayout>
 
@@ -60,14 +60,14 @@
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
             android:padding="12dp"
-            android:text="Login"
+            android:text="登入"
             android:background="@color/accent"/>
 
         <TextView android:id="@+id/link_signup"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:text="No account yet? Create one"
+            android:text="還沒有賬號嗎？ 創建一個"
             android:gravity="center"
             android:textSize="16dip"/>
 
