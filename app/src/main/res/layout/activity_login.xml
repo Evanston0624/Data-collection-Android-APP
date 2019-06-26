@@ -67,7 +67,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:text="還沒有賬號嗎？ 創建一個"
+            android:text="還沒有帳號嗎？ 創建一個"
             android:gravity="center"
             android:textSize="16dip"/>
 

@@ -32,6 +32,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.SearchView;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -83,7 +84,17 @@ public class PhotosActivity extends AppCompatActivity {
     private SeekBar AngrySeekbar, BoredomSeekbar, DisgustSeekbar, AnxietySeekbar, HappinessSeekbar, SadnessSeekbar, SurprisedSeekbar;
     private String tvContent, word, icontype;
     private String[] mood = new String[7];
+    /**06/13**/
+    private LayoutInflater adlayoutinflater;
+    private SeekBar dayemotionseekBar;
+    private Button dayemotionbutton, daysleepbutton, adCancel;
+    private Spinner sleepdayspinner, sleephourspinner, sleepminspinner, updayspinner, uphourspinner, upminspinner, slorupselect;
+    private Integer progess;
+    private String sleeptime, getuptime, alldayemotion, slorup;
+    private AlertDialog.Builder adbuilder;
+    private AlertDialog addialog;
 
+    /****/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,8 +162,12 @@ public class PhotosActivity extends AppCompatActivity {
         //SetVideo
         videoDialog();
         VideoEmotionButton();
+
         //set data
         prepareData();
+
+        //set allday
+        setAlldayInitial();
     }
 
     /********************************************Chart**********************************************/
@@ -272,14 +287,113 @@ public class PhotosActivity extends AppCompatActivity {
             }
         });
     }
+    /********************************************AllDay**********************************************/
+    private void setAlldayInitial() {
+        /**0612**/
 
+        writebutton = (Button) findViewById(R.id.buttonMain);
+        writebutton.setOnClickListener(adlis);
+
+        adlayoutinflater = getLayoutInflater();
+        View Aview = adlayoutinflater.inflate(R.layout.dialog_allday, null);
+        adbuilder = new AlertDialog.Builder(PhotosActivity.this);
+        adbuilder.setCancelable(false);
+        adbuilder.setView(Aview);
+
+        dayemotionseekBar = (SeekBar) Aview.findViewById(R.id.dayemotionseekBar);
+        dayemotionseekBar.setMax(6);
+        dayemotionseekBar.setProgress(3);
+        dayemotionbutton = (Button) Aview.findViewById(R.id.dayemotionbutton);
+        daysleepbutton = (Button) Aview.findViewById(R.id.daysleepbutton);
+
+        sleepdayspinner = (Spinner) Aview.findViewById(R.id.sleepdayspinner);
+        sleephourspinner = (Spinner) Aview.findViewById(R.id.sleephourspinner);
+        sleepminspinner = (Spinner) Aview.findViewById(R.id.sleepminspinner);
+
+        slorupselect = (Spinner) Aview.findViewById(R.id.slupspinner);
+
+
+        //updayspinner = (Spinner) Aview.findViewById(R.id.updayspinner);
+        //uphourspinner = (Spinner) Aview.findViewById(R.id.uphourspinner);
+        //upminspinner = (Spinner) Aview.findViewById(R.id.upminspinner);
+
+        adCancel = (Button) Aview.findViewById(R.id.dayCancel);
+
+        addialog = adbuilder.create();
+
+        /****/
+
+    }
+    private View.OnClickListener adlis = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            adbuilder = new AlertDialog.Builder(PhotosActivity.this);
+            adlayoutinflater = getLayoutInflater();
+
+            //Change the value of sleep time and wake time
+            Calendar calendar = Calendar.getInstance();
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+            int hour = calendar.get(Calendar.HOUR_OF_DAY);
+            int minute = calendar.get(Calendar.MINUTE);
+
+            //pinner seting
+            sleepdayspinner.setSelection(day);
+            sleephourspinner.setSelection(hour);
+            sleepminspinner.setSelection(minute);
+
+            //updayspinner.setSelection(day);
+            //uphourspinner.setSelection(hour);
+            //upminspinner.setSelection(minute);
+
+            //每日情緒
+            dayemotionbutton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    icontype = "4";
+                    alldayemotion = String.valueOf(dayemotionseekBar.getProgress());
+                    prepareADData();
+                }
+            });
+            //睡眠
+            daysleepbutton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    icontype = "5";
+                    sleeptime =
+                            sleepdayspinner.getSelectedItem().toString() +
+                                    '-'+
+                                    sleephourspinner.getSelectedItem().toString() +
+                                            ':'+
+                                            sleepminspinner.getSelectedItem().toString();
+
+                    slorup = slorupselect.getSelectedItem().toString();
+//                    getuptime =
+//                            updayspinner.getSelectedItem().toString() +
+//                                    '-'+
+//                                    uphourspinner.getSelectedItem().toString() +
+//                                            ':'+
+//                                            upminspinner.getSelectedItem().toString();
+                    prepareADData();
+                }
+            });
+
+            //關閉
+            adCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    addialog.cancel();
+                }
+            });
+            addialog.show();
+        }
+    };
     /********************************************Dialog**********************************************/
     //設置Dialog 文字
     private void setDialogInitial() {
 
         //initial writeTextview
+        imageWriteButton = (ImageButton) findViewById(R.id.imageWrite);
         writetextview = (TextView) findViewById(R.id.textView1);
-        writebutton = (Button) findViewById(R.id.buttonMain);
         writelayoutinflater = getLayoutInflater();
         View Dview = writelayoutinflater.inflate(R.layout.dialog_write, null);
         writebuilder = new AlertDialog.Builder(PhotosActivity.this);
@@ -289,16 +403,17 @@ public class PhotosActivity extends AppCompatActivity {
         writeSubmit = (Button) Dview.findViewById(R.id.writebutton);
         writeCancel = (Button) Dview.findViewById(R.id.writeCancel);
         writealertdialog = writebuilder.create();
-        writebutton.setOnClickListener(writelis);
-
-        //initial writeIcon
-        imageWriteButton = (ImageButton) findViewById(R.id.imageWrite);
         imageWriteButton.setOnClickListener(writelis);
 
+        //initial writeIcon
+        /**0612**/
+        //imageWriteButton = (ImageButton) findViewById(R.id.imageWrite);
+        //imageWriteButton.setOnClickListener(writelis);
+        /**0612**/
         //initial Icon
         emotionbutton = (ImageButton) findViewById(R.id.imageButton2);
         emotionbutton.setOnClickListener(emotionlis);
-        emotionbuilder = new AlertDialog.Builder(PhotosActivity.this);
+        emotionbuilder = new AlertDialog.Builder(PhotosActivity.this);//彈跳對話框
         emotionlayoutinflater = getLayoutInflater();
         Dview = emotionlayoutinflater.inflate(R.layout.dialog_emotion, null);
         emotionbuilder.setCancelable(false);
@@ -1474,6 +1589,62 @@ public class PhotosActivity extends AppCompatActivity {
         }
     }
 
+    /*************************************20190621-All day data update*******************/
+    private void prepareADData() {
+        //產生loading畫面
+        loading();
+
+        //chart
+        Data data;
+        ArrayList<BarEntry> yVals, yValsSystem;
+        ArrayList<Bitmap> chartList = prepareChartData();
+
+        //Data
+        Calendar mCal = Calendar.getInstance();
+        CharSequence s = DateFormat.format("yyyy-MM-dd kk:mm:ss", mCal.getTime());
+        String time = s.toString();
+
+
+
+        String emotion = "0,0,0,0,0,0,0";
+        mood[0] = "0";
+        mood[1] = "0";
+        mood[2] = "0";
+        mood[3] = "0";
+        mood[4] = "0";
+        mood[5] = "0";
+        mood[6] = "0";
+
+        //set chart Data
+        int j = 0;
+        float Max = 0;
+        yVals = new ArrayList<>();
+        for (String st : mood) {
+            Max += Float.valueOf(st);
+        }
+        for (String st : mood) {
+            yVals.add(new BarEntry(j, Float.valueOf(st) / Max * 100));
+            j++;
+        }
+        if (icontype == "4"){
+            String content = alldayemotion;
+            SQL sql = new SQL();
+            sql.UpdateData(buffer.getAccount(), time, content, emotion, icontype);
+            /****/
+            SQL sql1 = new SQL();
+            sql1.InsertNewData_new(buffer.getAccount(), time, content, emotion, icontype);
+        }
+        else if (icontype == "5"){
+            String content = slorup+sleeptime;
+            SQL sql = new SQL();
+            sql.UpdateData(buffer.getAccount(), time, content, emotion, icontype);
+            /****/
+            SQL sql1 = new SQL();
+            sql1.InsertNewData_new(buffer.getAccount(), time, content, emotion, icontype);
+        }
+    }
+
+    /****/
     /***********************************建立資料夾*************************************/
     public void isExist(String path) {
         File file = new File(path);

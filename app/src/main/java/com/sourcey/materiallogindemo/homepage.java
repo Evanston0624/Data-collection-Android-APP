@@ -38,7 +38,7 @@ public class homepage extends TabActivity {
     GPSBroadcastReceiver Gpsreceiver = new GPSBroadcastReceiver();
     /**更新設定**/
     public String Url = "http://140.116.82.102:8080/app_webpage/app_dl/version_n.txt";
-    public String version_now = "5";//當前版本號
+    public String version_now = "6";//當前版本號
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -45,7 +45,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/frame"
-            android:background="#00000000" />
+            android:background="@drawable/ad" />
 
         <TextView
             android:id="@+id/textView1"
@@ -54,8 +54,8 @@
             android:layout_alignBaseline="@+id/buttonMain"
             android:layout_alignBottom="@+id/buttonMain"
             android:layout_toRightOf="@id/frame"
-            android:background="@drawable/undertextline"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:background="@drawable/undertextline" />
+        <!--"android:textAppearance="?android:attr/textAppearanceLarge"-->
     </RelativeLayout>
 
     <TabWidget
