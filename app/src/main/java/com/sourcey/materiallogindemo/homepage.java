@@ -48,37 +48,37 @@ public class homepage extends TabActivity {
         initGPS();
         startService();
         tabHost = getTabHost();
-        //check Version
-        URL url = null;
-        try {
-            url = new URL(Url);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        CheckVersion task = new CheckVersion();
-        task.execute(url);
-        try {
-            String version_new = task.get();
-            Log.e("1", version_new);
-            if (! version_now.equals(version_new)) {
-                new AlertDialog.Builder(homepage.this).setTitle("更新提示")//設定視窗標題
-                        .setIcon(R.mipmap.ic_launcher)//設定對話視窗圖示
-                        .setMessage("有最新版本，請更新")//設定顯示的文字
-                        .setPositiveButton("下載新的安裝檔",new DialogInterface.OnClickListener(){
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Uri uri=Uri.parse("http://140.116.82.102:8080/app_webpage/app_dl/mastr.apk");//下載網址
-                                Intent download =new Intent(Intent.ACTION_VIEW,uri);
-                                startActivity(download);
-                            }
-                        })//設定結束的子視窗
-                        .show();//呈現對話視窗
-            }
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        //check Version
+//        URL url = null;
+//        try {
+//            url = new URL(Url);
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        }
+//        CheckVersion task = new CheckVersion();
+//        task.execute(url);
+//        try {
+//            String version_new = task.get();
+//            Log.e("1", version_new);
+//            if (! version_now.equals(version_new)) {
+//                new AlertDialog.Builder(homepage.this).setTitle("更新提示")//設定視窗標題
+//                        .setIcon(R.mipmap.ic_launcher)//設定對話視窗圖示
+//                        .setMessage("有最新版本，請更新")//設定顯示的文字
+//                        .setPositiveButton("下載新的安裝檔",new DialogInterface.OnClickListener(){
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                Uri uri=Uri.parse("http://140.116.82.102:8080/app_webpage/app_dl/mastr.apk");//下載網址
+//                                Intent download =new Intent(Intent.ACTION_VIEW,uri);
+//                                startActivity(download);
+//                            }
+//                        })//設定結束的子視窗
+//                        .show();//呈現對話視窗
+//            }
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 /***-----------------------------------------------------------------------------------------------------------------------------------------------*/
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage);
@@ -118,34 +118,34 @@ public class homepage extends TabActivity {
         tabHost.addTab(videoed); // Adding videos tab
         tabHost.addTab(seta); // Adding videos tab
     }
-    private class CheckVersion extends AsyncTask<URL, Void , String> {
-
-        protected String doInBackground(URL... url) {
-            HttpURLConnection httpConn = null;
-            String content = "";
-            try {
-                httpConn = (HttpURLConnection) url[0].openConnection();
-                if (httpConn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                    Log.d("TAG", "-can't check--");
-                    InputStreamReader isr = new InputStreamReader(httpConn.getInputStream(), "utf-8");
-                    int i;
-                    while ((i = isr.read()) != -1) {
-                        content = content + (char) i;
-                    }
-                    Log.e(content, content);
-                    isr.close();
-                    httpConn.disconnect();
-                    Log.e(content,content);
-                } else {
-                    Log.d("TAG", "---into-----urlConnection---fail--");
-
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return content;
-        }
-    }
+//    private class CheckVersion extends AsyncTask<URL, Void , String> {
+//
+//        protected String doInBackground(URL... url) {
+//            HttpURLConnection httpConn = null;
+//            String content = "";
+//            try {
+//                httpConn = (HttpURLConnection) url[0].openConnection();
+//                if (httpConn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+//                    Log.d("TAG", "-can't check--");
+//                    InputStreamReader isr = new InputStreamReader(httpConn.getInputStream(), "utf-8");
+//                    int i;
+//                    while ((i = isr.read()) != -1) {
+//                        content = content + (char) i;
+//                    }
+//                    Log.e(content, content);
+//                    isr.close();
+//                    httpConn.disconnect();
+//                    Log.e(content,content);
+//                } else {
+//                    Log.d("TAG", "---into-----urlConnection---fail--");
+//
+//                }
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            return content;
+//        }
+//    }
     @Override
     protected void onResume() {
         super.onResume();

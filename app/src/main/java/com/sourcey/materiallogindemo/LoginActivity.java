@@ -5,15 +5,19 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -43,6 +47,10 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.READ_CALL_LOG;
@@ -54,6 +62,10 @@ import static android.Manifest.permission_group.CAMERA;
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
+
+    /**更新設定**/
+    public String Url = "http://140.116.82.102:8080/app_webpage/app_dl/version_n.txt";
+    public String version_now = "5";//當前版本號
 
     @BindView(R.id.input_email)
     EditText _emailText;
@@ -87,6 +99,39 @@ public class LoginActivity extends AppCompatActivity {
         etaccount = findViewById(R.id.input_email);
         etpassword = findViewById(R.id.input_password);
 
+        /*****/
+        //check Version
+        URL url = null;
+        try {
+            url = new URL(Url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        CheckVersion task = new CheckVersion();
+        task.execute(url);
+        try {
+            String version_new = task.get();
+            Log.e("1", version_new);
+            if (! version_now.equals(version_new)) {
+                new AlertDialog.Builder(LoginActivity.this).setTitle("更新提示")//設定視窗標題
+                        .setIcon(R.mipmap.ic_launcher)//設定對話視窗圖示
+                        .setMessage("有最新版本，請更新")//設定顯示的文字
+                        .setPositiveButton("下載新的安裝檔",new DialogInterface.OnClickListener(){
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Uri uri=Uri.parse("http://140.116.82.102:8080/app_webpage/app_dl/mastr.apk");//下載網址
+                                Intent download =new Intent(Intent.ACTION_VIEW,uri);
+                                startActivity(download);
+                            }
+                        })//設定結束的子視窗
+                        .show();//呈現對話視窗
+            }
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        /****/
         //設定隱藏標題
         getSupportActionBar().hide();
 
@@ -138,6 +183,34 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         read();
+    }
+    private class CheckVersion extends AsyncTask<URL, Void , String> {
+
+        protected String doInBackground(URL... url) {
+            HttpURLConnection httpConn = null;
+            String content = "";
+            try {
+                httpConn = (HttpURLConnection) url[0].openConnection();
+                if (httpConn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    Log.d("TAG", "-can't check--");
+                    InputStreamReader isr = new InputStreamReader(httpConn.getInputStream(), "utf-8");
+                    int i;
+                    while ((i = isr.read()) != -1) {
+                        content = content + (char) i;
+                    }
+                    Log.e(content, content);
+                    isr.close();
+                    httpConn.disconnect();
+                    Log.e(content,content);
+                } else {
+                    Log.d("TAG", "---into-----urlConnection---fail--");
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return content;
+        }
     }
     String semail;
     String spassword;
