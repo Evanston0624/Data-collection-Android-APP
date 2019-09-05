@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
 
     /**更新設定**/
     public String Url = "http://140.116.82.102:8080/app_webpage/app_dl/version_n.txt";
-    public String version_now = "5";//當前版本號
+    public String version_now = "7";//當前版本號
 
     @BindView(R.id.input_email)
     EditText _emailText;
