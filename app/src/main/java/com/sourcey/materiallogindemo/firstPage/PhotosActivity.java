@@ -195,42 +195,46 @@ public class PhotosActivity extends AppCompatActivity {
                 content = LContent.get(i);
                 icon_type = Licon_type.get(i);
                 time = Ltime.get(i);
+                int icon_int = Integer.parseInt(icon_type);
+                if (icon_int != 4) {
+                    if (icon_int != 5) {
+                        String[] type = Lemotion.get(i).split(",");
+                        int j = 0;
+                        float Max = 0;
+                        yVals = new ArrayList<>();
 
-                String[] type = Lemotion.get(i).split(",");
-                int j = 0;
-                float Max = 0;
-                yVals = new ArrayList<>();
+                        //第一次讀取資料，算加總
+                        for (String st : type) {
+                            Max += Float.valueOf(st);
+                        }
 
-                //第一次讀取資料，算加總
-                for (String st : type) {
-                    Max += Float.valueOf(st);
-                }
+                        //第二次讀取資料，算百分比
+                        for (String st : type) {
+                            yVals.add(new BarEntry(j, Float.valueOf(st) / Max * 100));
+                            j++;
+                        }
 
-                //第二次讀取資料，算百分比
-                for (String st : type) {
-                    yVals.add(new BarEntry(j, Float.valueOf(st) / Max * 100));
-                    j++;
-                }
+                        //防止subject錯誤
+                        if (LemotionSystem.get(i) != null && !LemotionSystem.get(i).equals("null,null,null") && LemotionSystem.get(i).length() > 5) {
+                            String[] type_System = LemotionSystem.get(i).split(",");
+                            int js = 0;
+                            float fMax = 0;
+                            yValsSystem = new ArrayList<>();
+                            for (String st : type_System) {
+                                fMax += Float.valueOf(st);
+                            }
+                            for (String st : type_System) {
+                                yValsSystem.add(new BarEntry(js, Float.valueOf(st) / fMax * 100));
+                                js++;
+                            }
 
-                //防止subject錯誤
-                if (LemotionSystem.get(i) != null && !LemotionSystem.get(i).equals("null,null,null") && LemotionSystem.get(i).length() > 5) {
-                    String[] type_System = LemotionSystem.get(i).split(",");
-                    int js = 0;
-                    float fMax = 0;
-                    yValsSystem = new ArrayList<>();
-                    for (String st : type_System) {
-                        fMax += Float.valueOf(st);
+                            data = new Data(content, icon_type, time, yVals, chartList, yValsSystem, chartList);
+                            DataList.add(data);
+                        } else {
+                            data = new Data(content, icon_type, time, yVals, chartList);
+                            DataList.add(data);
+                        }
                     }
-                    for (String st : type_System) {
-                        yValsSystem.add(new BarEntry(js, Float.valueOf(st) / fMax * 100));
-                        js++;
-                    }
-
-                    data = new Data(content, icon_type, time, yVals, chartList, yValsSystem, chartList);
-                    DataList.add(data);
-                } else {
-                    data = new Data(content, icon_type, time, yVals, chartList);
-                    DataList.add(data);
                 }
             }
             // notify adapter about data set changes
@@ -311,7 +315,6 @@ public class PhotosActivity extends AppCompatActivity {
         sleepminspinner = (Spinner) Aview.findViewById(R.id.sleepminspinner);
 
         slorupselect = (Spinner) Aview.findViewById(R.id.slupspinner);
-
 
         //updayspinner = (Spinner) Aview.findViewById(R.id.updayspinner);
         //uphourspinner = (Spinner) Aview.findViewById(R.id.uphourspinner);

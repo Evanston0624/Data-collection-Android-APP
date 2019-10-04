@@ -59,7 +59,7 @@ public class GPS extends Service {
     private PowerManager.WakeLock wakeLock = null;
     /****/
     private static final String CHANNEL_ID = "1250024";
-    private static final String TAG = Phone_listener.class.getSimpleName();
+    private static final String TAG = GPS.class.getSimpleName();
     /****/
 
     @Override

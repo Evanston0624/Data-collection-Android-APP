@@ -347,7 +347,7 @@ public class LoginActivity extends AppCompatActivity {
         if (isRunning) {
             Toast.makeText(getBaseContext(), "電話服務啟動", Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(getBaseContext(), "電話服務啟動", Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), "電話服務正在啟動", Toast.LENGTH_LONG).show();
             Intent it = new Intent(LoginActivity.this, Phone_listener.class);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
                 startForegroundService(it);

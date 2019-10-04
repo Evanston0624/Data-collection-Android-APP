@@ -79,7 +79,7 @@ public class Phone_listener extends Service {
         //對呼叫狀態進行監聽
         tele.listen(new phone_state_listener(), PhoneStateListener.LISTEN_CALL_STATE);
     }
-
+    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         /**t創建通知細節**/
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);

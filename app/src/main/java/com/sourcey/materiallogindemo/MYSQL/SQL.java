@@ -55,6 +55,12 @@ public class SQL {
                     case "3":
                         Content.add(jsonData.getString("write"));
                         break;
+                    case "4":
+                        Content.add(jsonData.getString("write"));
+                        break;
+                    case "5":
+                        Content.add(jsonData.getString("write"));
+                        break;
                 }
 
                 time.add(jsonData.getString("Datetime"));/*
