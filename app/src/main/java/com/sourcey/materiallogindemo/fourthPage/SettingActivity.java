@@ -102,6 +102,19 @@ public class SettingActivity extends AppCompatActivity {
                 }
         );
         /*******************************************************************************************/
+        /**feedback**/
+        logoutbutton = (Button) findViewById(R.id.scale3);//
+        logoutbutton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Uri uri=Uri.parse("http://140.116.82.102:8080/app_webpage/Information.html");
+                        Intent i=new Intent(Intent.ACTION_VIEW,uri);
+                        startActivity(i);
+                    }
+                }
+        );
+        /*******************************************************************************************/
     }
 
     //按下返回鍵回到homepage畫面

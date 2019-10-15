@@ -31,6 +31,15 @@
             android:text="ASRM量表(每週)" />
 
         <Button
+            android:id="@+id/scale3"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:padding="12dp"
+            android:text="使用者回饋" />
+
+        <Button
             android:id="@+id/logout"
             android:layout_width="250dp"
             android:layout_height="wrap_content"

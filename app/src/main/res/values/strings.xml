@@ -125,4 +125,33 @@
             <item>56</item><item>57</item><item>58</item><item>59</item>
         </string-array>
 
+        <string-array name="pointarray">
+            <item>累計點數</item>
+            <item>-------GPS-------</item>
+            <item>一周有GPS紀錄7天</item>
+            <item>一個月有GPS紀錄20天</item>
+            <item>一個月有GPS紀錄30天</item>
+            <item>三個月有GPS紀錄60天</item>
+            <item>三個月有GPS紀錄80天</item>
+            <item>---每日情緒、睡眠---</item>
+            <item>達成紀錄1次</item>
+            <item>達成一周紀錄5天</item>
+            <item>達成一個月紀錄20天</item>
+            <item>達成一個月紀錄30天</item>
+            <item>達成三個月紀錄70天</item>
+            <item>達成三個月紀錄80天</item>
+            <item>-----情緒紀錄-----</item>
+            <item>達成一周記錄5天</item>
+            <item>達成一周紀錄7天</item>
+            <item>達成一個月紀錄20天</item>
+            <item>達成一個月紀錄25天</item>
+            <item>達成三個月紀錄60天</item>
+            <item>達成三個月紀錄80天</item>
+            <item>-----每周量表-----</item>
+            <item>達成填寫1次每周的量表</item>
+            <item>達成一個月寫每周的量表3次</item>
+            <item>達成三個月填寫每周的量表10次</item>
+            <item>達成三個月填寫每周的量表12次</item>
+        </string-array>
+
 </resources>
