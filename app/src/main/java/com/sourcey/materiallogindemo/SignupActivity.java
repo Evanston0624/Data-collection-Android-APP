@@ -146,44 +146,40 @@ public class SignupActivity extends AppCompatActivity {
         String password = _passwordText.getText().toString();
         String reEnterPassword = _reEnterPasswordText.getText().toString();
 
-        if (name.isEmpty() || name.length() < 4) {
-            _nameText.setError("至少4個字");
+        if (name.isEmpty() || name.length() < 2) {
+            _nameText.setError("姓名至少2個字");
             valid = false;
         } else {
             _nameText.setError(null);
         }
-
-        if (account.isEmpty()) {
-            _addressText.setError("Enter Valid Address");
+        if (account.isEmpty() || account.length() < 4|| account.length() > 12) {
+            _addressText.setError("帳號為4-12字元");
             valid = false;
         } else {
             _addressText.setError(null);
         }
-
-
         if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError("enter a valid email address");
+            _emailText.setError("請輸入有效的信箱");
             valid = false;
         } else {
             _emailText.setError(null);
         }
 
         if (mobile.length() != 10) {
-            _mobileText.setError("Enter Valid Mobile Number");
+            _mobileText.setError("請輸入有效的電話");
             valid = false;
         } else {
             _mobileText.setError(null);
         }
 
-        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("至少4個字");
+        if (password.isEmpty() || password.length() < 4 || password.length() > 12) {
+            _passwordText.setError("密碼為4-12字元");
             valid = false;
         } else {
             _passwordText.setError(null);
         }
-
-        if (reEnterPassword.isEmpty() || reEnterPassword.length() < 4 || reEnterPassword.length() > 10 || !(reEnterPassword.equals(password))) {
-            _reEnterPasswordText.setError("Password Do not match");
+        if (reEnterPassword.isEmpty() || reEnterPassword.length() < 4 || reEnterPassword.length() > 12 || !(reEnterPassword.equals(password))) {
+            _reEnterPasswordText.setError("密碼不符合");
             valid = false;
         } else {
             _reEnterPasswordText.setError(null);

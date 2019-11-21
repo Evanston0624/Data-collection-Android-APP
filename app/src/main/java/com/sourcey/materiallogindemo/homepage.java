@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.sourcey.materiallogindemo.CheckService.checkservice;
 import com.sourcey.materiallogindemo.GPS.GPS;
 import com.sourcey.materiallogindemo.GPS.GPSBroadcastReceiver;
+import com.sourcey.materiallogindemo.PointPage.PointActivity;
 import com.sourcey.materiallogindemo.firstPage.PhotosActivity;
 import com.sourcey.materiallogindemo.fourthPage.SettingActivity;
 import com.sourcey.materiallogindemo.thirdPage.Alarm.AlarmsActivity;
@@ -37,12 +38,22 @@ public class homepage extends TabActivity {
     TabHost tabHost;
     GPSBroadcastReceiver Gpsreceiver = new GPSBroadcastReceiver();
 
-
+    public String semail;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage);
-        //firstRun();
+
+        //
+        /**接收帳號**/
+        Intent intent = getIntent();
+        if (intent != null) {
+            semail = intent.getStringExtra("semail");
+        }
+        /**接收帳號**/
+
+
+        firstRun();
         initGPS();
         startService();
         tabHost = getTabHost();
@@ -63,7 +74,7 @@ public class homepage extends TabActivity {
         // Tab for Videos
         TabSpec videoed = tabHost.newTabSpec("Videos");
         videoed.setIndicator("", getResources().getDrawable(R.drawable.icon_alarm_tab));
-        Intent videosIntent = new Intent(this, AlarmsActivity.class);
+        Intent videosIntent = new Intent(this, PointActivity.class);
         videoed.setContent(videosIntent);
 
         // Tab for Setting

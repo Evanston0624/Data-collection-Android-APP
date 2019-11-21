@@ -344,10 +344,6 @@ public class PhotosActivity extends AppCompatActivity {
             sleephourspinner.setSelection(hour);
             sleepminspinner.setSelection(minute);
 
-            //updayspinner.setSelection(day);
-            //uphourspinner.setSelection(hour);
-            //upminspinner.setSelection(minute);
-
             //每日情緒
             dayemotionbutton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -370,12 +366,6 @@ public class PhotosActivity extends AppCompatActivity {
                                             sleepminspinner.getSelectedItem().toString();
 
                     slorup = slorupselect.getSelectedItem().toString();
-//                    getuptime =
-//                            updayspinner.getSelectedItem().toString() +
-//                                    '-'+
-//                                    uphourspinner.getSelectedItem().toString() +
-//                                            ':'+
-//                                            upminspinner.getSelectedItem().toString();
                     prepareADData();
                 }
             });
@@ -1661,8 +1651,16 @@ public class PhotosActivity extends AppCompatActivity {
     private Dialog dialog;
 
     private void loading() {
-        dialog = ProgressDialog.show(this,
-                "儲存中", "請等待2秒...", true);
+        int dialognum = (int)(Math.random()* 3);
+        if (dialognum == 1) {
+            dialog = ProgressDialog.show(this, "儲存中", "做的很棒 要多加油哦", true);
+        }
+        else if (dialognum == 2){
+            dialog = ProgressDialog.show(this, "儲存中", "每次的紀錄都讓自己更好", true);
+        }
+        else{
+            dialog = ProgressDialog.show(this, "儲存中", "時常記錄能獲得獎勵哦", true);
+        }
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {

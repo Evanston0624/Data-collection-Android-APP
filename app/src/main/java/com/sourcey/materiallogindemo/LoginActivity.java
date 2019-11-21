@@ -35,6 +35,7 @@ import com.sourcey.materiallogindemo.CheckService.checkservice;
 import com.sourcey.materiallogindemo.MYSQL.DBConnector;
 import com.sourcey.materiallogindemo.MYSQL.buffer;
 import com.sourcey.materiallogindemo.Phone.Phone_listener;
+import com.sourcey.materiallogindemo.PointPage.PointActivity;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -214,6 +215,7 @@ public class LoginActivity extends AppCompatActivity {
     }
     String semail;
     String spassword;
+    int randonvalue = (int)(Math.random()* 100000);
     public void login() {
         Log.d(TAG, "Login");
 
@@ -222,6 +224,11 @@ public class LoginActivity extends AppCompatActivity {
             spassword = _passwordText.getText().toString();
             _loginButton.setEnabled(false);
             check_and_login(semail,spassword,true);
+            /**傳送帳號資訊給後續頁面**/
+            Intent intent = new Intent(LoginActivity.this, homepage.class);
+            intent.putExtra("semail", semail);
+            startActivityForResult(intent, randonvalue);
+            /**傳送帳號資訊給後續頁面**/
         } else {
             _loginButton.setEnabled(true);
             onLoginFailed();
@@ -337,7 +344,6 @@ public class LoginActivity extends AppCompatActivity {
             in.close();
         } catch (Exception e) {
         }
-
         check_and_login(account,password,false);
     }
 
