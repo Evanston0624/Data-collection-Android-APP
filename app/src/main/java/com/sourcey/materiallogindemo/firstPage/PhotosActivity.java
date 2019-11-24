@@ -1597,8 +1597,6 @@ public class PhotosActivity extends AppCompatActivity {
         CharSequence s = DateFormat.format("yyyy-MM-dd kk:mm:ss", mCal.getTime());
         String time = s.toString();
 
-
-
         String emotion = "0,0,0,0,0,0,0";
         mood[0] = "0";
         mood[1] = "0";
@@ -1621,16 +1619,16 @@ public class PhotosActivity extends AppCompatActivity {
         }
         if (icontype == "4"){
             String content = alldayemotion;
-            SQL sql = new SQL();
-            sql.UpdateData(buffer.getAccount(), time, content, emotion, icontype);
+//            SQL sql = new SQL();
+//            sql.UpdateData(buffer.getAccount(), time, content, emotion, icontype);
             /****/
             SQL sql1 = new SQL();
             sql1.InsertNewData_new(buffer.getAccount(), time, content, emotion, icontype);
         }
         else if (icontype == "5"){
             String content = slorup+sleeptime;
-            SQL sql = new SQL();
-            sql.UpdateData(buffer.getAccount(), time, content, emotion, icontype);
+//            SQL sql = new SQL();
+//            sql.UpdateData(buffer.getAccount(), time, content, emotion, icontype);
             /****/
             SQL sql1 = new SQL();
             sql1.InsertNewData_new(buffer.getAccount(), time, content, emotion, icontype);

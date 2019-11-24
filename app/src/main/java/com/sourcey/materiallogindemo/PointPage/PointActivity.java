@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -38,6 +40,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.sourcey.materiallogindemo.MYSQL.DBConnector;
+import com.sourcey.materiallogindemo.MYSQL.buffer;
 import com.sourcey.materiallogindemo.R;
 import com.sourcey.materiallogindemo.homepage;
 
@@ -46,22 +49,39 @@ public class PointActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private PointWordList mAdapter;
     private final LinkedList<LinkedList <String>> mWordList = new LinkedList<>();
+    private SwipeRefreshLayout laySwipe;
 
-
+    private String myData = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_point);
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-        String[] pointtext = getResources().getStringArray(R.array.PointText);
-        String[] pointloadvalue = getResources().getStringArray(R.array.PointLoadValue);
-        int[] pointnumsum = getResources().getIntArray(R.array.PointNumSum);
-        int[] pointif = getResources().getIntArray(R.array.PointIf);
-        /**------------------------------接收帳號------------------------------**/
+
+        /**下拉刷新**/
+        initView();
+        /**接收帳號**/
+        myData = buffer.getAccount();
+        //myData = loadAccount();
+        /**更新Point**/
+        UpdatePoint(myData);
+    }
+    /**------------------------------下拉刷新------------------------------**/
+    private void initView() {
+        laySwipe = (SwipeRefreshLayout) findViewById(R.id.point_reorganize);
+        laySwipe.setOnRefreshListener(onSwipeToRefresh);
+        laySwipe.setColorSchemeResources(
+                android.R.color.holo_red_light,
+                android.R.color.holo_blue_light,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light);
+    }
+    /**------------------------------接收帳號------------------------------**/
+    private String loadAccount(){
+
         //accountNum = LoadPointData.ReadAccount();
+
         String path = Environment.getExternalStorageDirectory().getPath() + "/RDataR/";
-        String myData = "";
+
         try {
             FileInputStream fis = new FileInputStream(path + "user.txt");
             DataInputStream in = new DataInputStream(fis);
@@ -80,7 +100,16 @@ public class PointActivity extends AppCompatActivity {
         myData=myData.replaceAll("帳","");
         myData=myData.replaceAll("號","");
         myData=myData.replaceAll(":","");
-        /**------------------------------讀取Point資料------------------------------**/
+        return myData;
+    }
+
+    /**-----------------------------更新Point------------------------------**/
+    private void UpdatePoint (String myData){
+        /**讀取Point資料**/
+        String[] pointtext = getResources().getStringArray(R.array.PointText);
+        String[] pointloadvalue = getResources().getStringArray(R.array.PointLoadValue);
+        int[] pointnumsum = getResources().getIntArray(R.array.PointNumSum);
+        int[] pointif = getResources().getIntArray(R.array.PointIf);
         int[] DA = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
         try {
             String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/checkAccount.php?at="+myData+"&pw=0");
@@ -93,7 +122,7 @@ public class PointActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.e("error Load Point Data", e.toString());
         }
-        /**------------------------------查詢是否需要更新Point資料------------------------------**/
+        /**查詢是否需要更新Point資料**/
         /**起始時間String>Date>Long**/
         String nowtime_str = "";
         String[] endtime_str = {"","","","",""};
@@ -178,7 +207,11 @@ public class PointActivity extends AppCompatActivity {
             }
             String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/PointUpd.php?at=" + myData + stringsum);
         }
+        newrecyc(pointtext, DA);
+    }
+    private void newrecyc (String[] pointtext, int[] DA) {
         /**------------------------------創建Recyc------------------------------**/
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         List<Member> memberList = new ArrayList<>();
         for (int i = 0; i <= 26;i++) {
             String str = pointtext[i];
@@ -203,9 +236,7 @@ public class PointActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, LinearLayoutManager.VERTICAL));
         //----------產生Recy----------//
         recyclerView.setAdapter(new MemberAdapter(this, memberList));
-
     }
-
     private class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder> {
         private Context context;
         private List<Member> memberList;
@@ -309,7 +340,14 @@ public class PointActivity extends AppCompatActivity {
 
         return super.onKeyDown(keyCode, event);
     }
-    private void PointUpdate(String account,String password,boolean TrueFalse){
-
-    }
+    private SwipeRefreshLayout.OnRefreshListener onSwipeToRefresh = new SwipeRefreshLayout.OnRefreshListener() {
+        @Override
+        public void onRefresh() {
+            /**接收帳號**/
+            myData = loadAccount();
+            /**更新Point**/
+            UpdatePoint(myData);
+            laySwipe.setRefreshing(false);
+        }
+    };
 }

@@ -180,7 +180,7 @@
     <integer-array name="PointIf">
         <item>0</item>
         <item>1</item>
-        <item>1</item>//5,20,28,55,80
+        <item>1</item>
         <item>5040</item><item>20160</item><item>28224</item><item>55440</item><item>80640</item>
         <item>15</item><item>60</item><item>84</item><item>165</item><item>240</item>
         <item>5</item><item>20</item><item>28</item><item>55</item><item>80</item>

@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -13,10 +14,15 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.sourcey.materiallogindemo.LoginActivity;
+import com.sourcey.materiallogindemo.MYSQL.DBConnector;
+import com.sourcey.materiallogindemo.MYSQL.SQL;
 import com.sourcey.materiallogindemo.MYSQL.buffer;
 import com.sourcey.materiallogindemo.R;
 import com.sourcey.materiallogindemo.homepage;
 import com.sourcey.materiallogindemo.thirdPage.Question.SearchAccount;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -35,6 +41,7 @@ import butterknife.ButterKnife;
 public class SettingActivity extends AppCompatActivity {
     Button logoutbutton;
     private Switch question_voice_switch;
+    String myData;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting_layout);
@@ -83,9 +90,15 @@ public class SettingActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        try {
+                            SQL sql1 = new SQL();
+                            sql1.InsertNewData_new(buffer.getAccount(), buffer.getTime(), "SCL1", buffer.getEmotion(), "6");
+                        } catch (Exception e) {
+                            Log.e("error Load Point Data", e.toString());
+                        }
                         Uri uri=Uri.parse("https://goo.gl/forms/pCvfYzdEsMA8iF0a2");
-                        Intent i=new Intent(Intent.ACTION_VIEW,uri);
-                        startActivity(i);
+                        Intent intent=new Intent(Intent.ACTION_VIEW,uri);
+                        startActivity(intent);
                     }
                 }
         );
@@ -95,9 +108,15 @@ public class SettingActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        try {
+                            SQL sql1 = new SQL();
+                            sql1.InsertNewData_new(buffer.getAccount(), buffer.getTime(), "SCL2", buffer.getEmotion(), "6");
+                        } catch (Exception e) {
+                            Log.e("error Load Point Data", e.toString());
+                        }
                         Uri uri=Uri.parse("https://goo.gl/forms/VNMWPoKLgOjVTYND3");
-                        Intent i=new Intent(Intent.ACTION_VIEW,uri);
-                        startActivity(i);
+                        Intent intent=new Intent(Intent.ACTION_VIEW,uri);
+                        startActivity(intent);
                     }
                 }
         );
@@ -117,6 +136,32 @@ public class SettingActivity extends AppCompatActivity {
         /*******************************************************************************************/
     }
 
+    private String loadAccount(){
+
+        //accountNum = LoadPointData.ReadAccount();
+
+        String path = Environment.getExternalStorageDirectory().getPath() + "/RDataR/";
+
+        try {
+            FileInputStream fis = new FileInputStream(path + "user.txt");
+            DataInputStream in = new DataInputStream(fis);
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            String strLine;
+            while ((strLine = br.readLine()) != null) {
+                if (strLine.contains("帳號:") && strLine.length() > 6) {
+                    myData = strLine;
+                }
+            }
+            in.close();
+        }
+        catch (Exception e) {
+            Log.e("error not load Account", e.toString());
+        }
+        myData=myData.replaceAll("帳","");
+        myData=myData.replaceAll("號","");
+        myData=myData.replaceAll(":","");
+        return myData;
+    }
     //按下返回鍵回到homepage畫面
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

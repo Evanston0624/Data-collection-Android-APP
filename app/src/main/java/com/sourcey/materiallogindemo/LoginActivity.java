@@ -224,6 +224,11 @@ public class LoginActivity extends AppCompatActivity {
             spassword = _passwordText.getText().toString();
             _loginButton.setEnabled(false);
             check_and_login(semail,spassword,true);
+
+            /**儲存至共用空間**/
+            buffer.setaccount(semail);
+            /**儲存至共用空間**/
+
             /**傳送帳號資訊給後續頁面**/
             Intent intent = new Intent(LoginActivity.this, homepage.class);
             intent.putExtra("semail", semail);
@@ -334,6 +339,9 @@ public class LoginActivity extends AppCompatActivity {
                     myData = strLine;
                     account = myData.replace("帳號:", "");
                     etaccount.setText(account);
+                    /**儲存至共用空間**/
+                    buffer.setaccount(account);
+                    /**儲存至共用空間**/
                 } else if (strLine.contains("密碼:") && strLine.length() > 6) {
                     myData = strLine;
                     password = myData.replace("密碼:", "");

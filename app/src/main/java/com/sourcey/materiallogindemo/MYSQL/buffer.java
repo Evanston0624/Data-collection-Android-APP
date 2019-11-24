@@ -1,7 +1,10 @@
 package com.sourcey.materiallogindemo.MYSQL;
 
+import android.text.format.DateFormat;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by River on 2018/3/21.
@@ -41,6 +44,25 @@ public class buffer {
     }
 
     public static void setAlert_question_voice(String offon){ alert_question_voice = offon;}
+
+    public static String getTime() {
+        Calendar mCal = Calendar.getInstance();
+        CharSequence s = DateFormat.format("yyyy-MM-dd kk:mm:ss", mCal.getTime());
+        String time = s.toString();
+        return time;
+    }
+    public static String getEmotion() {
+        String[] mood = new String[7];
+        String emotion = "0,0,0,0,0,0,0";
+        mood[0] = "0";
+        mood[1] = "0";
+        mood[2] = "0";
+        mood[3] = "0";
+        mood[4] = "0";
+        mood[5] = "0";
+        mood[6] = "0";
+        return emotion;
+    }
 
     public static String getName() {
         return name;
