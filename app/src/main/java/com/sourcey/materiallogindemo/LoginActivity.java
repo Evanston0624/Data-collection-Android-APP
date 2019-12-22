@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
 
     /**更新設定**/
     public String Url = "http://140.116.82.102:8080/app_webpage/app_dl/version_n.txt";
-    public String version_now = "7";//當前版本號
+    public String version_now = "10";//當前版本號
 
     @BindView(R.id.input_email)
     EditText _emailText;
@@ -230,9 +230,9 @@ public class LoginActivity extends AppCompatActivity {
             /**儲存至共用空間**/
 
             /**傳送帳號資訊給後續頁面**/
-            Intent intent = new Intent(LoginActivity.this, homepage.class);
-            intent.putExtra("semail", semail);
-            startActivityForResult(intent, randonvalue);
+            //Intent intent = new Intent(LoginActivity.this, homepage.class);
+            //intent.putExtra("semail", semail);
+            //startActivityForResult(intent, randonvalue);
             /**傳送帳號資訊給後續頁面**/
         } else {
             _loginButton.setEnabled(true);

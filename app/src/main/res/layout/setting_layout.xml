@@ -37,7 +37,7 @@
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
             android:padding="12dp"
-            android:text="使用者回饋" />
+            android:text="Point兌換" />
 
         <Button
             android:id="@+id/logout"

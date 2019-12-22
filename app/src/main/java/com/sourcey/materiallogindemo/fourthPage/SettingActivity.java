@@ -127,8 +127,7 @@ public class SettingActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Uri uri=Uri.parse("http://140.116.82.102:8080/app_webpage/Information.html");
-                        Intent i=new Intent(Intent.ACTION_VIEW,uri);
+                        Intent i=new Intent(SettingActivity.this, ExcgangePointActivity.class);
                         startActivity(i);
                     }
                 }

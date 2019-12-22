@@ -81,6 +81,14 @@
     <string name="cancel">Cancel</string>
     <string name="alarm_settings">新的鬧鐘</string>
 
+    "<!--//Exhange//-->
+    <string name="ExPointOne">兌換一張</string>
+    <string name="ExPointAll">兌換全部</string>
+    <string name="ExTextView"></string>
+    <string name="ExTextView2">每100點Point可以兌換100元7-11禮券，於回診時與曾鈺晴小姐兌換，可使用Line先連絡哦</string>
+    <string name="ExSpinner"> </string>
+    <string name="HistPoint">兌換紀錄</string>
+    "<!--//Exhange//-->
     <string name="angry">生氣</string>
     <string name="boredom">無聊</string>
     <string name="disgust">厭惡</string>
@@ -128,7 +136,7 @@
         <string-array name="PointText">
             <item>累計點數</item>
             <item>每日情緒、睡眠紀錄1次</item>
-            <item>情緒資訊記錄1次</item>
+            <item>聲音、影像情緒資訊記錄1次</item>
             <item>一周有GPS紀錄5天</item>
             <item>一個月有GPS紀錄20天</item>
             <item>一個月有GPS紀錄28天</item>
@@ -139,11 +147,11 @@
             <item>每日情緒、睡眠一個月紀錄28天</item>
             <item>每日情緒、睡眠兩個月紀錄55天</item>
             <item>每日情緒、睡眠三個月紀錄80天</item>
-            <item>情緒資訊一周紀錄5天</item>
-            <item>情緒資訊一個月紀錄20天</item>
-            <item>情緒資訊一個月紀錄28天</item>
-            <item>情緒資訊兩個月紀錄55天</item>
-            <item>情緒資訊三個月紀錄80天</item>
+            <item>聲音、影像情緒資訊一周紀錄5天</item>
+            <item>聲音、影像情緒資訊一個月紀錄20天</item>
+            <item>聲音、影像情緒資訊一個月紀錄28天</item>
+            <item>聲音、影像情緒資訊兩個月紀錄55天</item>
+            <item>聲音、影像情緒資訊三個月紀錄80天</item>
             <item>填寫每周的量表1次</item>
             <item>一個月寫每周的量表3次</item>
             <item>兩個月填寫每周的量表7次</item>
@@ -184,7 +192,7 @@
         <item>5040</item><item>20160</item><item>28224</item><item>55440</item><item>80640</item>
         <item>15</item><item>60</item><item>84</item><item>165</item><item>240</item>
         <item>5</item><item>20</item><item>28</item><item>55</item><item>80</item>
-        <item>1</item><item>3</item><item>7</item><item>12</item>
+        <item>2</item><item>6</item><item>14</item><item>24</item>
         <item>810624</item><item>810624</item><item>810624</item><item>810624</item><item>810624</item>
 
     </integer-array>

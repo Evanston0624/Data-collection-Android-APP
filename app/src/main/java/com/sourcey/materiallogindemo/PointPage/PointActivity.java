@@ -125,22 +125,38 @@ public class PointActivity extends AppCompatActivity {
         /**查詢是否需要更新Point資料**/
         /**起始時間String>Date>Long**/
         String nowtime_str = "";
+
         String[] endtime_str = {"","","","",""};
+        String[] fool_proof_str = {"","","","",""};
+
+        String[] endtime_str_SCL = {"","","",""};
+        String[] fool_proof_str_SCL = {"","","",""};
 
         long nowtime = 0;
-        long[] endtime = {0,0,0,0,0};
+
         long[] month_pt = {7,30,30,60,90};
+        long[] fool_proof_pt = {4,19,27,54,79};
+
+        long[] month_pt_SCL = {7,30,60,90};
+        long[] fool_proof_pt_SCL = {4,20,54,79};
         SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
         /**當前時間**/
         //當前
         nowtime = System.currentTimeMillis();
-        Date date = new Date(nowtime);
+        Date date = new Date(nowtime+86400000);
         nowtime_str  = sdf.format(date);
         //週
         for (int i=0;i<=4;i++){
-            endtime[i] = nowtime-(86400000*month_pt[i]);
-            date = new Date(endtime[i]);
+            date = new Date(nowtime-(86400000*month_pt[i]));
             endtime_str[i]  = sdf.format(date);
+            date = new Date(nowtime-(86400000*fool_proof_pt[i]));
+            fool_proof_str[i]  = sdf.format(date);
+            if (i != 4){
+                date = new Date(nowtime-(86400000*month_pt_SCL[i]));
+                endtime_str_SCL[i]  = sdf.format(date);
+                date = new Date(nowtime-(86400000*fool_proof_pt_SCL[i]));
+                fool_proof_str_SCL[i]  = sdf.format(date);
+            }
         }
         /**計算筆數**/
         /**判斷是否需要更新**/
@@ -172,7 +188,8 @@ public class PointActivity extends AppCompatActivity {
                     }
                 } else if(i > 2 & i <= 17) {
                     try {
-                        String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/PointCal.php?at=" + myData + "&ict=" + i + "&stt=" + nowtime_str + "&ent=" + endtime_str);
+                        String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/PointCal.php?at="
+                                + myData + "&ict=" + i + "&stt=" + nowtime_str + "&ent=" + endtime_str[(i-3)%5]);
                         JSONArray jsonArray = new JSONArray(result);
                         JSONObject jsonData = jsonArray.getJSONObject(0);
                         String Countresilt = jsonData.getString("count(*)");
@@ -182,7 +199,8 @@ public class PointActivity extends AppCompatActivity {
                     }
                 } else if(i > 17 & i <= 21) {
                     try {
-                        String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/PointCal.php?at=" + myData + "&ict=" + i + "&stt=" + nowtime_str + "&ent=" + endtime_str);
+                        String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/PointCal.php?at="
+                                + myData + "&ict=" + i + "&stt=" + nowtime_str + "&ent=" + endtime_str_SCL[(i-3)%5]);
                         JSONArray jsonArray = new JSONArray(result);
                         JSONObject jsonData = jsonArray.getJSONObject(0);
                         String Countresilt = jsonData.getString("count(*)");
@@ -193,10 +211,45 @@ public class PointActivity extends AppCompatActivity {
                 } else if(i > 21 & i <= 26& DA[i-19] == 1 & DA[i-14] == 1 & DA[i-9] == 1){
                     pointcount = 810624;
                 }
-                if (pointcount >= pointif[i]) {/**更新的同時給錢**/
+                /**防詐領區域**/
+                if (i > 7 & i <= 17 & pointcount >= pointif[i]) {
+                    Integer lastpointcount = 0;
+                    try {
+                        String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/PointCal.php?at="
+                                + myData + "&ict=" + i + "&stt=" + nowtime_str + "&ent=" + fool_proof_str[(i-3)%5]);
+                        JSONArray jsonArray = new JSONArray(result);
+                        JSONObject jsonData = jsonArray.getJSONObject(0);
+                        String Countresilt = jsonData.getString("count(*)");
+                        lastpointcount = Integer.valueOf(Countresilt).intValue();
+                    } catch (Exception e) {
+                        Log.e("error Load Point Data", e.toString());
+                    }
+                    if (pointcount > lastpointcount){
+                        DA[i] = 1;
+                        DA[0] = DA[0] + pointnumsum[i];
+                    }
+                }else if(i > 18 & i <= 21 & pointcount >= pointif[i]){
+                    Integer lastpointcount = 0;
+                    try {
+                        String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/PointCal.php?at="
+                                + myData + "&ict=" + i + "&stt=" + nowtime_str + "&ent=" + fool_proof_str_SCL[(i-3)%5]);
+                        JSONArray jsonArray = new JSONArray(result);
+                        JSONObject jsonData = jsonArray.getJSONObject(0);
+                        String Countresilt = jsonData.getString("count(*)");
+                        lastpointcount = Integer.valueOf(Countresilt).intValue();
+                    } catch (Exception e) {
+                        Log.e("error Load Point Data", e.toString());
+                    }
+                    if (pointcount > lastpointcount){
+                        DA[i] = 1;
+                        DA[0] = DA[0] + pointnumsum[i];
+                    }
+                    /**防詐領區域**/
+                }else if (pointcount >= pointif[i]){
                     DA[i] = 1;
                     DA[0] = DA[0] + pointnumsum[i];
                 }
+
                 j = 1;
             }
         }

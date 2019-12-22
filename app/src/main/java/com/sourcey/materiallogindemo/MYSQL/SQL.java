@@ -21,6 +21,7 @@ public class SQL {
     List<String> emotion;
     List<String> Name;
     List<String> emotionSystem;
+    List<String> Wrile;
 
     public HashMap<String, List<String>> SelectInfHistory(String account) {
         HashMap<String, List<String>> data = new HashMap();
@@ -59,6 +60,9 @@ public class SQL {
                         Content.add(jsonData.getString("write"));
                         break;
                     case "5":
+                        Content.add(jsonData.getString("write"));
+                        break;
+                    case "6":
                         Content.add(jsonData.getString("write"));
                         break;
                 }
@@ -111,6 +115,29 @@ public class SQL {
             Log.e("log_tag", e.toString());
         }
 
+        return data;
+    }
+    public HashMap<String, List<String>> ExchangeHistory(String account) {
+        HashMap<String, List<String>> data = new HashMap();
+        Wrile = new ArrayList<>();
+        time = new ArrayList<>();
+
+        try {
+            String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/ExchangeHistory.php?at=" + account + "");
+
+            JSONArray jsonArray = new JSONArray(result);
+            JSONObject jsonData;
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                jsonData = jsonArray.getJSONObject(i);
+                time.add(jsonData.getString("Datetime"));
+                Wrile.add(jsonData.getString("Wrile"));
+            }
+            data.put("Wrile", Wrile);
+            data.put("time", time);
+        } catch (Exception e) {
+            Log.e("log_tag", e.toString());
+        }
         return data;
     }
 

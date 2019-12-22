@@ -53,7 +53,7 @@ public class homepage extends TabActivity {
         /**接收帳號**/
 
 
-        firstRun();
+        //firstRun();
         initGPS();
         startService();
         tabHost = getTabHost();
@@ -72,10 +72,10 @@ public class homepage extends TabActivity {
         songster.setContent(songsIntent);
 
         // Tab for Videos
-        TabSpec videoed = tabHost.newTabSpec("Videos");
-        videoed.setIndicator("", getResources().getDrawable(R.drawable.icon_alarm_tab));
+        TabSpec point = tabHost.newTabSpec("Point");
+        point.setIndicator("", getResources().getDrawable(R.drawable.icon_point_tab));
         Intent videosIntent = new Intent(this, PointActivity.class);
-        videoed.setContent(videosIntent);
+        point.setContent(videosIntent);
 
         // Tab for Setting
         TabSpec seta = tabHost.newTabSpec("Setting");
@@ -86,7 +86,7 @@ public class homepage extends TabActivity {
         // Adding all TabSpec to TabHost
         tabHost.addTab(photoed); // Adding photos tab
         tabHost.addTab(songster); // Adding songs tab
-        tabHost.addTab(videoed); // Adding videos tab
+        tabHost.addTab(point); // Adding videos tab
         tabHost.addTab(seta); // Adding videos tab
     }
 

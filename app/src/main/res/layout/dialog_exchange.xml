@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/ExCancel"
+        android:layout_width="25dp"
+        android:layout_height="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/shap_oval"
+        android:text="X" />
+
+    <Button
+        android:id="@+id/ExPointButtonOne"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ExImageView"
+        android:layout_alignStart="@+id/ExImageView"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="18dp"
+        android:text="@string/ExPointOne"
+        android:textColor="#FF3D00"
+        android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/ExPointButtonAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ExTextView"
+        android:layout_alignEnd="@+id/ExCancel"
+        android:layout_marginTop="20dp"
+        android:text="@string/ExPointAll"
+        android:textColor="#FF3D00"
+        android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/HistPointButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ExPointButtonOne"
+        android:text="@string/HistPoint"
+        android:textColor="#FF3D00"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/ExImageView"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:srcCompat="@drawable/point" />
+
+    <TextView
+        android:id="@+id/ExTextView"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignTop="@+id/ExImageView"
+        android:layout_toStartOf="@+id/ExCancel"
+        android:layout_toEndOf="@+id/ExImageView"
+        android:text="@string/ExTextView"
+        android:textColor="#651FFF"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/exTextView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/HistPointButton"
+        android:layout_alignStart="@+id/ExImageView"
+        android:layout_alignEnd="@+id/ExCancel"
+        android:text="@string/ExTextView2"
+        android:textColor="#651FFF"
+        android:textSize="18sp" />
+</RelativeLayout>
