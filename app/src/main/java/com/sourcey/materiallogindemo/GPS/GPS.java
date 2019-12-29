@@ -17,6 +17,8 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.media.RingtoneManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -28,6 +30,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.sourcey.materiallogindemo.MYSQL.DBConnector;
+import com.sourcey.materiallogindemo.MYSQL.buffer;
 import com.sourcey.materiallogindemo.Phone.Phone_listener;
 import com.sourcey.materiallogindemo.R;
 
@@ -38,6 +41,7 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import static android.app.Notification.DEFAULT_VIBRATE;
 
@@ -53,6 +57,7 @@ public class GPS extends Service {
     private double startx, starty, endx, endy;
     private Boolean firstGPStime = true, AllBegin = true;
     private int zerotime = 0;
+    private int GPSType = 0;
 
     //螢幕休眠，service不休眠
     private PowerManager pm;
@@ -64,10 +69,10 @@ public class GPS extends Service {
 
     @Override
     public void onCreate() {
+//        android.os.Debug.waitForDebugger();
         super.onCreate();
         AllRoot = Environment.getExternalStorageDirectory().getPath() + "/RDataR";
         read();
-
         locMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
         locMgrListener = new MyLocationListener();
     }
@@ -75,7 +80,47 @@ public class GPS extends Service {
     @SuppressLint("WrongConstant")
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        /**t創建通知細節**/
+        /**創建通知視窗**/
+        Notification(intent, startId);
+        /**創建通知視窗**/
+        if (null == intent) {
+            return 0;
+        } else {
+            boolean mode = intent.getBooleanExtra("mode", true);
+            if (mode) {
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                        ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    return 0;
+                }
+                /**檢測網路**/
+                ConnectivityManager connectionManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);    //得到系統服務類
+                NetworkInfo networkInfo = connectionManager.getActiveNetworkInfo();
+                /**檢測網路**/
+                //取得GPS服務，並設置每秒取得資料及最小距離0米
+                if (networkInfo != null && networkInfo.isAvailable()) {
+                    GPSType = 1;//網路
+                    locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locMgrListener);
+
+                }
+                else{
+                    GPSType = 2;//GPS
+                    locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locMgrListener);
+                }
+            } else {
+                locMgr.removeUpdates(locMgrListener);
+            }
+        }
+        //创建PowerManager对象
+        pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        //保持cpu一直运行，不管屏幕是否黑屏
+        wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "CPUKeepRunning");
+        wakeLock.acquire();
+
+        return super.onStartCommand(intent, flags, startId);
+        //return Service.START_STICKY;
+    }
+    public void Notification(Intent intent, int startId){
+        /**--------------------------------------------------創建通知細節--------------------------------------------------**/
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
         NotificationCompat.Builder notificationBuilder;
@@ -103,7 +148,7 @@ public class GPS extends Service {
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0, notificationBuilder.build());
-        /**創建通知視窗**/
+        /**--------------------------------------------------創建通知視窗--------------------------------------------------**/
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID,TAG,
                     NotificationManager.IMPORTANCE_HIGH);
@@ -116,30 +161,7 @@ public class GPS extends Service {
             startForeground(startId, new Notification());
         }
         /****/
-        if (null == intent) {
-            return 0;
-        } else {
-            boolean mode = intent.getBooleanExtra("mode", true);
-            if (mode) {
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    return 0;
-                }
-                //取得GPS服務，並設置每秒取得資料及最小距離0米
-                locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locMgrListener);
-            } else {
-                locMgr.removeUpdates(locMgrListener);
-            }
-        }
-        //创建PowerManager对象
-        pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        //保持cpu一直运行，不管屏幕是否黑屏
-        wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "CPUKeepRunning");
-        wakeLock.acquire();
-
-        return super.onStartCommand(intent, flags, startId);
-        //return Service.START_STICKY;
     }
-
     public void onDestroy() {
         if (wakeLock != null) {
             wakeLock.release();
@@ -175,7 +197,6 @@ public class GPS extends Service {
                     starttime = Long.valueOf(location.getTime());
                     AllBegin = false;
                 }
-
                 //速度為0，且為本輪第一次偵測，設置每輪初始座標、時間
                 if (speed == 0 && firstGPStime) {
                     startx = location.getLatitude();
@@ -193,13 +214,21 @@ public class GPS extends Service {
                 } else if (speed==0){
                     zerotime++;
                 }
-
                 //假設偵測時間達一分鐘，輸出資料並進入新的一輪偵測
                 if (endtime - starttime >= 60000) {
                     firstGPStime = true;
                     AllBegin = true;
                     zerotime = 0;
-                    recorde();
+                    /**檢測網路**/
+                    ConnectivityManager connectionManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);    //得到系統服務類
+                    NetworkInfo networkInfo = connectionManager.getActiveNetworkInfo();
+                    /**檢測網路**/
+                    if (networkInfo != null && networkInfo.isAvailable()) {
+                        onlineupdate();
+                    }
+                    else{
+                        offlinerecorde();
+                    }
                     startx = endx;
                     starty = endy;
                     starttime = endtime;
@@ -212,7 +241,16 @@ public class GPS extends Service {
                     firstGPStime = true;
                     AllBegin = true;
                     zerotime = 0;
-                    recorde();
+                    /**檢測網路**/
+                    ConnectivityManager connectionManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);    //得到系統服務類
+                    NetworkInfo networkInfo = connectionManager.getActiveNetworkInfo();
+                    /**檢測網路**/
+                    if (networkInfo != null && networkInfo.isAvailable()) {
+                        onlineupdate();
+                    }
+                    else{
+                        offlinerecorde();
+                    }
                     startx = endx;
                     starty = endy;
                     starttime = endtime;
@@ -243,25 +281,57 @@ public class GPS extends Service {
         }
 
     }
-
     private String AllRoot = Environment.getExternalStorageDirectory().getPath() + "/RDataR";
     private int count = 0;
+    final ArrayList<String> DataList = new ArrayList<String>();
     private String query;
-    private void recorde() {count++;
+
+    private void onlineupdate() {
         Long costtime = endtime - starttime;
-        if(saccount==null || saccount.equals("null"))
+        if (saccount == null || saccount.equals("null"))
             read();
-        final String fsquery = "http://140.116.82.102:8080/app/InsertNewGPSData.php?Account="+saccount+"&speed=" + speed + "&startlat=" + startx + "&startlng=" + starty + "&endlat=" + endx + "&endlng=" + endy + "&starttime=" + starttime + "&endtime=" + endtime + "&distance=" + distance + "&costtime=" + costtime;
-        query = fsquery;
+        String fsquery = "http://140.116.82.102:8080/app/InsertNewGPSData.php?Account=" + saccount + "&speed=" + speed + "&startlat=" + startx +
+                "&startlng=" + starty + "&endlat=" + endx + "&endlng=" + endy + "&starttime=" + starttime + "&endtime=" + endtime + "&distance=" + distance + "&costtime=" + costtime;
 
-
-        new Thread(new Runnable() {
-            public void run() {
-                String result = DBConnector.executeQuery(query);
-            }
-        }).start();
+        if (GPSType == 2){/**網路剛連線，尚有未上傳的資料時**/
+            loadcount(AllRoot);
+            DataList.add(fsquery);
+            new Thread(new Runnable() {
+                public void run() {
+                    for (int i=0; i<=count;i++) {
+                        String result = DBConnector.executeQuery(DataList.get(i));
+                    }
+                }
+                }).start();
+            count = 0;
+//            DataList.clear();
+//            savecount(AllRoot);
+            onDestroy();
+        }
+        else {/**持續連線與上傳**/
+            query = fsquery;
+            new Thread(new Runnable() {
+                public void run() {
+                    String result = DBConnector.executeQuery(query);
+                }
+            }).start();
+        }
     }
 
+    private void offlinerecorde() {
+        Long costtime = endtime - starttime;
+        if (saccount == null || saccount.equals("null"))
+            read();
+        final String fsquery = "http://140.116.82.102:8080/app/InsertNewGPSData.php?Account=" + saccount + "&speed=" + speed + "&startlat=" + startx +
+                "&startlng=" + starty + "&endlat=" + endx + "&endlng=" + endy + "&starttime=" + starttime + "&endtime=" + endtime + "&distance=" + distance + "&costtime=" + costtime;
+        DataList.add(fsquery);
+        count++;
+
+        if (GPSType == 1) {/**網路剛斷線，還處於使用Network 蒐集的狀態時**/
+            savecount(AllRoot);
+            onDestroy();
+        }
+    }
     private String saccount;
     private void read() {
         String path = Environment.getExternalStorageDirectory().getPath() + "/RDataR/";
@@ -280,7 +350,44 @@ public class GPS extends Service {
         } catch (Exception e) {
         }
     }
-
+    public void savecount(String AllRoot) {
+        try {
+            FileWriter fw = new FileWriter(AllRoot + "gps.txt", false);
+            BufferedWriter bw = new BufferedWriter(fw); //將BufferedWeiter與FileWrite物件做連結
+            bw.write("count:" + count);
+            bw.newLine();
+            for (int i=0;i<count;i++) {
+                bw.write(i+"::" +DataList.get(i));
+                bw.newLine();
+            }
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void loadcount(String AllRoot) {
+        String myData = "";
+        try {
+            FileInputStream fis = new FileInputStream(AllRoot + "user.txt");
+            DataInputStream in = new DataInputStream(fis);
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            String strLine;
+            while ((strLine = br.readLine()) != null) {
+                int i = 0;
+                if(strLine.contains("count:")) {
+                    myData = strLine;
+                    String Scount = myData.replace("count:","");
+                    count = Integer.parseInt(Scount);
+                }
+                else if(strLine.contains(i + "::")){
+                    myData = strLine;
+                    DataList.add(myData.replace(i + "::",""));
+                }
+            }
+            in.close();
+        } catch (Exception e) {
+        }
+    }
     private long ComputeCosttime(long starttime, long endtime) {
         long costtime = (endtime - starttime) / 1000;
 

@@ -53,7 +53,7 @@ public class homepage extends TabActivity {
         /**接收帳號**/
 
 
-        //firstRun();
+        firstRun();
         initGPS();
         startService();
         tabHost = getTabHost();

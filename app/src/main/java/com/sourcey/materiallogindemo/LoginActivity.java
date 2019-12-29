@@ -16,6 +16,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import com.sourcey.materiallogindemo.CheckService.checkservice;
+import com.sourcey.materiallogindemo.GPS.GPS;
 import com.sourcey.materiallogindemo.MYSQL.DBConnector;
 import com.sourcey.materiallogindemo.MYSQL.buffer;
 import com.sourcey.materiallogindemo.Phone.Phone_listener;
@@ -99,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
 
         etaccount = findViewById(R.id.input_email);
         etpassword = findViewById(R.id.input_password);
-
+//        initGPS();
         /*****/
         //check Version
         URL url = null;
@@ -239,7 +241,34 @@ public class LoginActivity extends AppCompatActivity {
             onLoginFailed();
         }
     }
-
+    private void initGPS() {
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        //判断GPS是否开启，没有开启，则开启
+        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            openGPSDialog();
+        }
+    }
+    private void openGPSDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("請開啟GPS連結")
+                .setIcon(R.drawable.ico_gps)
+                .setMessage("為了提高定位的精準度，更好的為您服務，請開啟GPS")
+                .setPositiveButton("設置", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //跳轉到手機打開GPS頁面
+                        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        //设置完成完後回到原本畫面
+                        startActivityForResult(intent,0);
+                    }
+                })/*
+                .setNeutralButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                })*/.show();
+    }
     private void success() {
         Intent intent = new Intent(this, com.sourcey.materiallogindemo.homepage.class);
         startActivity(intent);
@@ -356,7 +385,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /*********************************************************************/
-    private void startService(){
+    private void startServicePhone(){
         boolean isRunning = checkservice.isServiceRunning(this,"com.sourcey.materiallogindemo.Phone.Phone_listener");
         if (isRunning) {
             Toast.makeText(getBaseContext(), "電話服務啟動", Toast.LENGTH_LONG).show();
@@ -368,6 +397,21 @@ public class LoginActivity extends AppCompatActivity {
             }
             else {
                 startService(it); //開始Service
+            }
+        }
+    }
+    private void startServiceGPS() {
+        boolean isRunning = checkservice.isServiceRunning(this, "com.sourcey.materiallogindemo.GPS.GPS");
+        if (isRunning) {
+            Toast.makeText(getBaseContext(), "GPS服務啟動", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getBaseContext(), "GPS服務正在啟動", Toast.LENGTH_LONG).show();
+            Intent serviceIntent = new Intent(this, GPS.class);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                this.startForegroundService(serviceIntent);
+            }
+            else {
+                this.startService(serviceIntent); //開始Service
             }
         }
     }
@@ -385,8 +429,8 @@ public class LoginActivity extends AppCompatActivity {
                         "讀取中", "請等待1秒...", true);
 
                 //啟動Service
-                startService();
-
+                startServicePhone();
+//                startServiceGPS();
                 String path = Environment.getExternalStorageDirectory().getPath() + "/RDataR/";
 
                 isExist(AllRoot);
