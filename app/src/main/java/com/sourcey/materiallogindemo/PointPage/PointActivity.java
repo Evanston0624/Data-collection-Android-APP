@@ -271,7 +271,7 @@ public class PointActivity extends AppCompatActivity {
             //-point Num-//
             if(i == 0){
                 str = (str + " = "+ DA[0]);
-                memberList.add(new Member(i, R.drawable.point, str));
+                memberList.add(new Member(i, R.drawable.point1, str));
             }
             //-achievement-//
             else {
@@ -280,7 +280,7 @@ public class PointActivity extends AppCompatActivity {
 
                 }
                 else{
-                    memberList.add(new Member(i, R.drawable.o2, str));
+                    memberList.add(new Member(i, R.drawable.pointo, str));
 
                 }
             }
@@ -397,7 +397,7 @@ public class PointActivity extends AppCompatActivity {
         @Override
         public void onRefresh() {
             /**接收帳號**/
-            myData = loadAccount();
+            myData = buffer.getAccount();
             /**更新Point**/
             UpdatePoint(myData);
             laySwipe.setRefreshing(false);

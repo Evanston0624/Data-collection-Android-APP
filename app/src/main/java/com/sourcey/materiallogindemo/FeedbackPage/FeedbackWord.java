@@ -1,18 +1,19 @@
-package com.sourcey.materiallogindemo.PointPage;
+package com.sourcey.materiallogindemo.FeedbackPage;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
+import com.sourcey.materiallogindemo.PointPage.PointWordList;
 import com.sourcey.materiallogindemo.R;
 
-public class PointWord extends AppCompatActivity {
+public class FeedbackWord extends AppCompatActivity {
     private TextView ShowTV;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.feedback_word);
+        setContentView(R.layout.point_word);
         ShowTV = (TextView) findViewById(R.id.textView);
 
         Intent intent = getIntent();

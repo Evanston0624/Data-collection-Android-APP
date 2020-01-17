@@ -19,6 +19,7 @@ import android.widget.TabHost.TabSpec;
 import android.widget.Toast;
 
 import com.sourcey.materiallogindemo.CheckService.checkservice;
+import com.sourcey.materiallogindemo.FeedbackPage.FeedbackActivity;
 import com.sourcey.materiallogindemo.GPS.GPS;
 import com.sourcey.materiallogindemo.GPS.GPSBroadcastReceiver;
 import com.sourcey.materiallogindemo.PointPage.PointActivity;
@@ -65,17 +66,23 @@ public class homepage extends TabActivity {
         Intent photosIntent = new Intent(this, PhotosActivity.class);
         photoed.setContent(photosIntent);
 
-        // Tab for Songs
-        TabSpec songster = tabHost.newTabSpec("Songs");
-        songster.setIndicator("", getResources().getDrawable(R.drawable.icon_songs_tab));
-        Intent songsIntent = new Intent(this, SongsActivity.class);
-        songster.setContent(songsIntent);
+//        // Tab for Songs
+//        TabSpec songster = tabHost.newTabSpec("Songs");
+//        songster.setIndicator("", getResources().getDrawable(R.drawable.icon_songs_tab));
+//        Intent songsIntent = new Intent(this, SongsActivity.class);
+//        songster.setContent(songsIntent);
+
+        // Tab for feedback
+        TabSpec feedbacked = tabHost.newTabSpec("Feedback");
+        feedbacked.setIndicator("", getResources().getDrawable(R.drawable.icon_songs_tab));
+        Intent feedbackIntent = new Intent(this, FeedbackActivity.class);
+        feedbacked.setContent(feedbackIntent);
 
         // Tab for Videos
         TabSpec point = tabHost.newTabSpec("Point");
         point.setIndicator("", getResources().getDrawable(R.drawable.icon_point_tab));
-        Intent videosIntent = new Intent(this, PointActivity.class);
-        point.setContent(videosIntent);
+        Intent pointIntent = new Intent(this, PointActivity.class);
+        point.setContent(pointIntent);
 
         // Tab for Setting
         TabSpec seta = tabHost.newTabSpec("Setting");
@@ -85,7 +92,8 @@ public class homepage extends TabActivity {
 
         // Adding all TabSpec to TabHost
         tabHost.addTab(photoed); // Adding photos tab
-        tabHost.addTab(songster); // Adding songs tab
+//        tabHost.addTab(songster); // Adding songs tab
+        tabHost.addTab(feedbacked); // Adding songs tab
         tabHost.addTab(point); // Adding videos tab
         tabHost.addTab(seta); // Adding videos tab
     }

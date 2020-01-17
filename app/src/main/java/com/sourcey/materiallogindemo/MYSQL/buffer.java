@@ -51,6 +51,10 @@ public class buffer {
         String time = s.toString();
         return time;
     }
+    public static long getLongTime() {
+        long time = System.currentTimeMillis()/1000;
+        return time;
+    }
     public static String getEmotion() {
         String[] mood = new String[7];
         String emotion = "0,0,0,0,0,0,0";
@@ -81,7 +85,6 @@ public class buffer {
     public static ArrayList<String[]> getArrayList() {
         switch (type) {
             case 1:
-
                 return Emotions;
             case 2:
                 return phoneSeconds;

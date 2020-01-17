@@ -97,15 +97,15 @@ public class GPS extends Service {
                 NetworkInfo networkInfo = connectionManager.getActiveNetworkInfo();
                 /**檢測網路**/
                 //取得GPS服務，並設置每秒取得資料及最小距離0米
-                if (networkInfo != null && networkInfo.isAvailable()) {
-                    GPSType = 1;//網路
-                    locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locMgrListener);
-
-                }
-                else{
-                    GPSType = 2;//GPS
+//                if (networkInfo != null && networkInfo.isAvailable()) {
+//                    GPSType = 1;//網路
+//                    locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locMgrListener);
+//
+//                }
+//                else{
+//                    GPSType = 2;//GPS
                     locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locMgrListener);
-                }
+//                }
             } else {
                 locMgr.removeUpdates(locMgrListener);
             }
@@ -219,16 +219,17 @@ public class GPS extends Service {
                     firstGPStime = true;
                     AllBegin = true;
                     zerotime = 0;
-                    /**檢測網路**/
-                    ConnectivityManager connectionManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);    //得到系統服務類
-                    NetworkInfo networkInfo = connectionManager.getActiveNetworkInfo();
-                    /**檢測網路**/
-                    if (networkInfo != null && networkInfo.isAvailable()) {
-                        onlineupdate();
-                    }
-                    else{
-                        offlinerecorde();
-                    }
+                    update();
+//                    /**檢測網路**/
+//                    ConnectivityManager connectionManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);    //得到系統服務類
+//                    NetworkInfo networkInfo = connectionManager.getActiveNetworkInfo();
+//                    /**檢測網路**/
+//                    if (networkInfo != null && networkInfo.isAvailable()) {
+//                        onlineupdate();
+//                    }
+//                    else{
+//                        offlinerecorde();
+//                    }
                     startx = endx;
                     starty = endy;
                     starttime = endtime;
@@ -241,16 +242,17 @@ public class GPS extends Service {
                     firstGPStime = true;
                     AllBegin = true;
                     zerotime = 0;
-                    /**檢測網路**/
-                    ConnectivityManager connectionManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);    //得到系統服務類
-                    NetworkInfo networkInfo = connectionManager.getActiveNetworkInfo();
-                    /**檢測網路**/
-                    if (networkInfo != null && networkInfo.isAvailable()) {
-                        onlineupdate();
-                    }
-                    else{
-                        offlinerecorde();
-                    }
+                    update();
+//                    /**檢測網路**/
+//                    ConnectivityManager connectionManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);    //得到系統服務類
+//                    NetworkInfo networkInfo = connectionManager.getActiveNetworkInfo();
+//                    /**檢測網路**/
+//                    if (networkInfo != null && networkInfo.isAvailable()) {
+//                        onlineupdate();
+//                    }
+//                    else{
+//                        offlinerecorde();
+//                    }
                     startx = endx;
                     starty = endy;
                     starttime = endtime;
@@ -286,6 +288,20 @@ public class GPS extends Service {
     final ArrayList<String> DataList = new ArrayList<String>();
     private String query;
 
+    private void update() {
+        Long costtime = endtime - starttime;
+        if (saccount == null || saccount.equals("null"))
+            read();
+        String fsquery = "http://140.116.82.102:8080/app/InsertNewGPSData.php?Account=" + saccount + "&speed=" + speed + "&startlat=" + startx +
+                "&startlng=" + starty + "&endlat=" + endx + "&endlng=" + endy + "&starttime=" + starttime + "&endtime=" + endtime + "&distance=" + distance + "&costtime=" + costtime;
+        new Thread(
+                new Runnable() {
+                    public void run() {
+                        String result = DBConnector.executeQuery(fsquery);
+                    }
+                }
+        ).start();
+    }
     private void onlineupdate() {
         Long costtime = endtime - starttime;
         if (saccount == null || saccount.equals("null"))

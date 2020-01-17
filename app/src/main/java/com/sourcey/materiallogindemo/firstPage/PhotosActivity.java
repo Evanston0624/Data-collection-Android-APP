@@ -355,7 +355,7 @@ public class PhotosActivity extends AppCompatActivity {
                     icontype = "5";
                     sleeptime =
                             sleepdayspinner.getSelectedItem().toString() +
-                                    '-'+
+                                    ':'+
                                     sleephourspinner.getSelectedItem().toString() +
                                             ':'+
                                             sleepminspinner.getSelectedItem().toString();
@@ -1406,8 +1406,8 @@ public class PhotosActivity extends AppCompatActivity {
         Calendar mCal = Calendar.getInstance();
         CharSequence s = DateFormat.format("yyyy-MM-dd kk:mm:ss", mCal.getTime());
         String time = s.toString();
-        String content = word;
         String emotion;
+        String content = word;
         if (HasWord)
             emotion = mood[0] + "," + mood[1] + "," + mood[2] + "," + mood[3] + "," + mood[4] + "," + mood[5] + "," + mood[6];
         else

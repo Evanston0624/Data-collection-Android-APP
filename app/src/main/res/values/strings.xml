@@ -101,8 +101,8 @@
         </string-array>
 
         <string-array name="dayarray">
-            <item>1</item><item>2</item><item>3</item><item>4</item><item>5</item>
-            <item>6</item><item>7</item><item>8</item><item>9</item><item>10</item>
+            <item>01</item><item>02</item><item>03</item><item>04</item><item>05</item>
+            <item>06</item><item>07</item><item>08</item><item>09</item><item>10</item>
             <item>11</item><item>12</item><item>13</item><item>14</item><item>15</item>
             <item>16</item><item>17</item><item>18</item><item>19</item><item>20</item>
             <item>21</item><item>22</item><item>23</item><item>24</item><item>25</item>
@@ -111,16 +111,16 @@
         </string-array>
 
         <string-array name="hourarray">
-            <item>0</item><item>1</item><item>2</item><item>3</item><item>4</item>
-            <item>5</item><item>6</item><item>7</item><item>8</item><item>9</item>
+            <item>00</item><item>01</item><item>02</item><item>03</item><item>04</item>
+            <item>05</item><item>06</item><item>07</item><item>08</item><item>09</item>
             <item>10</item><item>11</item><item>12</item><item>13</item><item>14</item>
             <item>15</item><item>16</item><item>17</item><item>18</item><item>19</item>
             <item>20</item><item>21</item><item>22</item><item>23</item>
         </string-array>
 
         <string-array name="minarray">
-            <item>0</item><item>1</item><item>2</item><item>3</item><item>4</item><item>5</item>
-            <item>6</item><item>7</item><item>8</item><item>9</item><item>10</item>
+            <item>00</item><item>01</item><item>02</item><item>03</item><item>04</item><item>05</item>
+            <item>06</item><item>07</item><item>08</item><item>09</item><item>10</item>
             <item>11</item><item>12</item><item>13</item><item>14</item><item>15</item>
             <item>16</item><item>17</item><item>18</item><item>19</item><item>20</item>
             <item>21</item><item>22</item><item>23</item><item>24</item><item>25</item>
@@ -162,7 +162,24 @@
             <item>每日情緒、睡眠、GPS、情緒資訊皆有55天</item>
             <item>每日情緒、睡眠、GPS、情緒資訊皆有80天</item>
         </string-array>
-
+    <string-array name="FeedbackTextSt">
+        <item>持續的紀錄，資訊會更完善哦</item>
+        <item>昨天的移動距離為</item>
+        <item>昨天的睡眠時間為</item>
+        <item>昨天的心情分數為</item>
+        <item>過去七天，平均移動距離為</item>
+        <item>過去七天，平均睡眠時間為</item>
+        <item>過去七天，平均的心情分數為</item>
+        <item>過去七天，比起以往的移動距離</item>
+        <item>過去七天，比起以往的睡眠時間</item>
+        <item>過去七天，比起以往的心情分數</item>
+    </string-array>
+    <string-array name="FeedbackTextEnd">
+        <item></item>
+        <item>公里</item><item>小時</item><item>分</item>
+        <item>公里</item><item>小時</item><item>分</item>
+        <item>公里</item><item>小時</item><item>分</item>
+    </string-array>
     <string-array name="PointLoadValue">
         <item>Pointnum</item>
         <item>DES1</item>

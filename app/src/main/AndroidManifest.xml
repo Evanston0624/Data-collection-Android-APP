@@ -27,9 +27,13 @@
         <activity android:name=".twicePage.SongsActivity" />
         <activity android:name=".thirdPage.VideosActivity" />
         <activity android:name=".PointPage.PointActivity" />
+        <activity android:name=".FeedbackPage.FeedbackActivity" />
+
+
         <activity android:name=".fourthPage.SettingActivity" />
         <activity android:name=".fourthPage.ExcgangePointActivity" />
         <activity android:name=".PointPage.PointWord" />
+        <activity android:name=".FeedbackPage.FeedbackWord" />
 
         <activity android:name=".thirdPage.Question.question_dialog" />
         <activity android:name=".thirdPage.Question.question_dialog2" />
