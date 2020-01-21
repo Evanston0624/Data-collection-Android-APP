@@ -3,6 +3,7 @@ package com.sourcey.materiallogindemo.GPS;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.widget.Toast;
 
 import com.sourcey.materiallogindemo.CheckService.checkservice;
@@ -19,7 +20,13 @@ public class GPSBroadcastReceiver extends BroadcastReceiver {
             for(int i=1;i<=3;i++){
                 Toast.makeText(context, "第"+i+"次嘗試啟動GPS服務", Toast.LENGTH_LONG).show();
                 Intent serviceIntent = new Intent(context, GPS.class);
-                context.startService(serviceIntent);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                    context.startForegroundService(serviceIntent);
+                }
+                else {
+                    context.startService(serviceIntent); //開始Service
+                }
 
                 isRunning = checkservice.isServiceRunning(context, "com.sourcey.materiallogindemo.GPS.GPS");
 

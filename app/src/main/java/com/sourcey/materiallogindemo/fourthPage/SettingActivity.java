@@ -84,8 +84,8 @@ public class SettingActivity extends AppCompatActivity {
                     }
                 }
         );
-        /**問卷**/
-        logoutbutton = (Button) findViewById(R.id.scale1);//DASS21
+        /**DASS21問卷**/
+        logoutbutton = (Button) findViewById(R.id.scale1);
         logoutbutton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -102,8 +102,8 @@ public class SettingActivity extends AppCompatActivity {
                     }
                 }
         );
-
-        logoutbutton = (Button) findViewById(R.id.scale2);//Altman
+        /**Altman問卷**/
+        logoutbutton = (Button) findViewById(R.id.scale2);
         logoutbutton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override

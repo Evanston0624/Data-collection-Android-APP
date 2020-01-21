@@ -154,16 +154,15 @@ public class homepage extends TabActivity {
     private void startService() {
         boolean isRunning = checkservice.isServiceRunning(this, "com.sourcey.materiallogindemo.GPS.GPS");
         if (isRunning) {
-            Toast.makeText(getBaseContext(), "GPS服務啟動", Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), "GPS服務已啟動", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(getBaseContext(), "GPS服務正在啟動", Toast.LENGTH_LONG).show();
             Intent serviceIntent = new Intent(this, GPS.class);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
                 this.startForegroundService(serviceIntent);
-            }
-            else {
-                this.startService(serviceIntent); //開始Service
-            }
+            else
+                this.startService(serviceIntent);
+
         }
     }
     private void firstRun() {

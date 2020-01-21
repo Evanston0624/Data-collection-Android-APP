@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -93,7 +94,8 @@ public class PhotosActivity extends AppCompatActivity {
     private String sleeptime, getuptime, alldayemotion, slorup;
     private AlertDialog.Builder adbuilder;
     private AlertDialog addialog;
-
+    /**20200118**/
+    private SwipeRefreshLayout laySwipe;
     /****/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,11 +171,31 @@ public class PhotosActivity extends AppCompatActivity {
         //set allday
         setAlldayInitial();
     }
-
+    /******************************************20200118********************************************/
+    /**下拉刷新**/
+//    private void initView() {
+//        laySwipe = (SwipeRefreshLayout) findViewById(R.id.photosswipe);
+//        laySwipe.setOnRefreshListener(onSwipeToRefresh);
+//        laySwipe.setColorSchemeResources(
+//                android.R.color.holo_red_light,
+//                android.R.color.holo_blue_light,
+//                android.R.color.holo_green_light,
+//                android.R.color.holo_orange_light);
+//    }
+//    private SwipeRefreshLayout.OnRefreshListener onSwipeToRefresh = new SwipeRefreshLayout.OnRefreshListener() {
+//        @Override
+//        public void onRefresh() {
+//            /**更新User 過往資訊**/
+//            //set data
+//            prepareData();
+//            laySwipe.setRefreshing(false);
+//        }
+//    };
     /********************************************Chart**********************************************/
     /**
      * Prepares sample data to provide data set to adapter
      */
+
     private void prepareData() {
         Data data;
         ArrayList<BarEntry> yVals, yValsSystem;
@@ -210,7 +232,6 @@ public class PhotosActivity extends AppCompatActivity {
                         yVals.add(new BarEntry(j, Float.valueOf(st) / Max * 100));
                         j++;
                     }
-
                             //防止subject錯誤
                     if (LemotionSystem.get(i) != null && !LemotionSystem.get(i).equals("null,null,null") && LemotionSystem.get(i).length() > 5) {
                         String[] type_System = LemotionSystem.get(i).split(",");
@@ -224,7 +245,6 @@ public class PhotosActivity extends AppCompatActivity {
                             yValsSystem.add(new BarEntry(js, Float.valueOf(st) / fMax * 100));
                             js++;
                         }
-
                         data = new Data(content, icon_type, time, yVals, chartList, yValsSystem, chartList);
                         DataList.add(data);
                     } else {

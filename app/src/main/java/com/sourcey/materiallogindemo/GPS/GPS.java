@@ -69,10 +69,10 @@ public class GPS extends Service {
 
     @Override
     public void onCreate() {
-//        android.os.Debug.waitForDebugger();
+        android.os.Debug.waitForDebugger();
         super.onCreate();
-        AllRoot = Environment.getExternalStorageDirectory().getPath() + "/RDataR";
-        read();
+//        AllRoot = Environment.getExternalStorageDirectory().getPath() + "/RDataR";
+//        read();
         locMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
         locMgrListener = new MyLocationListener();
     }
@@ -88,23 +88,30 @@ public class GPS extends Service {
         } else {
             boolean mode = intent.getBooleanExtra("mode", true);
             if (mode) {
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                         ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     return 0;
                 }
                 /**檢測網路**/
-                ConnectivityManager connectionManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);    //得到系統服務類
-                NetworkInfo networkInfo = connectionManager.getActiveNetworkInfo();
+//                ConnectivityManager connectionManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);    //得到系統服務類
+//                NetworkInfo networkInfo = connectionManager.getActiveNetworkInfo();
                 /**檢測網路**/
                 //取得GPS服務，並設置每秒取得資料及最小距離0米
 //                if (networkInfo != null && networkInfo.isAvailable()) {
 //                    GPSType = 1;//網路
-//                    locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locMgrListener);
-//
-//                }
+                try{
+                    locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 60000, 0, locMgrListener);
+                }
+                catch (java.lang.SecurityException ex) {
+                    Log.i(TAG, "GPS(network) is not working", ex);//
+                }
 //                else{
 //                    GPSType = 2;//GPS
-                    locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locMgrListener);
+//                try{
+//                    locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 60000, 0, locMgrListener);                }
+//                catch (java.lang.SecurityException ex) {
+//                    Log.i(TAG, "GPS(GPS) is not working", ex);//
+//                }
 //                }
             } else {
                 locMgr.removeUpdates(locMgrListener);
@@ -173,14 +180,9 @@ public class GPS extends Service {
         localIntent.setClass(this, GPS.class); //銷毀時重新啟動Service
         this.startService(localIntent);
     }
-
     @Override
     public IBinder onBind(Intent intent) {
         return null;
-    }
-
-    private void show(){
-        Toast.makeText(this, ""+startx+"\n"+starty, Toast.LENGTH_LONG).show();
     }
 
     private class MyLocationListener implements LocationListener {
@@ -219,7 +221,7 @@ public class GPS extends Service {
                     firstGPStime = true;
                     AllBegin = true;
                     zerotime = 0;
-                    update();
+                    updatetext();
 //                    /**檢測網路**/
 //                    ConnectivityManager connectionManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);    //得到系統服務類
 //                    NetworkInfo networkInfo = connectionManager.getActiveNetworkInfo();
@@ -242,7 +244,7 @@ public class GPS extends Service {
                     firstGPStime = true;
                     AllBegin = true;
                     zerotime = 0;
-                    update();
+                    updatetext();
 //                    /**檢測網路**/
 //                    ConnectivityManager connectionManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);    //得到系統服務類
 //                    NetworkInfo networkInfo = connectionManager.getActiveNetworkInfo();
@@ -267,19 +269,16 @@ public class GPS extends Service {
         @Override
         public void onProviderDisabled(String provider) {
             // TODO Auto-generated method stub
-
         }
 
         @Override
         public void onProviderEnabled(String provider) {
             // TODO Auto-generated method stub
-
         }
 
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
             // TODO Auto-generated method stub
-
         }
 
     }
@@ -287,68 +286,67 @@ public class GPS extends Service {
     private int count = 0;
     final ArrayList<String> DataList = new ArrayList<String>();
     private String query;
-
-    private void update() {
+    private String saccount;
+    private void updatetext() {
         Long costtime = endtime - starttime;
         if (saccount == null || saccount.equals("null"))
             read();
-        String fsquery = "http://140.116.82.102:8080/app/InsertNewGPSData.php?Account=" + saccount + "&speed=" + speed + "&startlat=" + startx +
+        String query = "http://140.116.82.102:8080/app/InsertNewGPSData.php?Account=" +saccount+ "&speed=" + speed + "&startlat=" + startx +
                 "&startlng=" + starty + "&endlat=" + endx + "&endlng=" + endy + "&starttime=" + starttime + "&endtime=" + endtime + "&distance=" + distance + "&costtime=" + costtime;
         new Thread(
                 new Runnable() {
                     public void run() {
-                        String result = DBConnector.executeQuery(fsquery);
+                        String result = DBConnector.executeQuery(query);
                     }
                 }
         ).start();
     }
-    private void onlineupdate() {
-        Long costtime = endtime - starttime;
-        if (saccount == null || saccount.equals("null"))
-            read();
-        String fsquery = "http://140.116.82.102:8080/app/InsertNewGPSData.php?Account=" + saccount + "&speed=" + speed + "&startlat=" + startx +
-                "&startlng=" + starty + "&endlat=" + endx + "&endlng=" + endy + "&starttime=" + starttime + "&endtime=" + endtime + "&distance=" + distance + "&costtime=" + costtime;
-
-        if (GPSType == 2){/**網路剛連線，尚有未上傳的資料時**/
-            loadcount(AllRoot);
-            DataList.add(fsquery);
-            new Thread(new Runnable() {
-                public void run() {
-                    for (int i=0; i<=count;i++) {
-                        String result = DBConnector.executeQuery(DataList.get(i));
-                    }
-                }
-                }).start();
-            count = 0;
-//            DataList.clear();
+//    private void onlineupdate() {
+//        Long costtime = endtime - starttime;
+//        if (saccount == null || saccount.equals("null"))
+//            read();
+//        String fsquery = "http://140.116.82.102:8080/app/InsertNewGPSData.php?Account=" + saccount + "&speed=" + speed + "&startlat=" + startx +
+//                "&startlng=" + starty + "&endlat=" + endx + "&endlng=" + endy + "&starttime=" + starttime + "&endtime=" + endtime + "&distance=" + distance + "&costtime=" + costtime;
+//
+//        if (GPSType == 2){/**網路剛連線，尚有未上傳的資料時**/
+//            loadcount(AllRoot);
+//            DataList.add(fsquery);
+//            new Thread(new Runnable() {
+//                public void run() {
+//                    for (int i=0; i<=count;i++) {
+//                        String result = DBConnector.executeQuery(DataList.get(i));
+//                    }
+//                }
+//                }).start();
+//            count = 0;
+////            DataList.clear();
+////            savecount(AllRoot);
+//            onDestroy();
+//        }
+//        else {/**持續連線與上傳**/
+//            query = fsquery;
+//            new Thread(new Runnable() {
+//                public void run() {
+//                    String result = DBConnector.executeQuery(query);
+//                }
+//            }).start();
+//        }
+//    }
+//
+//    private void offlinerecorde() {
+//        Long costtime = endtime - starttime;
+//        if (saccount == null || saccount.equals("null"))
+//            read();
+//        final String fsquery = "http://140.116.82.102:8080/app/InsertNewGPSData.php?Account=" + saccount + "&speed=" + speed + "&startlat=" + startx +
+//                "&startlng=" + starty + "&endlat=" + endx + "&endlng=" + endy + "&starttime=" + starttime + "&endtime=" + endtime + "&distance=" + distance + "&costtime=" + costtime;
+//        DataList.add(fsquery);
+//        count++;
+//
+//        if (GPSType == 1) {/**網路剛斷線，還處於使用Network 蒐集的狀態時**/
 //            savecount(AllRoot);
-            onDestroy();
-        }
-        else {/**持續連線與上傳**/
-            query = fsquery;
-            new Thread(new Runnable() {
-                public void run() {
-                    String result = DBConnector.executeQuery(query);
-                }
-            }).start();
-        }
-    }
-
-    private void offlinerecorde() {
-        Long costtime = endtime - starttime;
-        if (saccount == null || saccount.equals("null"))
-            read();
-        final String fsquery = "http://140.116.82.102:8080/app/InsertNewGPSData.php?Account=" + saccount + "&speed=" + speed + "&startlat=" + startx +
-                "&startlng=" + starty + "&endlat=" + endx + "&endlng=" + endy + "&starttime=" + starttime + "&endtime=" + endtime + "&distance=" + distance + "&costtime=" + costtime;
-        DataList.add(fsquery);
-        count++;
-
-        if (GPSType == 1) {/**網路剛斷線，還處於使用Network 蒐集的狀態時**/
-            savecount(AllRoot);
-            onDestroy();
-        }
-    }
-    private String saccount;
+//            onDestroy();
+//        }
+//    }
     private void read() {
         String path = Environment.getExternalStorageDirectory().getPath() + "/RDataR/";
         String myData = "";
@@ -366,44 +364,46 @@ public class GPS extends Service {
         } catch (Exception e) {
         }
     }
-    public void savecount(String AllRoot) {
-        try {
-            FileWriter fw = new FileWriter(AllRoot + "gps.txt", false);
-            BufferedWriter bw = new BufferedWriter(fw); //將BufferedWeiter與FileWrite物件做連結
-            bw.write("count:" + count);
-            bw.newLine();
-            for (int i=0;i<count;i++) {
-                bw.write(i+"::" +DataList.get(i));
-                bw.newLine();
-            }
-            bw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    public void loadcount(String AllRoot) {
-        String myData = "";
-        try {
-            FileInputStream fis = new FileInputStream(AllRoot + "user.txt");
-            DataInputStream in = new DataInputStream(fis);
-            BufferedReader br = new BufferedReader(new InputStreamReader(in));
-            String strLine;
-            while ((strLine = br.readLine()) != null) {
-                int i = 0;
-                if(strLine.contains("count:")) {
-                    myData = strLine;
-                    String Scount = myData.replace("count:","");
-                    count = Integer.parseInt(Scount);
-                }
-                else if(strLine.contains(i + "::")){
-                    myData = strLine;
-                    DataList.add(myData.replace(i + "::",""));
-                }
-            }
-            in.close();
-        } catch (Exception e) {
-        }
-    }
+    /**儲存GPS筆數**/
+//    public void savecount(String AllRoot) {
+//        try {
+//            FileWriter fw = new FileWriter(AllRoot + "gps.txt", false);
+//            BufferedWriter bw = new BufferedWriter(fw); //將BufferedWeiter與FileWrite物件做連結
+//            bw.write("count:" + count);
+//            bw.newLine();
+//            for (int i=0;i<count;i++) {
+//                bw.write(i+"::" +DataList.get(i));
+//                bw.newLine();
+//            }
+//            bw.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+    /**載入GPS儲存筆數**/
+//    public void loadcount(String AllRoot) {
+//        String myData = "";
+//        try {
+//            FileInputStream fis = new FileInputStream(AllRoot + "user.txt");
+//            DataInputStream in = new DataInputStream(fis);
+//            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+//            String strLine;
+//            while ((strLine = br.readLine()) != null) {
+//                int i = 0;
+//                if(strLine.contains("count:")) {
+//                    myData = strLine;
+//                    String Scount = myData.replace("count:","");
+//                    count = Integer.parseInt(Scount);
+//                }
+//                else if(strLine.contains(i + "::")){
+//                    myData = strLine;
+//                    DataList.add(myData.replace(i + "::",""));
+//                }
+//            }
+//            in.close();
+//        } catch (Exception e) {
+//        }
+//    }
     private long ComputeCosttime(long starttime, long endtime) {
         long costtime = (endtime - starttime) / 1000;
 

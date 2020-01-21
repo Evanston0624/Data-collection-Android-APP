@@ -184,7 +184,6 @@ public class LoginActivity extends AppCompatActivity {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
-
         read();
     }
     private class CheckVersion extends AsyncTask<URL, Void , String> {
@@ -241,36 +240,8 @@ public class LoginActivity extends AppCompatActivity {
             onLoginFailed();
         }
     }
-    private void initGPS() {
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        //判断GPS是否开启，没有开启，则开启
-        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-            openGPSDialog();
-        }
-    }
-    private void openGPSDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("請開啟GPS連結")
-                .setIcon(R.drawable.ico_gps)
-                .setMessage("為了提高定位的精準度，更好的為您服務，請開啟GPS")
-                .setPositiveButton("設置", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        //跳轉到手機打開GPS頁面
-                        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        //设置完成完後回到原本畫面
-                        startActivityForResult(intent,0);
-                    }
-                })/*
-                .setNeutralButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                })*/.show();
-    }
     private void success() {
-        Intent intent = new Intent(this, com.sourcey.materiallogindemo.homepage.class);
+        Intent intent = new Intent(this, homepage.class);
         startActivity(intent);
     }
 
@@ -400,21 +371,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     }
-    private void startServiceGPS() {
-        boolean isRunning = checkservice.isServiceRunning(this, "com.sourcey.materiallogindemo.GPS.GPS");
-        if (isRunning) {
-            Toast.makeText(getBaseContext(), "GPS服務啟動", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(getBaseContext(), "GPS服務正在啟動", Toast.LENGTH_LONG).show();
-            Intent serviceIntent = new Intent(this, GPS.class);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-                this.startForegroundService(serviceIntent);
-            }
-            else {
-                this.startService(serviceIntent); //開始Service
-            }
-        }
-    }
     /***********************************確定帳號密碼是否正確*************************************/
     private void check_and_login(String account,String password,boolean TrueFalse){
         ConnectivityManager connectionManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);    //得到系統服務類
@@ -429,8 +385,7 @@ public class LoginActivity extends AppCompatActivity {
                         "讀取中", "請等待1秒...", true);
 
                 //啟動Service
-                startServicePhone();
-//                startServiceGPS();
+//                startServicePhone();
                 String path = Environment.getExternalStorageDirectory().getPath() + "/RDataR/";
 
                 isExist(AllRoot);
