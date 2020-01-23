@@ -218,7 +218,7 @@ public class PhotosActivity extends AppCompatActivity {
                 icon_type = Licon_type.get(i);
                 time = Ltime.get(i);
                 int icon_int = Integer.parseInt(icon_type);
-                if (icon_int !=4  && icon_int != 5 && icon_int != 6) {
+                if (icon_int !=4  && icon_int != 5 && icon_int != 6 && icon_int != 7 && icon_int != 8) {
                     String[] type = Lemotion.get(i).split(",");
                     int j = 0;
                     float Max = 0;
@@ -372,15 +372,20 @@ public class PhotosActivity extends AppCompatActivity {
             daysleepbutton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    icontype = "5";
+                    slorup = slorupselect.getSelectedItem().toString();
+                    if (slorup.equals("起床時間"))
+                        icontype = "5";
+                    else if(slorup.equals("睡覺時間"))
+                        icontype = "8";
+                    String sleepM = buffer.getTimeM();
                     sleeptime =
+                            sleepM + "-" +
                             sleepdayspinner.getSelectedItem().toString() +
-                                    ':'+
+                                    ' '+
                                     sleephourspinner.getSelectedItem().toString() +
                                             ':'+
                                             sleepminspinner.getSelectedItem().toString();
 
-                    slorup = slorupselect.getSelectedItem().toString();
                     prepareADData();
                 }
             });
@@ -1640,8 +1645,8 @@ public class PhotosActivity extends AppCompatActivity {
             SQL sql1 = new SQL();
             sql1.InsertNewData_new(buffer.getAccount(), time, content, emotion, icontype);
         }
-        else if (icontype == "5"){
-            String content = slorup+sleeptime;
+        else if (icontype == "5" ||icontype == "8"){
+            String content = sleeptime;
 //            SQL sql = new SQL();
 //            sql.UpdateData(buffer.getAccount(), time, content, emotion, icontype);
             /****/

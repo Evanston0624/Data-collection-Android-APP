@@ -75,38 +75,10 @@ public class PointActivity extends AppCompatActivity {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light);
     }
-    /**------------------------------接收帳號------------------------------**/
-    private String loadAccount(){
-
-        //accountNum = LoadPointData.ReadAccount();
-
-        String path = Environment.getExternalStorageDirectory().getPath() + "/RDataR/";
-
-        try {
-            FileInputStream fis = new FileInputStream(path + "user.txt");
-            DataInputStream in = new DataInputStream(fis);
-            BufferedReader br = new BufferedReader(new InputStreamReader(in));
-            String strLine;
-            while ((strLine = br.readLine()) != null) {
-                if (strLine.contains("帳號:") && strLine.length() > 6) {
-                    myData = strLine;
-                }
-            }
-            in.close();
-        }
-        catch (Exception e) {
-            Log.e("error not load Account", e.toString());
-        }
-        myData=myData.replaceAll("帳","");
-        myData=myData.replaceAll("號","");
-        myData=myData.replaceAll(":","");
-        return myData;
-    }
 
     /**-----------------------------更新Point------------------------------**/
     private void UpdatePoint (String myData){
         /**讀取Point資料**/
-        String[] pointtext = getResources().getStringArray(R.array.PointText);
         String[] pointloadvalue = getResources().getStringArray(R.array.PointLoadValue);
         int[] pointnumsum = getResources().getIntArray(R.array.PointNumSum);
         int[] pointif = getResources().getIntArray(R.array.PointIf);
@@ -140,11 +112,23 @@ public class PointActivity extends AppCompatActivity {
         long[] month_pt_SCL = {7,30,60,90};
         long[] fool_proof_pt_SCL = {4,20,54,79};
         SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf6 = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+
         /**當前時間**/
         //當前
         nowtime = System.currentTimeMillis();
         Date date = new Date(nowtime+86400000);
         nowtime_str  = sdf.format(date);
+
+        //Daywork
+        int[] DayWork = {0,0,0,0,0,0,0};//Dayemotion,Daymood,Sleep,gitup,問卷
+        String segmentntt = "";
+        String segmentstt = "";
+        String segmentent = "";
+        String segmentwkt = "";
+        Date nowdate = new Date(nowtime);
+        String str  = (sdf.format(nowdate))+" 12:00:00";
+
         //週
         for (int i=0;i<=4;i++){
             date = new Date(nowtime-(86400000*month_pt[i]));
@@ -260,18 +244,75 @@ public class PointActivity extends AppCompatActivity {
             }
             String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/PointUpd.php?at=" + myData + stringsum);
         }
-        newrecyc(pointtext, DA);
+        try {
+            Date Comparisondate = sdf6.parse(str);
+            long Comparisonlong = Comparisondate.getTime();
+            if(nowdate.before(Comparisondate)){
+                segmentent = str;
+                date = new Date(Comparisonlong-86400000);
+                segmentstt  = sdf6.format(date);
+                date = new Date(Comparisonlong-(86400000*2));
+                segmentntt  = sdf6.format(date);
+                date = new Date(Comparisonlong-((86400000*7)+43200000));
+                segmentwkt  = sdf6.format(date);
+            }else{
+                segmentstt = str;
+                date = new Date(Comparisonlong+86400000);
+                segmentent  = sdf6.format(date);
+                date = new Date(Comparisonlong-86400000);
+                segmentntt  = sdf6.format(date);
+                date = new Date(Comparisonlong-((86400000*6)+43200000));
+                segmentwkt  = sdf6.format(date);
+            }
+        } catch (ParseException e) {
+            Log.e("error DayWork time", e.toString());
+        }
+        for(int i=1;i<7;i++){
+            try {
+                String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/DayWork.php?at=" + myData + "&ict=" + i +
+                        "&stt=" + segmentstt + "&ent=" + segmentent + "&ntt=" + segmentntt + "&wkt=" + segmentwkt);
+                JSONArray jsonArray = new JSONArray(result);
+                JSONObject jsonData = jsonArray.getJSONObject(0);
+                String dwresult = jsonData.getString("count(*)");
+                int intdwresult = Integer.valueOf(dwresult).intValue();
+                if (intdwresult != 0){
+                    DayWork[i] = DayWork[i]+1;
+                }
+            }catch (Exception e) {
+                Log.e("error Day Work", e.toString());
+            }
+        }
+        newrecyc(DA, DayWork);
     }
-    private void newrecyc (String[] pointtext, int[] DA) {
+    private void newrecyc (int[] DA, int[] DayWork) {
         /**------------------------------創建Recyc------------------------------**/
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        String[] pointtext = getResources().getStringArray(R.array.PointText);
+        String[] dayworktext = getResources().getStringArray(R.array.DayWork);
         List<Member> memberList = new ArrayList<>();
+        for (int i = 0; i < 7;i++) {
+            String str = dayworktext[i];
+            if(i == 0){
+                memberList.add(new Member(i, R.drawable.daywork, str));
+            }
+            //-achievement-//
+            else {
+                if(DayWork[i] == 0){
+                    memberList.add(new Member(i, R.drawable.x1, str));
+
+                }
+                else{
+                    memberList.add(new Member(i, R.drawable.daywork, str));
+
+                }
+            }
+        }
         for (int i = 0; i <= 26;i++) {
             String str = pointtext[i];
             //-point Num-//
             if(i == 0){
                 str = (str + " = "+ DA[0]);
-                memberList.add(new Member(i, R.drawable.point1, str));
+                memberList.add(new Member(i, R.drawable.point, str));
             }
             //-achievement-//
             else {
@@ -280,7 +321,7 @@ public class PointActivity extends AppCompatActivity {
 
                 }
                 else{
-                    memberList.add(new Member(i, R.drawable.pointo, str));
+                    memberList.add(new Member(i, R.drawable.point1, str));
 
                 }
             }
@@ -289,6 +330,9 @@ public class PointActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, LinearLayoutManager.VERTICAL));
         //----------產生Recy----------//
         recyclerView.setAdapter(new MemberAdapter(this, memberList));
+    }
+    private class Daywork{
+
     }
     private class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder> {
         private Context context;

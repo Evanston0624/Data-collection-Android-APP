@@ -69,7 +69,6 @@ public class GPS extends Service {
 
     @Override
     public void onCreate() {
-        android.os.Debug.waitForDebugger();
         super.onCreate();
 //        AllRoot = Environment.getExternalStorageDirectory().getPath() + "/RDataR";
 //        read();
@@ -285,7 +284,7 @@ public class GPS extends Service {
     private String AllRoot = Environment.getExternalStorageDirectory().getPath() + "/RDataR";
     private int count = 0;
     final ArrayList<String> DataList = new ArrayList<String>();
-    private String query;
+//    private String query;
     private String saccount;
     private void updatetext() {
         Long costtime = endtime - starttime;

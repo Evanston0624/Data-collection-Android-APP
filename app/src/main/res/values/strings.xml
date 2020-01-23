@@ -206,11 +206,21 @@
         <item>0</item>
         <item>1</item>
         <item>1</item>
-        <item>5040</item><item>20160</item><item>28224</item><item>55440</item><item>80640</item>
+        <item>1680</item><item>6720</item><item>9408</item><item>18480</item><item>26880</item>
         <item>15</item><item>60</item><item>84</item><item>165</item><item>240</item>
         <item>5</item><item>20</item><item>28</item><item>55</item><item>80</item>
         <item>2</item><item>6</item><item>14</item><item>24</item>
         <item>810624</item><item>810624</item><item>810624</item><item>810624</item><item>810624</item>
-
     </integer-array>
+
+    <string-array name="DayWork">
+        <item>每日事項區(每天中午12點更新)</item>
+        <item>今天的情緒標記</item>
+        <item>今天的每日心情</item>
+        <item>昨天的起床時間</item>
+        <item>昨天的睡覺時間</item>
+        <item>上週的DASS21問卷</item>
+        <item>上週的Altman問卷</item>
+    </string-array>
+
 </resources>

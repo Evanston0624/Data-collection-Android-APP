@@ -110,7 +110,7 @@ public class SettingActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         try {
                             SQL sql1 = new SQL();
-                            sql1.InsertNewData_new(buffer.getAccount(), buffer.getTime(), "SCL2", buffer.getEmotion(), "6");
+                            sql1.InsertNewData_new(buffer.getAccount(), buffer.getTime(), "SCL2", buffer.getEmotion(), "7");
                         } catch (Exception e) {
                             Log.e("error Load Point Data", e.toString());
                         }
