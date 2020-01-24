@@ -268,7 +268,7 @@ public class GPS extends Service {
                     endtime = 0;
                     distance = 0;
                     //假設本輪速度連續十秒為0，則輸出資料並進入新的一輪偵測
-                } else if (zerotime > 60) {
+                } else if (zerotime > 300) {
                     firstGPStime = true;
                     AllBegin = true;
                     zerotime = 0;
