@@ -385,7 +385,7 @@ public class LoginActivity extends AppCompatActivity {
                         "讀取中", "請等待1秒...", true);
 
                 //啟動Service
-//                startServicePhone();
+                startServicePhone();
                 String path = Environment.getExternalStorageDirectory().getPath() + "/RDataR/";
 
                 isExist(AllRoot);

@@ -192,7 +192,6 @@ public class homepage extends TabActivity {
                 Intent intent = new Intent();
                 intent.setClass(this, homepage.class);
                 startActivity(intent);
-                //homepage.this.finish();
             }
         }
     }
