@@ -68,7 +68,8 @@ public class LoginActivity extends AppCompatActivity {
 
     /**更新設定**/
     public String Url = "http://140.116.82.102:8080/app_webpage/app_dl/version_n.txt";
-    public String version_now = "10";//當前版本號
+
+    public String version_now = "11";//當前版本號
 
     @BindView(R.id.input_email)
     EditText _emailText;
@@ -112,13 +113,18 @@ public class LoginActivity extends AppCompatActivity {
         }
         CheckVersion task = new CheckVersion();
         task.execute(url);
+        String version_new = "";
         try {
-            String version_new = task.get();
+            version_new = task.get();
             Log.e("1", version_new);
             if (! version_now.equals(version_new)) {
                 new AlertDialog.Builder(LoginActivity.this).setTitle("更新提示")//設定視窗標題
                         .setIcon(R.mipmap.ic_launcher)//設定對話視窗圖示
-                        .setMessage("有最新版本，請更新")//設定顯示的文字
+                        .setMessage("以有新版本可供更新\n" +
+                                    "1.新增每日目標,在成就系統可看見.\n" +
+                                    "2.GPS系統修正,可以正確達成成就與蒐集資料.\n" +
+                                    "3.兌換系統上線,在設定介面可看見.可兌換現金禮卷\n" +
+                                    "4.使用者回饋系統更新" )//設定顯示的文字
                         .setPositiveButton("下載新的安裝檔",new DialogInterface.OnClickListener(){
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -184,7 +190,7 @@ public class LoginActivity extends AppCompatActivity {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
-        read();
+        read(version_new);
     }
     private class CheckVersion extends AsyncTask<URL, Void , String> {
 
@@ -326,7 +332,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /***********************************讀取資料檔*************************************/
-    private void read() {
+    private void read(String version_new) {
         String path = Environment.getExternalStorageDirectory().getPath() + "/RDataR/";
         String myData = "";
         try {
@@ -352,7 +358,9 @@ public class LoginActivity extends AppCompatActivity {
             in.close();
         } catch (Exception e) {
         }
-        check_and_login(account,password,false);
+        if (version_now.equals(version_new)) {
+            check_and_login(account, password, false);
+        }
     }
 
     /*********************************************************************/
