@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
     /**更新設定**/
     public String Url = "http://140.116.82.102:8080/app_webpage/app_dl/version_n.txt";
 
-    public String version_now = "11";//當前版本號
+    public String version_now = "12";//當前版本號
 
     @BindView(R.id.input_email)
     EditText _emailText;
@@ -121,10 +121,12 @@ public class LoginActivity extends AppCompatActivity {
                 new AlertDialog.Builder(LoginActivity.this).setTitle("更新提示")//設定視窗標題
                         .setIcon(R.mipmap.ic_launcher)//設定對話視窗圖示
                         .setMessage("以有新版本可供更新\n" +
-                                    "1.新增每日目標,在成就系統可看見.\n" +
-                                    "2.GPS系統修正,可以正確達成成就與蒐集資料.\n" +
-                                    "3.兌換系統上線,在設定介面可看見.可兌換現金禮卷\n" +
-                                    "4.使用者回饋系統更新" )//設定顯示的文字
+                                    "1.修正不能開啟每日情緒與睡眠視窗的錯誤" )
+//                        .setMessage("以有新版本可供更新\n" +
+//                                    "1.新增每日目標,在成就系統可看見.\n" +
+//                                    "2.GPS系統修正,可以正確達成成就與蒐集資料.\n" +
+//                                    "3.兌換系統上線,在設定介面可看見.可兌換現金禮卷\n" +
+//                                    "4.使用者回饋系統更新" )//設定顯示的文字
                         .setPositiveButton("下載新的安裝檔",new DialogInterface.OnClickListener(){
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

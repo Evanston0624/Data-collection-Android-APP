@@ -75,8 +75,8 @@ public class PhotosActivity extends AppCompatActivity {
     private List<Data> DataList = new ArrayList<>();
     private RecyclerView recyclerView;
     private DataAdapter DataAdapter;
-    private ImageButton imageWriteButton, emotionbutton;
-    private Button writebutton, writeCancel, writeSubmit, emotionCancel, emotionSubmit, videoCancel, recordCancel;
+    private ImageButton imageWriteButton, emotionbutton, writebutton;
+    private Button writeCancel, writeSubmit, emotionCancel, emotionSubmit, videoCancel, recordCancel;
     private TextView writetextview, emotionedittext, tv;
     private AlertDialog.Builder writebuilder, emotionbuilder;
     private LayoutInflater writelayoutinflater, emotionlayoutinflater;
@@ -102,8 +102,8 @@ public class PhotosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.photos_layout);
 
-        TextView writetextview = (TextView) findViewById(R.id.textView1);
-        writetextview.setHint(buffer.getName() + "，在想甚麼呢?");
+//        TextView writetextview = (TextView) findViewById(R.id.textView1);
+//        writetextview.setHint(buffer.getName() + "，在想甚麼呢?");
         //設定隱藏標題
         getSupportActionBar().hide();
         //設置searchView
@@ -311,7 +311,7 @@ public class PhotosActivity extends AppCompatActivity {
     private void setAlldayInitial() {
         /**0612**/
 
-        writebutton = (Button) findViewById(R.id.buttonMain);
+        writebutton = (ImageButton) findViewById(R.id.buttonMain);
         writebutton.setOnClickListener(adlis);
 
         adlayoutinflater = getLayoutInflater();
@@ -332,15 +332,10 @@ public class PhotosActivity extends AppCompatActivity {
 
         slorupselect = (Spinner) Aview.findViewById(R.id.slupspinner);
 
-        //updayspinner = (Spinner) Aview.findViewById(R.id.updayspinner);
-        //uphourspinner = (Spinner) Aview.findViewById(R.id.uphourspinner);
-        //upminspinner = (Spinner) Aview.findViewById(R.id.upminspinner);
-
         adCancel = (Button) Aview.findViewById(R.id.dayCancel);
         addialog = adbuilder.create();
 
         /****/
-
     }
     private View.OnClickListener adlis = new View.OnClickListener() {
         @Override
@@ -354,8 +349,7 @@ public class PhotosActivity extends AppCompatActivity {
             int hour = calendar.get(Calendar.HOUR_OF_DAY);
             int minute = calendar.get(Calendar.MINUTE);
 
-            //pinner seting
-            sleepdayspinner.setSelection(day);
+            sleepdayspinner.setSelection(day-1);
             sleephourspinner.setSelection(hour);
             sleepminspinner.setSelection(minute);
 
@@ -372,20 +366,19 @@ public class PhotosActivity extends AppCompatActivity {
             daysleepbutton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    slorup = slorupselect.getSelectedItem().toString();
-                    if (slorup.equals("起床時間"))
-                        icontype = "5";
-                    else if(slorup.equals("睡覺時間"))
-                        icontype = "8";
-                    String sleepM = buffer.getTimeM();
-                    sleeptime =
-                            sleepM + "-" +
-                            sleepdayspinner.getSelectedItem().toString() +
-                                    ' '+
-                                    sleephourspinner.getSelectedItem().toString() +
-                                            ':'+
-                                            sleepminspinner.getSelectedItem().toString();
-
+                        slorup = slorupselect.getSelectedItem().toString();
+                        if (slorup.equals("起床時間"))
+                            icontype = "5";
+                        else if (slorup.equals("睡覺時間"))
+                            icontype = "8";
+                        String sleepM = buffer.getTimeM();
+                        sleeptime =
+                                sleepM + "-" +
+                                        sleepdayspinner.getSelectedItem().toString() +
+                                        ' ' +
+                                        sleephourspinner.getSelectedItem().toString() +
+                                        ':' +
+                                        sleepminspinner.getSelectedItem().toString();
                     prepareADData();
                 }
             });
