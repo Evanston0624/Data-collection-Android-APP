@@ -1662,12 +1662,15 @@ public class PhotosActivity extends AppCompatActivity {
     private Dialog dialog;
 
     private void loading() {
-        int dialognum = (int)(Math.random()* 3);
+        int dialognum = (int)(Math.random()* 4);
         if (dialognum == 1) {
             dialog = ProgressDialog.show(this, "儲存中", "做的很棒 要多加油哦", true);
         }
         else if (dialognum == 2){
             dialog = ProgressDialog.show(this, "儲存中", "每次的紀錄都讓自己更好", true);
+        }
+        else if (dialognum == 3){
+            dialog = ProgressDialog.show(this, "儲存中", "持續的記錄能使自己更了解自己哦", true);
         }
         else{
             dialog = ProgressDialog.show(this, "儲存中", "時常記錄能獲得獎勵哦", true);
