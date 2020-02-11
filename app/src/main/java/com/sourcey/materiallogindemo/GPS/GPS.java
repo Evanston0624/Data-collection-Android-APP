@@ -42,6 +42,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.app.Notification.DEFAULT_VIBRATE;
 
@@ -72,6 +73,7 @@ public class GPS extends Service {
         super.onCreate();
         locMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
         locMgrListener = new MyLocationListener();
+//        android.os.Debug.waitForDebugger();  // this line is key
     }
 
     @SuppressLint("WrongConstant")
@@ -90,7 +92,6 @@ public class GPS extends Service {
                     return 0;
                 }
                 try{
-//                    locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locMgrListener);
                     locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locMgrListener);
                 }
                 catch (java.lang.SecurityException ex) {
@@ -171,62 +172,6 @@ public class GPS extends Service {
 
     private class MyLocationListener implements LocationListener {
         /**Old m**/
-//        @Override
-//        public void onLocationChanged(Location location) {
-//            if (!location.getProvider().equals("network")) {
-//                speed = location.getSpeed();
-//
-//                //第一次進入，設置初始座標、時間
-//                if(AllBegin){
-//                    startx = location.getLatitude();
-//                    starty = location.getLongitude();
-//                    starttime = Long.valueOf(location.getTime());
-//                    AllBegin = false;
-//                }
-//                if (speed == 0 && firstGPStime) {//速度為0，且為本輪第一次偵測，設置每輪初始座標、時間
-//                    startx = location.getLatitude();
-//                    starty = location.getLongitude();
-//                    starttime = Long.valueOf(location.getTime());
-//                } else if (speed > 0) {//速度不為0，紀錄每次座標及時間
-//                    firstGPStime = false;
-//                    endx = location.getLatitude();
-//                    endy = location.getLongitude();
-//                    endtime = Long.valueOf(location.getTime());
-//                    distance += speed;
-//                    zerotime = 0;
-//                //本輪速度一旦為0，zerotime++
-//                } else if (speed==0){
-//                    zerotime++;
-//                }
-//                //假設偵測時間達一分鐘，輸出資料並進入新的一輪偵測
-//                if (endtime - starttime >= 60000) {
-//                    firstGPStime = true;
-//                    AllBegin = true;
-//                    zerotime = 0;
-//                    update();
-//                    startx = endx;
-//                    starty = endy;
-//                    starttime = endtime;
-//                    endx = 0.0;
-//                    endy = 0.0;
-//                    endtime = 0;
-//                    distance = 0;
-//                //假設本輪速度連續十秒為0，則輸出資料並進入新的一輪偵測
-//                } else if (zerotime > 10) {
-//                    firstGPStime = true;
-//                    AllBegin = true;
-//                    zerotime = 0;
-//                    update();
-//                    startx = endx;
-//                    starty = endy;
-//                    starttime = endtime;
-//                    endx = 0.0;
-//                    endy = 0.0;
-//                    endtime = 0;
-//                    distance = 0;
-//                }
-//            }
-//        }
         @Override
         public void onLocationChanged(Location location) {
             if (!location.getProvider().equals("network")) {
@@ -302,21 +247,92 @@ public class GPS extends Service {
         }
     }
     private String saccount;
-
+    private Integer firstrungps = 1;
+    private Integer GPSofflineNum = 0;
+    List<Long> sttimeary, edtimeary, costimeary;
+    List<Float> speedary, distanceary;
+    List<Double> stxary, styary, edxary, edyary;
+    List<String> GPSsavetimeary;
     private void update() {
         Long costtime = endtime - starttime;
+        String GPSNowtime = buffer.getTime();
         if (saccount == null || saccount.equals("null"))
             read();
-        String query = "http://140.116.82.102:8080/app/InsertNewGPSData.php?Account=" +saccount+ "&speed=" + speed + "&startlat=" + startx +
-                "&startlng=" + starty + "&endlat=" + endx + "&endlng=" + endy + "&starttime=" + starttime +
-                "&endtime=" + endtime + "&distance=" + distance + "&costtime=" + costtime;
-        new Thread(
-                new Runnable() {
-                    public void run() {
-                        String result = DBConnector.executeQuery(query);
+        if (firstrungps == 1)
+        {
+            sttimeary = new ArrayList<>();
+            edtimeary = new ArrayList<>();
+            speedary = new ArrayList<>();
+            distanceary = new ArrayList<>();
+            stxary = new ArrayList<>();
+            styary = new ArrayList<>();
+            edxary = new ArrayList<>();
+            edyary = new ArrayList<>();
+            costimeary = new ArrayList<>();
+            GPSsavetimeary = new ArrayList<>();
+            firstrungps = firstrungps-1;
+        }
+        ConnectivityManager connectionManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);    //得到系統服務類
+        NetworkInfo networkInfo = connectionManager.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isAvailable() && GPSofflineNum == 0) {
+            String query = "http://140.116.82.102:8080/app/InsertNewGPSDataOffline.php?Account=" +saccount+ "&speed=" + speed + "&startlat=" + startx +
+                    "&startlng=" + starty + "&endlat=" + endx + "&endlng=" + endy + "&starttime=" + starttime +
+                    "&endtime=" + endtime + "&distance=" + distance + "&costtime=" + costtime + "&time=" + GPSNowtime + "&offl=0";
+            new Thread(
+                    new Runnable() {
+                        public void run() {
+                            String result = DBConnector.executeQuery(query);
+                        }
                     }
-                }
-        ).start();
+            ).start();
+        }else if(networkInfo != null && networkInfo.isAvailable() && GPSofflineNum !=0) {
+            for (int i=0;i<GPSofflineNum;i++) {
+                String query = "http://140.116.82.102:8080/app/InsertNewGPSDataOffline.php?Account=" + saccount + "&speed=" + speedary.get(i) + "&startlat=" + stxary.get(i) +
+                        "&startlng=" + styary.get(i) + "&endlat=" + edxary.get(i) + "&endlng=" + edyary.get(i) + "&starttime=" + sttimeary.get(i) +
+                        "&endtime=" + edtimeary.get(i) + "&distance=" + distanceary.get(i) + "&costtime=" + costimeary.get(i) + "&time=" + GPSsavetimeary.get(i) + "&offl=1";
+                new Thread(
+                        new Runnable() {
+                            public void run() {
+                                String result = DBConnector.executeQuery(query);
+                            }
+                        }
+                ).start();
+            }
+            String query = "http://140.116.82.102:8080/app/InsertNewGPSDataOffline.php?Account=" +saccount+ "&speed=" + speed + "&startlat=" + startx +
+                    "&startlng=" + starty + "&endlat=" + endx + "&endlng=" + endy + "&starttime=" + starttime +
+                    "&endtime=" + endtime + "&distance=" + distance + "&costtime=" + costtime + "&time=" + GPSNowtime + "&offl=0";
+            new Thread(
+                    new Runnable() {
+                        public void run() {
+                            String result = DBConnector.executeQuery(query);
+                        }
+                    }
+            ).start();
+            sttimeary.clear();
+            edtimeary.clear();
+            speedary.clear();
+            distanceary.clear();
+            stxary.clear();
+            styary.clear();
+            edxary.clear();
+            edyary.clear();
+            costimeary.clear();
+            GPSsavetimeary.clear();
+            GPSofflineNum = 0;
+        }else{
+            sttimeary.add(starttime);
+            edtimeary.add(endtime);
+            speedary.add(speed);
+            distanceary.add(distance);
+            stxary.add(startx);
+            styary.add(starty);
+            edxary.add(endx);
+            edyary.add(endy);
+            costimeary.add(costtime);
+            GPSsavetimeary.add(GPSNowtime);
+            GPSofflineNum = GPSofflineNum + 1;
+        }
+
     }
     private void read() {
         String path = Environment.getExternalStorageDirectory().getPath() + "/RDataR/";

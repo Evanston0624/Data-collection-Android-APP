@@ -298,7 +298,7 @@ public class PointActivity extends AppCompatActivity {
             //-achievement-//
             else {
                 if(DayWork[i] == 0){
-                    memberList.add(new Member(i, R.drawable.x1, str));
+                    memberList.add(new Member(i, R.drawable.nondaywork, str));
 
                 }
                 else{
@@ -317,7 +317,7 @@ public class PointActivity extends AppCompatActivity {
             //-achievement-//
             else {
                 if(DA[i] == 0){
-                    memberList.add(new Member(i, R.drawable.x1, str));
+                    memberList.add(new Member(i, R.drawable.nonpoint1, str));
 
                 }
                 else{

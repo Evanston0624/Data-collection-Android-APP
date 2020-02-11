@@ -69,8 +69,8 @@ public class LoginActivity extends AppCompatActivity {
     /**更新設定**/
     public String Url = "http://140.116.82.102:8080/app_webpage/app_dl/version_n.txt";
 
-    public String version_now = "12";//當前版本號
-
+    public String version_now = "15";//當前版本號
+    //離線GPS系統 and 圖片優化
     @BindView(R.id.input_email)
     EditText _emailText;
     @BindView(R.id.input_password)
@@ -106,41 +106,47 @@ public class LoginActivity extends AppCompatActivity {
         /*****/
         //check Version
         URL url = null;
-        try {
-            url = new URL(Url);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        CheckVersion task = new CheckVersion();
-        task.execute(url);
         String version_new = "";
-        try {
-            version_new = task.get();
-            Log.e("1", version_new);
-            if (! version_now.equals(version_new)) {
-                new AlertDialog.Builder(LoginActivity.this).setTitle("更新提示")//設定視窗標題
-                        .setIcon(R.mipmap.ic_launcher)//設定對話視窗圖示
-                        .setMessage("以有新版本可供更新\n" +
-                                    "1.修正不能開啟每日情緒與睡眠視窗的錯誤" )
+        ConnectivityManager connectionManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);    //得到系統服務類
+        NetworkInfo networkInfo = connectionManager.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isAvailable()) {
+            //Toast.makeText(context, "網路正常連接", Toast.LENGTH_SHORT).show();
+
+            try {
+                url = new URL(Url);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            CheckVersion task = new CheckVersion();
+            task.execute(url);
+//            String version_new = "";
+            try {
+                version_new = task.get();
+                Log.e("1", version_new);
+                if (!version_now.equals(version_new)) {
+                    new AlertDialog.Builder(LoginActivity.this).setTitle("更新提示")//設定視窗標題
+                            .setIcon(R.mipmap.ic_launcher)//設定對話視窗圖示
+                            .setMessage("以有新版本可供更新")
 //                        .setMessage("以有新版本可供更新\n" +
 //                                    "1.新增每日目標,在成就系統可看見.\n" +
 //                                    "2.GPS系統修正,可以正確達成成就與蒐集資料.\n" +
 //                                    "3.兌換系統上線,在設定介面可看見.可兌換現金禮卷\n" +
 //                                    "4.使用者回饋系統更新" )//設定顯示的文字
-                        .setPositiveButton("下載新的安裝檔",new DialogInterface.OnClickListener(){
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Uri uri=Uri.parse("http://140.116.82.102:8080/app_webpage/app_dl/mastr.apk");//下載網址
-                                Intent download =new Intent(Intent.ACTION_VIEW,uri);
-                                startActivity(download);
-                            }
-                        })//設定結束的子視窗
-                        .show();//呈現對話視窗
+                            .setPositiveButton("下載新的安裝檔", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Uri uri = Uri.parse("http://140.116.82.102:8080/app_webpage/app_dl/mastr.apk");//下載網址
+                                    Intent download = new Intent(Intent.ACTION_VIEW, uri);
+                                    startActivity(download);
+                                }
+                            })//設定結束的子視窗
+                            .show();//呈現對話視窗
+                }
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
         /****/
         //設定隱藏標題
