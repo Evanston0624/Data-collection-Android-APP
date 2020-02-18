@@ -65,25 +65,25 @@ public class Phone_listener extends Service {
         return null;
     }
     /****/
-    private static final String CHANNEL_ID = "1250012";
+    private static final String CHANNEL_ID = "12";
     private static final String TAG = Phone_listener.class.getSimpleName();
     /****/
     @Override
     public void onCreate() {
         // TODO Auto-generated method stub
         super.onCreate();
-
-        //取得電話管理服務
-        TelephonyManager tele = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
-
-        //對呼叫狀態進行監聽
-        tele.listen(new phone_state_listener(), PhoneStateListener.LISTEN_CALL_STATE);
+//
+//        //取得電話管理服務
+//        TelephonyManager tele = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
+//
+//        //對呼叫狀態進行監聽
+//        tele.listen(new phone_state_listener(), PhoneStateListener.LISTEN_CALL_STATE);
     }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         /**t創建通知細節**/
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 12, intent, PendingIntent.FLAG_ONE_SHOT);
         NotificationCompat.Builder notificationBuilder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID);
@@ -108,7 +108,7 @@ public class Phone_listener extends Service {
         notificationBuilder.setLights(Color.YELLOW, 1000, 300);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0, notificationBuilder.build());
+        notificationManager.notify(12, notificationBuilder.build());
         /**創建通知視窗**/
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID,TAG,
@@ -116,10 +116,10 @@ public class Phone_listener extends Service {
             notificationManager.createNotificationChannel(channel);
 
             Notification notification = new Notification.Builder(getApplicationContext(),CHANNEL_ID).build();
-            startForeground(1, notification);
+            startForeground(12, notification);
         }
         else {
-            startForeground(startId, new Notification());
+            startForeground(12, new Notification());
         }
         /****/
         //创建PowerManager对象
@@ -136,7 +136,7 @@ public class Phone_listener extends Service {
             wakeLock.release();
             wakeLock = null;
         }
-        Toast.makeText(this, "電話掛掉，即將重啟", Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "電話掛掉，即將重啟", Toast.LENGTH_LONG).show();
         stopForeground(true);
         Intent localIntent = new Intent();
         localIntent.setClass(this, Phone_listener.class); //銷毀時重新啟動Service

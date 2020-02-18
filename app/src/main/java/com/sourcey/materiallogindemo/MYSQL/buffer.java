@@ -57,6 +57,12 @@ public class buffer {
         String time = s.toString();
         return time;
     }
+    public static String getTimeSP() {
+        Calendar mCal = Calendar.getInstance();
+        CharSequence s = DateFormat.format("yyyy-MM-dd+kk:mm:ss", mCal.getTime());
+        String time = s.toString();
+        return time;
+    }
     public static long getLongTime() {
         long time = System.currentTimeMillis()/1000;
         return time;

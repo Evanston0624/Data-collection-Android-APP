@@ -59,6 +59,11 @@
                 <action android:name=".GPS.GPS"/>
             </intent-filter>
         </service>
+        <service android:name=".GPS.OffGPS">
+            <intent-filter android:priority="1000">
+                <action android:name=".GPS.OffGPS"/>
+            </intent-filter>
+        </service>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

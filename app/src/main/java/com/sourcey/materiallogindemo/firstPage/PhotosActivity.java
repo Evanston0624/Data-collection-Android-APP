@@ -375,7 +375,7 @@ public class PhotosActivity extends AppCompatActivity {
                         sleeptime =
                                 sleepM + "-" +
                                         sleepdayspinner.getSelectedItem().toString() +
-                                        ' ' +
+                                        '+' +
                                         sleephourspinner.getSelectedItem().toString() +
                                         ':' +
                                         sleepminspinner.getSelectedItem().toString();

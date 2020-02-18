@@ -7,13 +7,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.location.LocationManager;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.Toast;
@@ -22,18 +19,10 @@ import com.sourcey.materiallogindemo.CheckService.checkservice;
 import com.sourcey.materiallogindemo.FeedbackPage.FeedbackActivity;
 import com.sourcey.materiallogindemo.GPS.GPS;
 import com.sourcey.materiallogindemo.GPS.GPSBroadcastReceiver;
+import com.sourcey.materiallogindemo.GPS.OffGPS;
 import com.sourcey.materiallogindemo.PointPage.PointActivity;
 import com.sourcey.materiallogindemo.firstPage.PhotosActivity;
 import com.sourcey.materiallogindemo.fourthPage.SettingActivity;
-import com.sourcey.materiallogindemo.thirdPage.Alarm.AlarmsActivity;
-import com.sourcey.materiallogindemo.twicePage.SongsActivity;
-
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.concurrent.ExecutionException;
 
 public class homepage extends TabActivity {
     TabHost tabHost;
@@ -152,6 +141,7 @@ public class homepage extends TabActivity {
     }
 
     private void startService() {
+        /**在線GPS**/
         boolean isRunning = checkservice.isServiceRunning(this, "com.sourcey.materiallogindemo.GPS.GPS");
         if (isRunning) {
             Toast.makeText(getBaseContext(), "GPS服務已啟動", Toast.LENGTH_LONG).show();
@@ -160,11 +150,21 @@ public class homepage extends TabActivity {
             Intent serviceIntent = new Intent(this, GPS.class);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 this.startForegroundService(serviceIntent);
-                Toast.makeText(getBaseContext(), "GPS啟動成功", Toast.LENGTH_LONG).show();
-            }
-            else {
+            } else {
                 this.startService(serviceIntent);
-                Toast.makeText(getBaseContext(), "GPS啟動成功", Toast.LENGTH_LONG).show();
+            }
+        }
+        /**離線GPS**/
+        boolean isRunningOff = checkservice.isServiceRunning(this, "com.sourcey.materiallogindemo.GPS.OffGPS");
+        if (isRunningOff) {
+            Toast.makeText(getBaseContext(), "OffGPS服務已啟動", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getBaseContext(), "OffGPS服務正在啟動", Toast.LENGTH_LONG).show();
+            Intent serviceIntent = new Intent(this, OffGPS.class);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                this.startForegroundService(serviceIntent);
+            } else {
+                this.startService(serviceIntent);
             }
         }
     }
