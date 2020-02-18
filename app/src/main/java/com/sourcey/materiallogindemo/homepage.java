@@ -158,11 +158,14 @@ public class homepage extends TabActivity {
         } else {
             Toast.makeText(getBaseContext(), "GPS服務正在啟動", Toast.LENGTH_LONG).show();
             Intent serviceIntent = new Intent(this, GPS.class);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 this.startForegroundService(serviceIntent);
-            else
+                Toast.makeText(getBaseContext(), "GPS啟動成功", Toast.LENGTH_LONG).show();
+            }
+            else {
                 this.startService(serviceIntent);
-
+                Toast.makeText(getBaseContext(), "GPS啟動成功", Toast.LENGTH_LONG).show();
+            }
         }
     }
     private void firstRun() {

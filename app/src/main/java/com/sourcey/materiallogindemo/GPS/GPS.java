@@ -73,7 +73,7 @@ public class GPS extends Service {
         super.onCreate();
         locMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
         locMgrListener = new MyLocationListener();
-//        android.os.Debug.waitForDebugger();  // this line is key
+        android.os.Debug.waitForDebugger();  // this line is key
     }
 
     @SuppressLint("WrongConstant")
@@ -105,7 +105,7 @@ public class GPS extends Service {
         //创建PowerManager对象
         pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         //保持cpu一直运行，不管屏幕是否黑屏
-        wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "CPUKeepRunning");
+                wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "mhmcapp:CPUKeepRunning");
         wakeLock.acquire();
 
         return super.onStartCommand(intent, flags, startId);
@@ -200,7 +200,7 @@ public class GPS extends Service {
                     zerotime++;
                 }
                 //假設偵測時間達一分鐘，輸出資料並進入新的一輪偵測
-                if (endtime - starttime >= 60000) {
+                if (endtime - starttime >= 30000) {
                     firstGPStime = true;
                     AllBegin = true;
                     zerotime = 0;
@@ -213,7 +213,7 @@ public class GPS extends Service {
                     endtime = 0;
                     distance = 0;
                     //假設本輪速度連續十秒為0，則輸出資料並進入新的一輪偵測
-                } else if (zerotime > 300) {
+                } else if (zerotime > 30) {
                     firstGPStime = true;
                     AllBegin = true;
                     zerotime = 0;
@@ -247,7 +247,7 @@ public class GPS extends Service {
         }
     }
     private String saccount;
-    private Integer firstrungps = 1;
+    private Boolean firstupgps = true;
     private Integer GPSofflineNum = 0;
     List<Long> sttimeary, edtimeary, costimeary;
     List<Float> speedary, distanceary;
@@ -258,7 +258,7 @@ public class GPS extends Service {
         String GPSNowtime = buffer.getTime();
         if (saccount == null || saccount.equals("null"))
             read();
-        if (firstrungps == 1)
+        if (firstupgps)
         {
             sttimeary = new ArrayList<>();
             edtimeary = new ArrayList<>();
@@ -270,7 +270,7 @@ public class GPS extends Service {
             edyary = new ArrayList<>();
             costimeary = new ArrayList<>();
             GPSsavetimeary = new ArrayList<>();
-            firstrungps = firstrungps-1;
+            firstupgps = false;
         }
         ConnectivityManager connectionManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);    //得到系統服務類
         NetworkInfo networkInfo = connectionManager.getActiveNetworkInfo();
@@ -278,7 +278,7 @@ public class GPS extends Service {
             String query = "http://140.116.82.102:8080/app/InsertNewGPSDataOffline.php?Account=" +saccount+ "&speed=" + speed + "&startlat=" + startx +
                     "&startlng=" + starty + "&endlat=" + endx + "&endlng=" + endy + "&starttime=" + starttime +
                     "&endtime=" + endtime + "&distance=" + distance + "&costtime=" + costtime + "&time=" + GPSNowtime + "&offl=0";
-            new Thread(
+                new Thread(
                     new Runnable() {
                         public void run() {
                             String result = DBConnector.executeQuery(query);
@@ -332,7 +332,6 @@ public class GPS extends Service {
             GPSsavetimeary.add(GPSNowtime);
             GPSofflineNum = GPSofflineNum + 1;
         }
-
     }
     private void read() {
         String path = Environment.getExternalStorageDirectory().getPath() + "/RDataR/";
