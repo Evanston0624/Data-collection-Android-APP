@@ -197,7 +197,7 @@ public class OffGPS extends Service {
                 //本輪速度一旦為0，zerotime++
             }
             //假設偵測時間達一分鐘，輸出資料並進入新的一輪偵測
-            if (endtime - starttime >= 3000) {
+            if (endtime - starttime >= 30000) {
                 firstGPStime = true;
                 AllBegin = true;
                 update();
