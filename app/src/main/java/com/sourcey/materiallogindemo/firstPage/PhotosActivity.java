@@ -39,6 +39,7 @@ import android.widget.Toast;
 
 import com.github.mikephil.charting.data.BarEntry;
 import com.sourcey.materiallogindemo.ControlData.RecyclerTouchListener;
+import com.sourcey.materiallogindemo.MYSQL.DBConnector;
 import com.sourcey.materiallogindemo.MYSQL.SQL;
 import com.sourcey.materiallogindemo.MYSQL.buffer;
 import com.sourcey.materiallogindemo.R;
@@ -53,9 +54,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -63,6 +66,10 @@ import com.sourcey.materiallogindemo.ControlData.Data;
 import com.sourcey.materiallogindemo.ControlData.DataAdapter;
 import com.sourcey.materiallogindemo.Voice.WavRecorder;
 import com.sourcey.materiallogindemo.homepage;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class PhotosActivity extends AppCompatActivity {
     android.widget.SearchView searchView;  //這是搜尋器
@@ -94,6 +101,7 @@ public class PhotosActivity extends AppCompatActivity {
     private String sleeptime, getuptime, alldayemotion, slorup;
     private AlertDialog.Builder adbuilder;
     private AlertDialog addialog;
+    private Integer UploadDayinfor = 0;
     /**20200118**/
     private SwipeRefreshLayout laySwipe;
     /****/
@@ -218,7 +226,8 @@ public class PhotosActivity extends AppCompatActivity {
                 icon_type = Licon_type.get(i);
                 time = Ltime.get(i);
                 int icon_int = Integer.parseInt(icon_type);
-                if (icon_int !=4  && icon_int != 5 && icon_int != 6 && icon_int != 7 && icon_int != 8) {
+                /**Emotion data**/
+                if (icon_int !=2  && icon_int !=4  && icon_int != 5 && icon_int != 6 && icon_int != 7 && icon_int != 8) {
                     String[] type = Lemotion.get(i).split(",");
                     int j = 0;
                     float Max = 0;
@@ -353,16 +362,49 @@ public class PhotosActivity extends AppCompatActivity {
             sleephourspinner.setSelection(hour);
             sleepminspinner.setSelection(minute);
 
-            //每日情緒
+            /********************************每日情緒********************************/
             dayemotionbutton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    icontype = "4";
-                    alldayemotion = String.valueOf(dayemotionseekBar.getProgress());
-                    prepareADData();
+                    int checkUploadNum = checkUploadInfor(4);
+                    if (checkUploadNum != 0) {
+                        new android.support.v7.app.AlertDialog.Builder(PhotosActivity.this).setTitle("更新舊的資訊")//設定視窗標題
+                                .setIcon(R.mipmap.ic_launcher)//設定對話視窗圖示
+                                .setMessage("今天已經填過每日情緒\n" + "\n" + "要修改舊的還是再傳一次呢?")
+                                .setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                })//設定結束的子視窗
+                                .setNegativeButton("修改舊的", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        icontype = "4";
+                                        UploadDayinfor = 1;
+                                        alldayemotion = String.valueOf(dayemotionseekBar.getProgress());
+                                        prepareADData();
+                                    }
+                                })
+                                .setNeutralButton("再傳一個", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        icontype = "4";
+                                        UploadDayinfor = 0;
+                                        alldayemotion = String.valueOf(dayemotionseekBar.getProgress());
+                                        prepareADData();
+                                    }
+                                })
+                                .show();//呈現對話視窗
+                    }else {
+                        icontype = "4";
+                        alldayemotion = String.valueOf(dayemotionseekBar.getProgress());
+                        prepareADData();
+                    }
+
+
                 }
             });
-            //睡眠
+            /********************************每日睡眠********************************/
             daysleepbutton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -393,6 +435,55 @@ public class PhotosActivity extends AppCompatActivity {
             addialog.show();
         }
     };
+    /*************************檢查是否已上傳過*************************/
+    private int checkUploadInfor(int checktype){
+        long nowtime = 0;
+        nowtime = System.currentTimeMillis();
+        Date date = new Date(nowtime+86400000);
+        SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf6 = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+        Date nowdate = new Date(nowtime);
+        String segmentntt = "";
+        String segmentstt = "";
+        String segmentent = "";
+        String segmentwkt = "";
+        try {
+            String str  = (sdf.format(nowdate))+" 12:00:00";
+            Date Comparisondate = sdf6.parse(str);
+            long Comparisonlong = Comparisondate.getTime();
+            if(nowdate.before(Comparisondate)){
+                segmentent = str;
+                date = new Date(Comparisonlong-86400000);
+                segmentstt  = sdf6.format(date);
+                date = new Date(Comparisonlong-(86400000*2));
+                segmentntt  = sdf6.format(date);
+                date = new Date(Comparisonlong-((86400000*7)+43200000));
+                segmentwkt  = sdf6.format(date);
+            }else{
+                segmentstt = str;
+                date = new Date(Comparisonlong+86400000);
+                segmentent  = sdf6.format(date);
+                date = new Date(Comparisonlong-86400000);
+                segmentntt  = sdf6.format(date);
+                date = new Date(Comparisonlong-((86400000*6)+43200000));
+                segmentwkt  = sdf6.format(date);
+            }
+        } catch (ParseException e) {
+            Log.e("error DayWork time", e.toString());
+        }
+        int intdwresult = 0;
+        try{
+            String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/DayWork.php?at=" + buffer.getAccount() + "&ict=" + checktype +
+                    "&stt=" + segmentstt + "&ent=" + segmentent + "&ntt=" + segmentntt + "&wkt=" + segmentwkt);
+            JSONArray jsonArray = new JSONArray(result);
+            JSONObject jsonData = jsonArray.getJSONObject(0);
+            String dwresult = jsonData.getString("count(*)");
+            intdwresult = Integer.valueOf(dwresult).intValue();
+        } catch (JSONException e) {
+            Log.e("error DayWork time", e.toString());
+        }
+        return intdwresult;
+    }
     /********************************************Dialog**********************************************/
     //設置Dialog 文字
     private void setDialogInitial() {
@@ -569,7 +660,7 @@ public class PhotosActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     String writeEditTextValue = writeedittext.getText().toString();
-                    writealertdialog.cancel();
+
                     if (writeEditTextValue.replace("[\r\n\\s     　]", "").length() > 1) {
                         tvContent = writeEditTextValue;
                         icontype = "0";
@@ -579,6 +670,7 @@ public class PhotosActivity extends AppCompatActivity {
                         whichmicbutton = true;
                         writealertdialog.cancel();
                     }
+                    writealertdialog.cancel();
                 }
             });
             writeCancel.setOnClickListener(new View.OnClickListener() {
@@ -1632,11 +1724,15 @@ public class PhotosActivity extends AppCompatActivity {
         }
         if (icontype == "4"){
             String content = alldayemotion;
-//            SQL sql = new SQL();
-//            sql.UpdateData(buffer.getAccount(), time, content, emotion, icontype);
             /****/
             SQL sql1 = new SQL();
             sql1.InsertNewData_new(buffer.getAccount(), time, content, emotion, icontype);
+//            if (UploadDayinfor == 0) {
+//                sql1.InsertNewData_new(buffer.getAccount(), time, content, emotion, icontype);
+//            } else if(UploadDayinfor == 1){
+//                sql1.InsertNewData_change(buffer.getAccount(), time, content, emotion, icontype);
+//            }
+
         }
         else if (icontype == "5" ||icontype == "8"){
             String content = sleeptime;

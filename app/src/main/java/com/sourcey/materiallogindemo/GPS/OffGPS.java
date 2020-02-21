@@ -95,7 +95,7 @@ public class OffGPS extends Service {
 //                    locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locMgrListener);
                 }
                 catch (java.lang.SecurityException ex) {
-                    Log.i(TAG, "GPS(network) is not working", ex);//
+                    Log.i(TAG, "GPS(GPS) is not working", ex);//
                 }
 
             } else {

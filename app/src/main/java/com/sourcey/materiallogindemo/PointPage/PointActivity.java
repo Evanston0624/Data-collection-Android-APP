@@ -267,6 +267,7 @@ public class PointActivity extends AppCompatActivity {
         } catch (ParseException e) {
             Log.e("error DayWork time", e.toString());
         }
+        /***************************每日達成事項***************************/
         for(int i=1;i<7;i++){
             try {
                 String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/DayWork.php?at=" + myData + "&ict=" + i +

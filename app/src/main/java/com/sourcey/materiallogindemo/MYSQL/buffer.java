@@ -1,10 +1,14 @@
 package com.sourcey.materiallogindemo.MYSQL;
 
 import android.text.format.DateFormat;
+import android.util.Log;
 
 import java.lang.reflect.Array;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by River on 2018/3/21.
@@ -61,10 +65,6 @@ public class buffer {
         Calendar mCal = Calendar.getInstance();
         CharSequence s = DateFormat.format("yyyy-MM-dd+kk:mm:ss", mCal.getTime());
         String time = s.toString();
-        return time;
-    }
-    public static long getLongTime() {
-        long time = System.currentTimeMillis()/1000;
         return time;
     }
     public static String getEmotion() {
