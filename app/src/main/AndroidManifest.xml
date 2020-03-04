@@ -64,6 +64,11 @@
                 <action android:name=".GPS.OffGPS"/>
             </intent-filter>
         </service>
+        <service android:name=".GPS.AlarmService">
+            <intent-filter android:priority="1000">
+                <action android:name=".GPS.AlarmService"/>
+            </intent-filter>
+        </service>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

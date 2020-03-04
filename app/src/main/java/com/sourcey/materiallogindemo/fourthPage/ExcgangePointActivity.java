@@ -119,7 +119,7 @@ public class ExcgangePointActivity extends AppCompatActivity {
                                                             String NewPointNum;
                                                             int NewintPointNum;
                                                             String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/PointExchangeUpd.php?at=" + myData + "&Pointnum=" +
-                                                                    (intPointNum - 100)+"&Ptn=1&time="+buffer.getTime());
+                                                                    (intPointNum - 100)+"&Ptn=1&time="+buffer.getTimeSP());
                                                             NewPointNum = LoadPointNum(myData);
                                                             NewintPointNum = Integer.valueOf(NewPointNum).intValue();
                                                             if (NewintPointNum + 100 == intPointNum) {
@@ -183,7 +183,7 @@ public class ExcgangePointActivity extends AppCompatActivity {
                                                             int NewintPointNum;
                                                             int manyPN = (intPointNum / 100) * 100;
                                                             String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/PointExchangeUpd.php?at=" + myData + "&Pointnum=" +
-                                                                    (intPointNum - manyPN)+"&Ptn="+(intPointNum/100)+"&time="+buffer.getTime());
+                                                                    (intPointNum - manyPN)+"&Ptn="+(intPointNum/100)+"&time="+buffer.getTimeSP());
                                                             NewPointNum = LoadPointNum(myData);
                                                             NewintPointNum = Integer.valueOf(NewPointNum).intValue();
                                                             if (NewintPointNum + manyPN == intPointNum) {

@@ -191,7 +191,7 @@ public class SQL {
             emotion, String type) {
         try {
             String[] t = emotion.split(",");
-            String query = "http://140.116.82.102:8080/app/upload_data.php?Account=" + account + "&time=" + time.replace(" ","+") + "&content=" + content + "&type="
+            String query = "http://140.116.82.102:8080/app/upload_data.php?Account=" + account + "&time=" + time.replace(" ","+") + "&content=" + content.replace(" ","+") + "&type="
                     + type + "&object_Anger=" + t[0] + "&object_Boredom=" + t[1] + "&object_Disgust=" + t[2] + "&object_Anxiety=" + t[3] + "&object_Happiness=" + t[4] + "&object_Sadness=" + t[5] + "&object_Surprised=" + t[6] + "";
             String result = DBConnector.executeQuery(query);
         } catch (Exception e) {
@@ -204,10 +204,10 @@ public class SQL {
         try {
             String[] t = emotion.split(",");
 
-            String query = "http://140.116.82.102:8080/app/InsertNewData.php?Account=" + account + "&time=" + time.replace(" ","+") + "&content=" + content + "&type="
+            String query = "http://140.116.82.102:8080/app/InsertNewData.php?Account=" + account + "&time=" + time.replace(" ","+") + "&content=" + content.replace(" ","+") + "&type="
                     + type + "&object_Anger=" + t[0] + "&object_Boredom=" + t[1] + "&object_Disgust=" + t[2] + "&object_Anxiety=" + t[3] +
                     "&object_Happiness=" + t[4] + "&object_Sadness=" + t[5] + "&object_Surprised=" + t[6] + "";
-            String result = DBConnector.executeQuery(query);
+                String result = DBConnector.executeQuery(query);
         } catch (Exception e) {
             Log.e("log_tag", e.toString());
         }

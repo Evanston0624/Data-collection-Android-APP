@@ -417,9 +417,9 @@ public class PhotosActivity extends AppCompatActivity {
                         sleeptime =
                                 sleepM + "-" +
                                         sleepdayspinner.getSelectedItem().toString() +
-                                        '+' +
+                                        " " +
                                         sleephourspinner.getSelectedItem().toString() +
-                                        ':' +
+                                        ":" +
                                         sleepminspinner.getSelectedItem().toString();
                     prepareADData();
                 }
@@ -661,7 +661,8 @@ public class PhotosActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     String writeEditTextValue = writeedittext.getText().toString();
 
-                    if (writeEditTextValue.replace("[\r\n\\s     　]", "").length() > 1) {
+//                    if (writeEditTextValue.replace("[\r\n\\s     　]", "").length() > 1) {
+                        if (writeEditTextValue.replaceAll("[\r\n\\s]", "").length() > 1) {
                         tvContent = writeEditTextValue;
                         icontype = "0";
                         word = writeEditTextValue;

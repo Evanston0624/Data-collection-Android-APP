@@ -33,6 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import com.sourcey.materiallogindemo.CheckService.checkservice;
+import com.sourcey.materiallogindemo.GPS.AlarmService;
 import com.sourcey.materiallogindemo.GPS.GPS;
 import com.sourcey.materiallogindemo.MYSQL.DBConnector;
 import com.sourcey.materiallogindemo.MYSQL.buffer;
@@ -69,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
     /**更新設定**/
     public String Url = "http://140.116.82.102:8080/app_webpage/app_dl/version_n.txt";
 
-    public String version_now = "16";//當前版本號
+    public String version_now = "17";//當前版本號
     //離線GPS系統 and 圖片優化
     @BindView(R.id.input_email)
     EditText _emailText;
@@ -387,6 +388,20 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     }
+    /*********************************************************************/
+//    private void startAlarmService(){
+//        boolean isRunning = checkservice.isServiceRunning(this,"com.sourcey.materiallogindemo.GPS.AlarmService");
+//        if (isRunning) {
+//        } else {
+//            Intent it = new Intent(LoginActivity.this, AlarmService.class);
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+//                startForegroundService(it);
+//            }
+//            else {
+//                startService(it); //開始Service
+//            }
+//        }
+//    }
     /***********************************確定帳號密碼是否正確*************************************/
     private void check_and_login(String account,String password,boolean TrueFalse){
         ConnectivityManager connectionManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);    //得到系統服務類
@@ -402,6 +417,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 //啟動Service
 //                startServicePhone();
+//                startAlarmService();
                 String path = Environment.getExternalStorageDirectory().getPath() + "/RDataR/";
 
                 isExist(AllRoot);

@@ -286,10 +286,14 @@ public class PointActivity extends AppCompatActivity {
         newrecyc(DA, DayWork);
     }
     private void newrecyc (int[] DA, int[] DayWork) {
+
         /**------------------------------創建Recyc------------------------------**/
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         String[] pointtext = getResources().getStringArray(R.array.PointText);
         String[] dayworktext = getResources().getStringArray(R.array.DayWork);
+
+        int[] pointnumsum = getResources().getIntArray(R.array.PointNumSum);
+
         List<Member> memberList = new ArrayList<>();
         for (int i = 0; i < 7;i++) {
             String str = dayworktext[i];
@@ -310,6 +314,7 @@ public class PointActivity extends AppCompatActivity {
         }
         for (int i = 0; i <= 26;i++) {
             String str = pointtext[i];
+            Integer str2 = pointnumsum[i];
             //-point Num-//
             if(i == 0){
                 str = (str + " = "+ DA[0]);
@@ -318,11 +323,11 @@ public class PointActivity extends AppCompatActivity {
             //-achievement-//
             else {
                 if(DA[i] == 0){
-                    memberList.add(new Member(i, R.drawable.nonpoint1, str));
+                    memberList.add(new Member(i, R.drawable.nonpoint1, str+"\nPoint : "+str2));
 
                 }
                 else{
-                    memberList.add(new Member(i, R.drawable.point1, str));
+                    memberList.add(new Member(i, R.drawable.point1, str+"\nPoint : "+str2));
 
                 }
             }
