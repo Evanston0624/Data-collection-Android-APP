@@ -192,7 +192,7 @@ public class SQL {
         try {
             String[] t = emotion.split(",");
             String query = "http://140.116.82.102:8080/app/upload_data.php?Account=" + account + "&time=" + time.replace(" ","+") + "&content=" + content.replace(" ","+") + "&type="
-                    + type + "&object_Anger=" + t[0] + "&object_Boredom=" + t[1] + "&object_Disgust=" + t[2] + "&object_Anxiety=" + t[3] + "&object_Happiness=" + t[4] + "&object_Sadness=" + t[5] + "&object_Surprised=" + t[6] + "";
+                    + type + "&object_Anger=" + t[0] + "&object_Boredom=" + t[1] + "&object_Disgust=" + t[2] + "&object_Anxiety=" + t[3] + "&object_Happiness=" + t[4] + "&object_Sadness=" + t[5] + "&object_Surprised=" + t[6];
             String result = DBConnector.executeQuery(query);
         } catch (Exception e) {
             Log.e("log_tag", e.toString());
@@ -206,21 +206,10 @@ public class SQL {
 
             String query = "http://140.116.82.102:8080/app/InsertNewData.php?Account=" + account + "&time=" + time.replace(" ","+") + "&content=" + content.replace(" ","+") + "&type="
                     + type + "&object_Anger=" + t[0] + "&object_Boredom=" + t[1] + "&object_Disgust=" + t[2] + "&object_Anxiety=" + t[3] +
-                    "&object_Happiness=" + t[4] + "&object_Sadness=" + t[5] + "&object_Surprised=" + t[6] + "";
+                    "&object_Happiness=" + t[4] + "&object_Sadness=" + t[5] + "&object_Surprised=" + t[6];
                 String result = DBConnector.executeQuery(query);
         } catch (Exception e) {
             Log.e("log_tag", e.toString());
-        }
-    }
-    public void InsertNewData_change(String account, String time, String content, String
-            emotion, String type) {
-        try{
-            String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/SelectInfHistory.php?at=" + account + "");
-            JSONArray jsonArray = new JSONArray(result);
-            JSONObject jsonData = jsonArray.getJSONObject(0);
-            String dwresult = jsonData.getString("count(*)");
-        } catch (JSONException e) {
-            Log.e("error DayWork time", e.toString());
         }
     }
 }

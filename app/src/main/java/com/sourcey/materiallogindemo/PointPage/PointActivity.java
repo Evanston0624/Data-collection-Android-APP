@@ -112,7 +112,7 @@ public class PointActivity extends AppCompatActivity {
         long[] month_pt_SCL = {7,30,60,90};
         long[] fool_proof_pt_SCL = {4,20,54,79};
         SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat sdf6 = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+        SimpleDateFormat sdf6 = new SimpleDateFormat("yyyy-MM-dd+kk:mm:ss");
 
         /**當前時間**/
         //當前
@@ -127,7 +127,7 @@ public class PointActivity extends AppCompatActivity {
         String segmentent = "";
         String segmentwkt = "";
         Date nowdate = new Date(nowtime);
-        String str  = (sdf.format(nowdate))+" 12:00:00";
+        String str  = (sdf.format(nowdate))+"+12:00:00";
 
         //週
         for (int i=0;i<=4;i++){

@@ -174,41 +174,42 @@ public class OffGPS extends Service {
         /**Old m**/
         @Override
         public void onLocationChanged(Location location) {
-//            if (!location.getProvider().equals("network")) {
-            speed = location.getSpeed();
-            /**Old m**/
-            //第一次進入，設置初始座標、時間
-            if(AllBegin){
-                startx = location.getLatitude();
-                starty = location.getLongitude();
-                starttime = Long.valueOf(location.getTime());
-                AllBegin = false;
-            }
-            if (firstGPStime) {//速度為0，且為本輪第一次偵測，設置每輪初始座標、時間
-                startx = location.getLatitude();
-                starty = location.getLongitude();
-                starttime = Long.valueOf(location.getTime());
-                firstGPStime = false;
-            } else {//速度不為0，紀錄每次座標及時間
-                endx = location.getLatitude();
-                endy = location.getLongitude();
-                endtime = Long.valueOf(location.getTime());
-                distance += speed;
-                //本輪速度一旦為0，zerotime++
-            }
-            //假設偵測時間達一分鐘，輸出資料並進入新的一輪偵測
-            if (endtime - starttime >= 30000) {
-                firstGPStime = true;
-                AllBegin = true;
-                update();
-                startx = endx;
-                starty = endy;
-                starttime = endtime;
-                endx = 0.0;
-                endy = 0.0;
-                endtime = 0;
-                distance = 0;
-                //假設本輪速度連續十秒為0，則輸出資料並進入新的一輪偵測
+            if (!location.getProvider().equals("network")) {
+                speed = location.getSpeed();
+                /**Old m**/
+                //第一次進入，設置初始座標、時間
+                if (AllBegin) {
+                    startx = location.getLatitude();
+                    starty = location.getLongitude();
+                    starttime = Long.valueOf(location.getTime());
+                    AllBegin = false;
+                }
+                if (firstGPStime) {//速度為0，且為本輪第一次偵測，設置每輪初始座標、時間
+                    startx = location.getLatitude();
+                    starty = location.getLongitude();
+                    starttime = Long.valueOf(location.getTime());
+                    firstGPStime = false;
+                } else {//速度不為0，紀錄每次座標及時間
+                    endx = location.getLatitude();
+                    endy = location.getLongitude();
+                    endtime = Long.valueOf(location.getTime());
+                    distance += speed;
+                    //本輪速度一旦為0，zerotime++
+                }
+                //假設偵測時間達一分鐘，輸出資料並進入新的一輪偵測
+                if (endtime - starttime >= 30000) {
+                    firstGPStime = true;
+                    AllBegin = true;
+                    update();
+                    startx = endx;
+                    starty = endy;
+                    starttime = endtime;
+                    endx = 0.0;
+                    endy = 0.0;
+                    endtime = 0;
+                    distance = 0;
+                    //假設本輪速度連續十秒為0，則輸出資料並進入新的一輪偵測
+                }
             }
         }
         @Override
@@ -255,7 +256,6 @@ public class OffGPS extends Service {
         ConnectivityManager connectionManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);    //得到系統服務類
         NetworkInfo networkInfo = connectionManager.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isAvailable() && GPSofflineNum == 0) {
-
         }else if(networkInfo != null && networkInfo.isAvailable() && GPSofflineNum !=0) {
             for (int i=0;i<GPSofflineNum;i++) {
                 String query = "http://140.116.82.102:8080/app/InsertNewGPSDataOffline.php?Account=" + saccount + "&speed=" + speedary.get(i) + "&startlat=" + stxary.get(i) +

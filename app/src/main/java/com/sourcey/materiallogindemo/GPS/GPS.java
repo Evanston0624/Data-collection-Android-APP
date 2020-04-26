@@ -175,11 +175,13 @@ public class GPS extends Service {
         /**Old m**/
         @Override
         public void onLocationChanged(Location location) {
-//            if (!location.getProvider().equals("network")) {
+            ConnectivityManager connectionManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);    //得到系統服務類
+            NetworkInfo networkInfo = connectionManager.getActiveNetworkInfo();
+            if (networkInfo != null && networkInfo.isAvailable()) {
                 speed = location.getSpeed();
                 /**Old m**/
                 //第一次進入，設置初始座標、時間
-                if(AllBegin){
+                if (AllBegin) {
                     startx = location.getLatitude();
                     starty = location.getLongitude();
                     starttime = Long.valueOf(location.getTime());
@@ -211,6 +213,7 @@ public class GPS extends Service {
                     distance = 0;
                     //假設本輪速度連續十秒為0，則輸出資料並進入新的一輪偵測
                 }
+            }
         }
         @Override
         public void onProviderDisabled(String provider) {

@@ -227,7 +227,7 @@ public class PhotosActivity extends AppCompatActivity {
                 time = Ltime.get(i);
                 int icon_int = Integer.parseInt(icon_type);
                 /**Emotion data**/
-                if (icon_int !=2  && icon_int !=4  && icon_int != 5 && icon_int != 6 && icon_int != 7 && icon_int != 8) {
+                if (icon_int !=2  && icon_int !=3 && icon_int !=4  && icon_int != 5 && icon_int != 6 && icon_int != 7 && icon_int != 8) {
                     String[] type = Lemotion.get(i).split(",");
                     int j = 0;
                     float Max = 0;
@@ -699,7 +699,6 @@ public class PhotosActivity extends AppCompatActivity {
 //                }
 //            });
             writealertdialog.show();
-
         }
     };
     private TextView pAngry, pBoredom, pDisgust, pAnxiety, pHappiness, pSadness, pSurprised;
@@ -735,7 +734,7 @@ public class PhotosActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     if (word == null)
                         word = " ";
-                    if (word.length() < 2)
+                    if (word.length() < 1)
                         icontype = "2";
                     else
                         icontype = "0";
@@ -1186,7 +1185,6 @@ public class PhotosActivity extends AppCompatActivity {
                         }
                     }
                 });
-
                 micalertdialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                     @Override
                     public void onCancel(DialogInterface dialog) {
@@ -1539,11 +1537,11 @@ public class PhotosActivity extends AppCompatActivity {
             yVals.add(new BarEntry(j, Float.valueOf(st) / Max * 100));
             j++;
         }
-
-        //set Data to SQL
-        SQL sql = new SQL();
-        sql.UpdateData(buffer.getAccount(), time, content, emotion, icontype);
-
+        if (icontype == "1") {
+            //set Data to SQL
+            SQL sql = new SQL();
+            sql.UpdateData(buffer.getAccount(), time, content, emotion, icontype);
+        }
         HashMap<String, List<String>> Subject = SQL.SelectSubject(buffer.getAccount(), str_wav);
         if (icontype == "1") {
             Calendar now_mCal = Calendar.getInstance();
@@ -1591,7 +1589,6 @@ public class PhotosActivity extends AppCompatActivity {
             // so that it will render the list with new data
             DataAdapter.notifyDataSetChanged();
             word = "";
-
             recyclerView.smoothScrollToPosition(DataList.size() - 1);
         }
     }

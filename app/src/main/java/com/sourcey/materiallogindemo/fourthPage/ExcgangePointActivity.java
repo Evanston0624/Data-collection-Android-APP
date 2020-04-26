@@ -222,7 +222,6 @@ public class ExcgangePointActivity extends AppCompatActivity {
                 }
         );
     }
-
     private void HistPoint() {
         HistPointButton = findViewById(R.id.HistPointButton);
         HistPointButton.setOnClickListener(
