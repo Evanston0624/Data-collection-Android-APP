@@ -96,7 +96,7 @@ public class SettingActivity extends AppCompatActivity {
                         } catch (Exception e) {
                             Log.e("error Load Point Data", e.toString());
                         }
-                        Uri uri=Uri.parse("https://goo.gl/forms/pCvfYzdEsMA8iF0a2");
+                                                                    Uri uri=Uri.parse("https://goo.gl/forms/pCvfYzdEsMA8iF0a2");
                         Intent intent=new Intent(Intent.ACTION_VIEW,uri);
                         startActivity(intent);
                     }

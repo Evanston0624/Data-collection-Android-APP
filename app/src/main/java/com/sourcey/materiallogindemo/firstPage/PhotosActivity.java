@@ -97,7 +97,7 @@ public class PhotosActivity extends AppCompatActivity {
     private SeekBar dayemotionseekBar;
     private Button dayemotionbutton, daysleepbutton, adCancel;
     private Spinner sleepdayspinner, sleephourspinner, sleepminspinner, updayspinner, uphourspinner, upminspinner, slorupselect;
-    private Integer progess;
+    private Integer progess, checkUploadNum;
     private String sleeptime, getuptime, alldayemotion, slorup;
     private AlertDialog.Builder adbuilder;
     private AlertDialog addialog;
@@ -366,7 +366,7 @@ public class PhotosActivity extends AppCompatActivity {
             dayemotionbutton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int checkUploadNum = checkUploadInfor(4);
+                    checkUploadNum = checkUploadInfor(2);
                     if (checkUploadNum != 0) {
                         new android.support.v7.app.AlertDialog.Builder(PhotosActivity.this).setTitle("更新舊的資訊")//設定視窗標題
                                 .setIcon(R.mipmap.ic_launcher)//設定對話視窗圖示
@@ -396,32 +396,111 @@ public class PhotosActivity extends AppCompatActivity {
                                 })
                                 .show();//呈現對話視窗
                     }else {
+                        UploadDayinfor = 0;
                         icontype = "4";
                         alldayemotion = String.valueOf(dayemotionseekBar.getProgress());
                         prepareADData();
                     }
-
-
                 }
             });
             /********************************每日睡眠********************************/
             daysleepbutton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                        slorup = slorupselect.getSelectedItem().toString();
-                        if (slorup.equals("起床時間"))
-                            icontype = "5";
-                        else if (slorup.equals("睡覺時間"))
-                            icontype = "8";
-                        String sleepM = buffer.getTimeM();
-                        sleeptime =
-                                sleepM + "-" +
-                                        sleepdayspinner.getSelectedItem().toString() +
-                                        " " +
-                                        sleephourspinner.getSelectedItem().toString() +
-                                        ":" +
-                                        sleepminspinner.getSelectedItem().toString();
-                    prepareADData();
+                    slorup = slorupselect.getSelectedItem().toString();
+                    int ct = 0;
+                    if (slorup.equals("起床時間")) {
+                        icontype = "5";
+                        ct = 3;
+                        checkUploadNum = checkUploadInfor(ct);
+                    } else if (slorup.equals("睡覺時間")) {
+                        icontype = "8";
+                        ct = 4;
+                        checkUploadNum = checkUploadInfor(ct);
+                    }
+                    String sleepM = buffer.getTimeM();
+                    if (checkUploadNum != 0 && ct == 3) {
+                        new android.support.v7.app.AlertDialog.Builder(PhotosActivity.this).setTitle("更新舊的資訊")//設定視窗標題
+                                .setIcon(R.mipmap.ic_launcher)//設定對話視窗圖示
+                                .setMessage("今天已經填過起床時間\n" + "\n" + "要修改舊的還是再傳一次呢?")
+                                .setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                })//設定結束的子視窗
+                                .setNegativeButton("修改舊的", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        UploadDayinfor = 1;
+                                        sleeptime = sleepM + "-" +
+                                                sleepdayspinner.getSelectedItem().toString() +
+                                                " " +
+                                                sleephourspinner.getSelectedItem().toString() +
+                                                ":" +
+                                                sleepminspinner.getSelectedItem().toString();
+                                        prepareADData();
+                                    }
+                                })
+                                .setNeutralButton("再傳一個", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        UploadDayinfor = 0;
+                                        sleeptime = sleepM + "-" +
+                                                sleepdayspinner.getSelectedItem().toString() +
+                                                " " +
+                                                sleephourspinner.getSelectedItem().toString() +
+                                                ":" +
+                                                sleepminspinner.getSelectedItem().toString();
+                                        prepareADData();
+                                    }
+                                })
+                                .show();//呈現對話視窗
+                    }else if (checkUploadNum != 0 && ct == 4) {
+                        new android.support.v7.app.AlertDialog.Builder(PhotosActivity.this).setTitle("更新舊的資訊")//設定視窗標題
+                                .setIcon(R.mipmap.ic_launcher)//設定對話視窗圖示
+                                .setMessage("今天已經填過睡覺時間\n" + "\n" + "要修改舊的還是再傳一次呢?")
+                                .setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                })//設定結束的子視窗
+                                .setNegativeButton("修改舊的", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        UploadDayinfor = 1;
+                                        sleeptime = sleepM + "-" +
+                                                sleepdayspinner.getSelectedItem().toString() +
+                                                " " +
+                                                sleephourspinner.getSelectedItem().toString() +
+                                                ":" +
+                                                sleepminspinner.getSelectedItem().toString();
+                                        prepareADData();
+                                    }
+                                })
+                                .setNeutralButton("再傳一個", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        UploadDayinfor = 0;
+                                        sleeptime = sleepM + "-" +
+                                                sleepdayspinner.getSelectedItem().toString() +
+                                                " " +
+                                                sleephourspinner.getSelectedItem().toString() +
+                                                ":" +
+                                                sleepminspinner.getSelectedItem().toString();
+                                        prepareADData();
+                                    }
+                                })
+                                .show();//呈現對話視窗
+                    } else {
+                        UploadDayinfor = 0;
+                        sleeptime = sleepM + "-" +
+                                sleepdayspinner.getSelectedItem().toString() +
+                                " " +
+                                sleephourspinner.getSelectedItem().toString() +
+                                ":" +
+                                sleepminspinner.getSelectedItem().toString();
+                        prepareADData();
+                    }
                 }
             });
 
@@ -441,14 +520,14 @@ public class PhotosActivity extends AppCompatActivity {
         nowtime = System.currentTimeMillis();
         Date date = new Date(nowtime+86400000);
         SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat sdf6 = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+        SimpleDateFormat sdf6 = new SimpleDateFormat("yyyy-MM-dd+kk:mm:ss");
         Date nowdate = new Date(nowtime);
         String segmentntt = "";
         String segmentstt = "";
         String segmentent = "";
         String segmentwkt = "";
         try {
-            String str  = (sdf.format(nowdate))+" 12:00:00";
+            String str  = (sdf.format(nowdate))+"+12:00:00";
             Date Comparisondate = sdf6.parse(str);
             long Comparisonlong = Comparisondate.getTime();
             if(nowdate.before(Comparisondate)){
@@ -1724,13 +1803,11 @@ public class PhotosActivity extends AppCompatActivity {
             String content = alldayemotion;
             /****/
             SQL sql1 = new SQL();
-            sql1.InsertNewData_new(buffer.getAccount(), time, content, emotion, icontype);
-//            if (UploadDayinfor == 0) {
-//                sql1.InsertNewData_new(buffer.getAccount(), time, content, emotion, icontype);
-//            } else if(UploadDayinfor == 1){
-//                sql1.InsertNewData_change(buffer.getAccount(), time, content, emotion, icontype);
-//            }
-
+            if (UploadDayinfor == 0) {
+                sql1.InsertNewData_new(buffer.getAccount(), time, content, emotion, icontype);
+            }else if (UploadDayinfor == 1) {
+                sql1.UpdateDailyData(buffer.getAccount(), content, emotion, icontype);
+            }
         }
         else if (icontype == "5" ||icontype == "8"){
             String content = sleeptime;
@@ -1738,7 +1815,11 @@ public class PhotosActivity extends AppCompatActivity {
 //            sql.UpdateData(buffer.getAccount(), time, content, emotion, icontype);
             /****/
             SQL sql1 = new SQL();
+            if (UploadDayinfor == 0) {
             sql1.InsertNewData_new(buffer.getAccount(), time, content, emotion, icontype);
+            }else if (UploadDayinfor == 1) {
+                sql1.UpdateDailyData(buffer.getAccount(), content, emotion, icontype);
+            }
         }
     }
 

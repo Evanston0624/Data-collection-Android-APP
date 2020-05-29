@@ -122,6 +122,7 @@ public class PointActivity extends AppCompatActivity {
 
         //Daywork
         int[] DayWork = {0,0,0,0,0,0,0};//Dayemotion,Daymood,Sleep,gitup,問卷
+        String[] DayWorkString = {"","","","","","",""};//Dayemotion,Daymood,Sleep,gitup,問卷
         String segmentntt = "";
         String segmentstt = "";
         String segmentent = "";
@@ -270,7 +271,7 @@ public class PointActivity extends AppCompatActivity {
         /***************************每日達成事項***************************/
         for(int i=1;i<7;i++){
             try {
-                String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/DayWork.php?at=" + myData + "&ict=" + i +
+                String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/DayWorkReturn.php?at=" + myData + "&ict=" + i +
                         "&stt=" + segmentstt + "&ent=" + segmentent + "&ntt=" + segmentntt + "&wkt=" + segmentwkt);
                 JSONArray jsonArray = new JSONArray(result);
                 JSONObject jsonData = jsonArray.getJSONObject(0);
@@ -278,14 +279,16 @@ public class PointActivity extends AppCompatActivity {
                 int intdwresult = Integer.valueOf(dwresult).intValue();
                 if (intdwresult != 0){
                     DayWork[i] = DayWork[i]+1;
+                    dwresult = jsonData.getString("write");
+                    DayWorkString[i] = DayWorkString[i]+dwresult;
                 }
             }catch (Exception e) {
                 Log.e("error Day Work", e.toString());
             }
         }
-        newrecyc(DA, DayWork);
+        newrecyc(DA, DayWork, DayWorkString);
     }
-    private void newrecyc (int[] DA, int[] DayWork) {
+    private void newrecyc (int[] DA, int[] DayWork, String[] DayWorkString) {
 
         /**------------------------------創建Recyc------------------------------**/
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
@@ -307,8 +310,8 @@ public class PointActivity extends AppCompatActivity {
 
                 }
                 else{
+                    str = str + " : "+DayWorkString[i];
                     memberList.add(new Member(i, R.drawable.daywork, str));
-
                 }
             }
         }

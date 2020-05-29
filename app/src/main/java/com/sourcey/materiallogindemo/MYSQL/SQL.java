@@ -212,4 +212,19 @@ public class SQL {
             Log.e("log_tag", e.toString());
         }
     }
+    public void UpdateDailyData(String account, String content, String
+            emotion, String type) {
+        try {
+            String[] t = emotion.split(",");
+            String query = "http://140.116.82.102:8080/app/SelectInfDaily.php?at=" + account + "&type=" +type;
+            String result = DBConnector.executeQuery(query);
+            JSONArray jsonArray = new JSONArray(result);
+            JSONObject jsonData = jsonArray.getJSONObject(0);
+            String dtresult = jsonData.getString("Datetime");
+            query = "http://140.116.82.102:8080/app/UpdateDailyData.php?at=" + account + "&time=" + dtresult.replace(" ","+") + "&content=" + content.replace(" ","+");
+            result = DBConnector.executeQuery(query);
+        } catch (Exception e) {
+            Log.e("log_tag", e.toString());
+        }
+    }
 }
