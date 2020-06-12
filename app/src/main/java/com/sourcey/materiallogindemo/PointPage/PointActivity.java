@@ -81,7 +81,7 @@ public class PointActivity extends AppCompatActivity {
         /**讀取Point資料**/
         String[] pointloadvalue = getResources().getStringArray(R.array.PointLoadValue);
         int[] pointnumsum = getResources().getIntArray(R.array.PointNumSum);
-        int[] pointif = getResources().getIntArray(R.array.PointIf);
+        int[] pointif = getResources().getIntArray(R.array.PointInf);
         int[] DA = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
         try {
             String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/checkAccount.php?at="+myData+"&pw=0");
@@ -269,22 +269,40 @@ public class PointActivity extends AppCompatActivity {
             Log.e("error DayWork time", e.toString());
         }
         /***************************每日達成事項***************************/
+
         for(int i=1;i<7;i++){
-            try {
-                String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/DayWorkReturn.php?at=" + myData + "&ict=" + i +
-                        "&stt=" + segmentstt + "&ent=" + segmentent + "&ntt=" + segmentntt + "&wkt=" + segmentwkt);
-                JSONArray jsonArray = new JSONArray(result);
-                JSONObject jsonData = jsonArray.getJSONObject(0);
-                String dwresult = jsonData.getString("count(*)");
-                int intdwresult = Integer.valueOf(dwresult).intValue();
-                if (intdwresult != 0){
-                    DayWork[i] = DayWork[i]+1;
-                    dwresult = jsonData.getString("write");
-                    DayWorkString[i] = DayWorkString[i]+dwresult;
+            String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/DayWorkReturn.php?at=" + myData + "&ict=" + i +
+                    "&stt=" + segmentstt + "&ent=" + segmentent + "&ntt=" + segmentntt + "&wkt=" + segmentwkt);
+            if (i >=2 && i <=4) {
+                try {
+                    JSONArray jsonArray = new JSONArray(result);
+                    JSONObject jsonData = jsonArray.getJSONObject(0);
+                    String dwresult = jsonData.getString("Datetime");
+
+                    if (dwresult != ""){
+                        DayWork[i] = DayWork[i]+1;
+                        dwresult = jsonData.getString("write");
+                        DayWorkString[i] = DayWorkString[i]+dwresult;
+                    }
+                }catch (Exception e) {
+                    Log.e("error Day Work", e.toString());
                 }
-            }catch (Exception e) {
-                Log.e("error Day Work", e.toString());
+            }else{
+                try {
+                    JSONArray jsonArray = new JSONArray(result);
+                    JSONObject jsonData = jsonArray.getJSONObject(0);
+                    String dwresult = jsonData.getString("count(*)");
+                    int intdwresult = Integer.valueOf(dwresult).intValue();
+                    if (intdwresult != 0){
+                        DayWork[i] = DayWork[i]+1;
+                        dwresult = jsonData.getString("write");
+                        DayWorkString[i] = DayWorkString[i]+dwresult;
+                    }
+                }catch (Exception e) {
+                    Log.e("error Day Work", e.toString());
+                }
             }
+
         }
         newrecyc(DA, DayWork, DayWorkString);
     }

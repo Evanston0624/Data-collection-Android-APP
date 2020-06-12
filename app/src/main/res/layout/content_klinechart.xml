@@ -25,12 +25,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30px"
-                android:text="情緒"
+                android:text="@string/ChartDailyMood"
                 android:textSize="25dp" />
 
             <com.sourcey.materiallogindemo.twicePage.KLineChart
-                android:id="@+id/chartEmotion"
+                android:id="@+id/chartDailyMood"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_centerHorizontal="true"
@@ -40,11 +39,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="通話次數"
+                android:text="@string/ChartSleep"
                 android:textSize="25dp" />
 
             <com.sourcey.materiallogindemo.twicePage.KLineChart
-                android:id="@+id/chartPhoneTimes"
+                android:id="@+id/chartSleep"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_centerHorizontal="true"
@@ -54,21 +53,20 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="通話秒數"
+                android:text="@string/ChartGetup"
                 android:textSize="25dp" />
 
             <com.sourcey.materiallogindemo.twicePage.KLineChart
-                android:id="@+id/chartPhoneSeconds"
+                android:id="@+id/chartGetup"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 tools:scaleX="100"></com.sourcey.materiallogindemo.twicePage.KLineChart>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="GPS行動距離"
+                android:text="@string/ChartGPS"
                 android:textSize="25dp" />
 
             <com.sourcey.materiallogindemo.twicePage.KLineChart
@@ -77,8 +75,7 @@
                 android:layout_height="200dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                tools:scaleX="100"
-                ></com.sourcey.materiallogindemo.twicePage.KLineChart>
+                tools:scaleX="100"></com.sourcey.materiallogindemo.twicePage.KLineChart>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </RelativeLayout>

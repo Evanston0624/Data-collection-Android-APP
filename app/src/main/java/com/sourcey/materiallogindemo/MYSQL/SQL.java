@@ -220,9 +220,10 @@ public class SQL {
             String result = DBConnector.executeQuery(query);
             JSONArray jsonArray = new JSONArray(result);
             JSONObject jsonData = jsonArray.getJSONObject(0);
-            String dtresult = jsonData.getString("Datetime");
+            String dtresult = jsonData.getString("datetime");
             query = "http://140.116.82.102:8080/app/UpdateDailyData.php?at=" + account + "&time=" + dtresult.replace(" ","+") + "&content=" + content.replace(" ","+");
             result = DBConnector.executeQuery(query);
+            int cc= 1;
         } catch (Exception e) {
             Log.e("log_tag", e.toString());
         }

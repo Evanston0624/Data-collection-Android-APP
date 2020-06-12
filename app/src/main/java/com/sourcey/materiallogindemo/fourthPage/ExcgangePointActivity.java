@@ -45,7 +45,6 @@ public class ExcgangePointActivity extends AppCompatActivity {
     private static Toast Toast;
     private static TextView ToastText;
 
-    private String myData = "";
     private String PointNum = "";
     private Integer intPointNum = 0;
     ArrayAdapter <String> adapter;
@@ -63,10 +62,8 @@ public class ExcgangePointActivity extends AppCompatActivity {
                 ExcgangePointActivity.this.finish();
             }
         });
-        /**LoadAccount**/
-        myData = buffer.getAccount();
         /**LoadPointNum**/
-        PointNum = LoadPointNum(myData);
+        PointNum = LoadPointNum(buffer.getAccount());
         intPointNum = Integer.valueOf(PointNum).intValue();
         /**SetPointNumText**/
         SetTextView(PointNum);
@@ -118,9 +115,14 @@ public class ExcgangePointActivity extends AppCompatActivity {
                                                         public void onClick(DialogInterface dialog, int which) {
                                                             String NewPointNum;
                                                             int NewintPointNum;
-                                                            String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/PointExchangeUpd.php?at=" + myData + "&Pointnum=" +
-                                                                    (intPointNum - 100)+"&Ptn=1&time="+buffer.getTimeSP());
-                                                            NewPointNum = LoadPointNum(myData);
+                                                            String dtresult = "";
+                                                            try {
+                                                                String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/PointExchangeUpd.php?at=" + buffer.getAccount() + "&Pointnum=" +
+                                                                        (intPointNum - 100) + "&Ptn=1&time=" + buffer.getTimeSP());
+                                                            }catch(Exception e){
+
+                                                            }
+                                                            NewPointNum = LoadPointNum(buffer.getAccount());
                                                             NewintPointNum = Integer.valueOf(NewPointNum).intValue();
                                                             if (NewintPointNum + 100 == intPointNum) {
                                                                 /**設置PointNumText**/
@@ -182,9 +184,9 @@ public class ExcgangePointActivity extends AppCompatActivity {
                                                             String NewPointNum;
                                                             int NewintPointNum;
                                                             int manyPN = (intPointNum / 100) * 100;
-                                                            String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/PointExchangeUpd.php?at=" + myData + "&Pointnum=" +
+                                                            String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/PointExchangeUpd.php?at=" + buffer.getAccount() + "&Pointnum=" +
                                                                     (intPointNum - manyPN)+"&Ptn="+(intPointNum/100)+"&time="+buffer.getTimeSP());
-                                                            NewPointNum = LoadPointNum(myData);
+                                                            NewPointNum = LoadPointNum(buffer.getAccount());
                                                             NewintPointNum = Integer.valueOf(NewPointNum).intValue();
                                                             if (NewintPointNum + manyPN == intPointNum) {
                                                                     /**設置PointNumText**/

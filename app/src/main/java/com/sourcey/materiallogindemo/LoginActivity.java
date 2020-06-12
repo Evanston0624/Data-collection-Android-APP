@@ -69,8 +69,7 @@ public class LoginActivity extends AppCompatActivity {
 
     /**更新設定**/
     public String Url = "http://140.116.82.102:8080/app_webpage/app_dl/version_n.txt";
-
-    public String version_now = "17";//當前版本號
+    public String version_now = "2.0";//當前版本號
     //離線GPS系統 and 圖片優化
     @BindView(R.id.input_email)
     EditText _emailText;
@@ -96,8 +95,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-
-        //初始化
+        TextView versionView=(TextView)findViewById(R.id.versionView);        //初始化
+        versionView.setText("版本號:"+version_now);
         isclicked = true;
         issigned = true;
 

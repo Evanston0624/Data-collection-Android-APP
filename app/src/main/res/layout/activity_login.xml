@@ -71,5 +71,11 @@
             android:gravity="center"
             android:textSize="16dip"/>
 
+        <TextView
+            android:id="@+id/versionView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="" />
+
     </LinearLayout>
 </ScrollView>

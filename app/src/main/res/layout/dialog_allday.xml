@@ -32,8 +32,8 @@
         android:layout_height="50dp"
         android:layout_below="@+id/dayemotionseekBar"
         android:layout_alignEnd="@+id/dayemotionseekBar"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="-1dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="0dp"
         app:srcCompat="@drawable/positive" />
 
     <ImageView
@@ -43,7 +43,7 @@
         android:layout_below="@+id/dayemotionseekBar"
         android:layout_alignStart="@+id/dayemotionseekBar"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="20dp"
         app:srcCompat="@drawable/negative" />
 
     <SeekBar
@@ -58,12 +58,13 @@
 
     <Button
         android:id="@+id/dayemotionbutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="47dp"
         android:layout_below="@+id/dayemotionseekBar"
-        android:layout_alignStart="@+id/bdimageView"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="0dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_toStartOf="@+id/positive"
+        android:layout_toEndOf="@+id/negative"
         android:text="送出每日情緒" />
     <!--sleeping time============================================================================-->
     <ImageView
@@ -71,25 +72,33 @@
         android:layout_width="match_parent"
         android:layout_height="51dp"
         android:layout_below="@+id/dayemotionbutton"
-        android:layout_marginTop="-4dp"
+        android:layout_marginTop="4dp"
         app:srcCompat="@drawable/sleep" />
-
     <Spinner
-        android:id="@+id/slupspinner"
-        android:layout_width="138dp"
+        android:id="@+id/sleepmonspinner"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/sleepimageView"
-        android:layout_alignStart="@+id/sleepdayspinner"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:entries="@array/sleepandgetup" />
+        android:layout_marginTop="20dp"
+        android:entries="@array/monarray" />
 
+    <TextView
+        android:id="@+id/sleepmontextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sleepimageView"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_toEndOf="@+id/sleepmonspinner"
+        android:text="月" />
     <Spinner
         android:id="@+id/sleepdayspinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/sleepimageView"
-        android:layout_marginTop="30dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_toEndOf="@+id/sleepmontextView"
         android:entries="@array/dayarray" />
 
     <TextView
@@ -97,38 +106,37 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/sleepimageView"
-        android:layout_marginStart="-10dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="20dp"
         android:layout_toEndOf="@+id/sleepdayspinner"
         android:text="日" />
 
     <Spinner
         android:id="@+id/sleephourspinner"
-        android:layout_width="85dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/sleepimageView"
+        android:layout_below="@+id/sleepmonspinner"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="30dp"
-        android:layout_toEndOf="@+id/sleepdaytextView"
+        android:layout_marginTop="15dp"
         android:entries="@array/hourarray" />
 
     <TextView
         android:id="@+id/sleephourtextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/sleepimageView"
-        android:layout_marginStart="-10dp"
-        android:layout_marginTop="30dp"
+        android:layout_below="@+id/sleepmontextView"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="20dp"
         android:layout_toEndOf="@+id/sleephourspinner"
         android:text="時" />
 
     <Spinner
         android:id="@+id/sleepminspinner"
-        android:layout_width="85dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/sleepimageView"
+        android:layout_below="@+id/sleepdayspinner"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="15dp"
         android:layout_toEndOf="@+id/sleephourtextView"
         android:entries="@array/minarray" />
 
@@ -136,9 +144,9 @@
         android:id="@+id/sleepmintextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/sleepimageView"
-        android:layout_marginStart="-10dp"
-        android:layout_marginTop="30dp"
+        android:layout_below="@+id/sleepmontextView"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="20dp"
         android:layout_toEndOf="@+id/sleepminspinner"
         android:text="分" />
 
@@ -148,10 +156,20 @@
         android:id="@+id/daysleepbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/sleephourspinner"
-        android:layout_alignStart="@+id/sleepimageView"
-        android:layout_marginStart="100dp"
+        android:layout_below="@+id/sleepminspinner"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="2dp"
+        android:layout_toEndOf="@+id/daygetupbutton"
         android:text="送出睡眠時間" />
+
+    <Button
+        android:id="@+id/daygetupbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sleepminspinner"
+        android:layout_alignStart="@+id/sleepimageView"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="2dp"
+        android:text="送出起床時間" />
     <requestFocus />
 </RelativeLayout>

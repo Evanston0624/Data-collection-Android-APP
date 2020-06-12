@@ -19,7 +19,7 @@ public class buffer {
     private static String account;
     private static String password;
     private static String alert_question_voice;
-    private static ArrayList<String[]> Emotions, phoneSeconds, phoneTimes, GPS;
+    private static ArrayList<String[]> dailyMood, sleepTime, getupTime, GPS;
     private static int type = 1,Max = 0,count=1;
 
     public static void setname(String Sname) {
@@ -37,9 +37,9 @@ public class buffer {
     public static void setgetcount(){ count++;}
 
     public static void setArraList(ArrayList<ArrayList<String[]>> arraList) {
-        Emotions = arraList.get(0);
-        phoneSeconds = arraList.get(1);
-        phoneTimes = arraList.get(2);
+        dailyMood = arraList.get(0);
+        sleepTime = arraList.get(1);
+        getupTime = arraList.get(2);
         GPS = arraList.get(3);
     }
 
@@ -57,7 +57,7 @@ public class buffer {
     }
     public static String getTimeM() {
         Calendar mCal = Calendar.getInstance();
-        CharSequence s = DateFormat.format("yyyy-MM", mCal.getTime());
+        CharSequence s = DateFormat.format("yyyy", mCal.getTime());
         String time = s.toString();
         return time;
     }
@@ -97,11 +97,11 @@ public class buffer {
     public static ArrayList<String[]> getArrayList() {
         switch (type) {
             case 1:
-                return Emotions;
+                return dailyMood;
             case 2:
-                return phoneSeconds;
+                return sleepTime;
             case 3:
-                return phoneTimes;
+                return getupTime;
             case 4:
                 return GPS;
             default:

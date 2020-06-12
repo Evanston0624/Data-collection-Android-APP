@@ -81,6 +81,13 @@
     <string name="cancel">Cancel</string>
     <string name="alarm_settings">新的鬧鐘</string>
 
+    "<!--//Chart//-->
+    <string name="ChartEmotion">情緒</string>
+    <string name="ChartDailyMood">每日情緒</string>
+    <string name="ChartSleep">睡眠時間</string>
+    <string name="ChartGetup">起床時間</string>
+    <string name="ChartLong">睡了多久</string>
+    <string name="ChartGPS">GPS</string>
     "<!--//Exhange//-->
     <string name="ExPointOne">兌換一張</string>
     <string name="ExPointAll">兌換全部</string>
@@ -99,7 +106,11 @@
         <string-array name="sleepandgetup">
             <item>起床時間</item><item>睡覺時間</item>
         </string-array>
-
+        <string-array name="monarray">
+            <item>01</item><item>02</item><item>03</item><item>04</item><item>05</item>
+            <item>06</item><item>07</item><item>08</item><item>09</item><item>10</item>
+            <item>11</item><item>12</item>
+        </string-array>
         <string-array name="dayarray">
             <item>01</item><item>02</item><item>03</item><item>04</item><item>05</item>
             <item>06</item><item>07</item><item>08</item><item>09</item><item>10</item>
@@ -202,7 +213,7 @@
         <item>20</item><item>30</item><item>50</item><item>70</item><item>100</item>
     </integer-array>
 
-    <integer-array name="PointIf">
+    <integer-array name="PointInf">
         <item>0</item>
         <item>1</item>
         <item>1</item>

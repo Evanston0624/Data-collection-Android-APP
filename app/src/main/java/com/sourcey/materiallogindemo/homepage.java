@@ -23,6 +23,7 @@ import com.sourcey.materiallogindemo.GPS.OffGPS;
 import com.sourcey.materiallogindemo.PointPage.PointActivity;
 import com.sourcey.materiallogindemo.firstPage.PhotosActivity;
 import com.sourcey.materiallogindemo.fourthPage.SettingActivity;
+import com.sourcey.materiallogindemo.twicePage.SongsActivity;
 
 public class homepage extends TabActivity {
     TabHost tabHost;
@@ -43,7 +44,7 @@ public class homepage extends TabActivity {
         /**接收帳號**/
 
 
-        firstRun();
+        //firstRun();
         initGPS();
         startService();
         tabHost = getTabHost();
@@ -55,17 +56,17 @@ public class homepage extends TabActivity {
         Intent photosIntent = new Intent(this, PhotosActivity.class);
         photoed.setContent(photosIntent);
 
-//        // Tab for Songs
-//        TabSpec songster = tabHost.newTabSpec("Songs");
-//        songster.setIndicator("", getResources().getDrawable(R.drawable.icon_songs_tab));
-//        Intent songsIntent = new Intent(this, SongsActivity.class);
-//        songster.setContent(songsIntent);
+        // Tab for Songs
+        TabSpec songster = tabHost.newTabSpec("Songs");
+        songster.setIndicator("", getResources().getDrawable(R.drawable.icon_songs_tab));
+        Intent songsIntent = new Intent(this, SongsActivity.class);
+        songster.setContent(songsIntent);
 
-        // Tab for feedback
-        TabSpec feedbacked = tabHost.newTabSpec("Feedback");
-        feedbacked.setIndicator("", getResources().getDrawable(R.drawable.icon_songs_tab));
-        Intent feedbackIntent = new Intent(this, FeedbackActivity.class);
-        feedbacked.setContent(feedbackIntent);
+//        // Tab for feedback
+//        TabSpec feedbacked = tabHost.newTabSpec("Feedback");
+//        feedbacked.setIndicator("", getResources().getDrawable(R.drawable.icon_songs_tab));
+//        Intent feedbackIntent = new Intent(this, FeedbackActivity.class);
+//        feedbacked.setContent(feedbackIntent);
 
         // Tab for Videos
         TabSpec point = tabHost.newTabSpec("Point");
@@ -81,8 +82,8 @@ public class homepage extends TabActivity {
 
         // Adding all TabSpec to TabHost
         tabHost.addTab(photoed); // Adding photos tab
-//        tabHost.addTab(songster); // Adding songs tab
-        tabHost.addTab(feedbacked); // Adding songs tab
+        tabHost.addTab(songster); // Adding songs tab
+//        tabHost.addTab(feedbacked); // Adding songs tab
         tabHost.addTab(point); // Adding videos tab
         tabHost.addTab(seta); // Adding videos tab
     }

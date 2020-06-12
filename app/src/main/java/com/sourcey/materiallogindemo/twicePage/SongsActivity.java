@@ -47,23 +47,24 @@ public class SongsActivity extends AppCompatActivity {
     private void get() throws JSONException {
         buffer.typezero();
 
-        //取情緒資料
-        ArrayList<String[]> Emotions = getInf(1);
-        chart_emotoin(Emotions);
+        //DailyMood
+        ArrayList<String[]> dailyMood = getInf(1);
+        chart_dailyMood(dailyMood);
         buffer.typeadd();
 
-        //取打電話秒數資料
-        ArrayList<String[]> phoneSeconds = getInf(2);
-        chart_phoneSeconds(phoneSeconds);
+        //Sleep
+        ArrayList<String[]> sleepTime = getInf(2);
+        chart_sleepTime(sleepTime);
         buffer.typeadd();
 
-        //取打電話次數資料
-        ArrayList<String[]> phoneTimes = getInf(3);
-        chart_phoneTimes(phoneTimes);
+        //Getup
+        ArrayList<String[]> getupTime = getInf(3);
+        chart_getupTime(getupTime);
         buffer.typeadd();
 
         //取GPS資料
         ArrayList<String[]> GPS = getInf(4);
+        chart_GPS(GPS);
         /*
         if(GPS==null){
             for(int i = 0;i < GPS.size();i++){
@@ -90,22 +91,20 @@ public class SongsActivity extends AppCompatActivity {
             GPS = new_GPS;
             buffer.setGPSData(GPS);
         }*/
-        chart_GPS(GPS);
-
         ArrayList<ArrayList<String[]>> arrayList = new ArrayList<>();
-        arrayList.add(Emotions);
-        arrayList.add(phoneSeconds);
-        arrayList.add(phoneTimes);
+        arrayList.add(dailyMood);
+        arrayList.add(sleepTime);
+        arrayList.add(getupTime);
         arrayList.add(GPS);
         buffer.setArraList(arrayList);
     }
 
-    private void chart_emotoin(ArrayList<String[]> Emotions) {
+    private void chart_dailyMood(ArrayList<String[]> dailyMood) {
         final EntryData data = new EntryData();
 
         int i = 0;
         //value = -194 + (x * 102)
-        for (String[] dataarray : Emotions) {
+        for (String[] dataarray : dailyMood) {
             if (dataarray[1] == null || dataarray[1].equals("null")) {
             } else {
                 float mult = -194 + (Float.valueOf(dataarray[1]) * 102);
@@ -131,16 +130,16 @@ public class SongsActivity extends AppCompatActivity {
             }
         }
 
-        final KLineChart chart = (KLineChart) findViewById(R.id.chartEmotion);
-        chart.setData(data, Emotions);
+        final KLineChart chart = (KLineChart) findViewById(R.id.chartDailyMood);
+        chart.setData(data, dailyMood);
     }
 
-    private void chart_phoneSeconds(ArrayList<String[]> phoneSeconds) {
+    private void chart_sleepTime(ArrayList<String[]> sleepTime) {
         final EntryData data = new EntryData();
 
         int i = 0;
         //value = -194 + (x * 102)
-        for (String[] dataarray : phoneSeconds) {
+        for (String[] dataarray : sleepTime) {
             float mult = -194 + (Float.valueOf(dataarray[1]) * 102);
             float val = (float) (1 * 40) + mult;
 
@@ -162,16 +161,16 @@ public class SongsActivity extends AppCompatActivity {
             i++;
         }
 
-        final KLineChart chart = (KLineChart) findViewById(R.id.chartPhoneSeconds);
-        chart.setData(data, phoneSeconds);
+        final KLineChart chart = (KLineChart) findViewById(R.id.chartSleep);
+        chart.setData(data, sleepTime);
     }
 
-    private void chart_phoneTimes(ArrayList<String[]> phoneTimes) {
+    private void chart_getupTime(ArrayList<String[]> getupTime) {
         final EntryData data = new EntryData();
 
         int i = 0;
         //value = -194 + (x * 102)
-        for (String[] dataarray : phoneTimes) {
+        for (String[] dataarray : getupTime) {
             float mult = -194 + (Float.valueOf(dataarray[1]) * 102);
 
             float val = (float) (1 * 40) + mult;
@@ -194,10 +193,9 @@ public class SongsActivity extends AppCompatActivity {
             i++;
         }
 
-        final KLineChart chart = (KLineChart) findViewById(R.id.chartPhoneTimes);
-        chart.setData(data, phoneTimes);
+        final KLineChart chart = (KLineChart) findViewById(R.id.chartGetup);
+        chart.setData(data, getupTime);
     }
-
     private void chart_GPS(ArrayList<String[]> GPS) {
         final EntryData data = new EntryData();
 
@@ -205,6 +203,7 @@ public class SongsActivity extends AppCompatActivity {
         //value = -194 + (x * 102)
         for (String[] dataarray : GPS) {
             float mult = -194 + (Float.valueOf(dataarray[1]) * 102);
+//            float mult = -194 + (Float.valueOf(dataarray[1]) * 1);
 
             float val = (float) (1 * 40) + mult;
 
@@ -232,7 +231,7 @@ public class SongsActivity extends AppCompatActivity {
 
     //按下返回鍵回到homepage畫面
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    public boolean onKeyDown(int keyCode, KeyEvent event){
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) { // 按下的如果是BACK，同时没有重复
             // Finish the registration screen and return to the Login activity
             Intent intent = new Intent(getApplicationContext(), homepage.class);
@@ -275,7 +274,7 @@ public class SongsActivity extends AppCompatActivity {
         switch (type) {
             case 1:
                 ArrayList<String[]> data = new ArrayList<String[]>();
-                result = DBConnector.executeQuery("http://140.116.82.102:8080/app/SelectInf.php?at=" + buffer.getAccount() + "");
+                result = DBConnector.executeQuery("http://140.116.82.102:8080/app/SelectInfChart.php?at=" + buffer.getAccount() + "&ict=1");
                 if (result.contains("<b>Notice</b>:")) {
                     //直接添加七筆，以免沒資料出錯
                     for (int i = 0; i < 5; i++) {
@@ -293,19 +292,20 @@ public class SongsActivity extends AppCompatActivity {
                         JSONObject jsonData;
 
                         //直接添加七筆，以免沒資料出錯
-                        for (int i = 0; i < 5; i++) {
-                            String[] dataarray = new String[2];
-                            dataarray[0] = "`-`-` 00:00:00";
-                            dataarray[1] = "0";
-                            data.add(dataarray);
+                        if (jsonArray.length()<=7) {
+                            for (int i = 0; i < 5; i++) {
+                                String[] dataarray = new String[2];
+                                dataarray[0] = "`-`-` 00:00:00";
+                                dataarray[1] = "0";
+                                data.add(dataarray);
+                            }
                         }
-
                         //取數據
                         for (int i = 0; i < jsonArray.length(); i++) {
                             jsonData = jsonArray.getJSONObject(i);
                             String[] dataarray = new String[2];
                             dataarray[0] = jsonData.getString("Datetime");
-                            dataarray[1] = jsonData.getString("subject_Happiness");
+                            dataarray[1] = jsonData.getString("write");
                             data.add(dataarray);
                         }
 
@@ -318,15 +318,8 @@ public class SongsActivity extends AppCompatActivity {
                 }
                 return data;
             case 2:
-                /*
-                取打電話秒數 second
-                每日總和
-                */
                 ArrayList<String[]> data2 = new ArrayList<String[]>();
-                ArrayList<String> date2 = new ArrayList<String>();
-                String sdate;
-                HashMap<String, Integer> sdateList = new HashMap<String, Integer>();
-                result = DBConnector.executeQuery("http://140.116.82.102:8080/app/Selectphone.php?at=" + buffer.getAccount() + "");
+                result = DBConnector.executeQuery("http://140.116.82.102:8080/app/SelectInfChart.php?at=" + buffer.getAccount() + "&ict=2");
                 if (result.contains("<b>Notice</b>:")) {
                     //直接添加七筆，以免沒資料出錯
                     for (int i = 0; i < 5; i++) {
@@ -343,70 +336,46 @@ public class SongsActivity extends AppCompatActivity {
                         JSONArray jsonArray = new JSONArray(result);
                         JSONObject jsonData;
 
+                        //直接添加七筆，以免沒資料出錯
+                        if (jsonArray.length()<=7) {
+                            for (int i = 0; i < 5; i++) {
+                                String[] dataarray2 = new String[2];
+                                dataarray2[0] = "`-`-` 00:00:00";
+                                dataarray2[1] = "0";
+                                data2.add(dataarray2);
+                            }
+                        }
                         //取數據
-                        int max = 0;
                         for (int i = 0; i < jsonArray.length(); i++) {
                             jsonData = jsonArray.getJSONObject(i);
-                            sdate = jsonData.getString("date").toString().split(" ")[0];
-
-                            if (sdateList.containsKey(sdate)) {
-                                String svalue = jsonData.getString("second").toString();
-                                int value = sdateList.get(sdate);
-                                value += Integer.valueOf(svalue);
-                                sdateList.put(sdate, value);
-
-                                if (Integer.valueOf(svalue) > max)
-                                    max = Integer.valueOf(svalue);
-                            } else {
-                                String svalue = jsonData.getString("second").toString();
-                                sdateList.put(sdate, Integer.valueOf(svalue));
-
-                                if (Integer.valueOf(svalue) > max)
-                                    max = Integer.valueOf(svalue);
-                            }
-                            if (!date2.contains(sdate))
-                                date2.add(sdate);
-                        }
-
-                        //list前後顛倒
-                        for (int i = date2.size() - 1; i >= 0; i--) {
-                            String key = date2.get(i);
-                            float value = sdateList.get(key);
                             String[] dataarray2 = new String[2];
-                            dataarray2[0] = key;
-                            dataarray2[1] = String.valueOf(value);
+                            dataarray2[0] = jsonData.getString("Datetime");
+                            String subTest = jsonData.getString("write");
+                            String string_1 = subTest.substring(11, 13);
+                            double dhour = Double.valueOf(string_1).doubleValue();
+                            String string_2 = subTest.substring(14, 16);
+                            double dmin = Double.valueOf(string_2).doubleValue();
+                            String StrTime = String.valueOf(dhour+(dmin/60));
+                            dataarray2[1] = StrTime;
+
                             data2.add(dataarray2);
                         }
 
-                        //直接添加七筆，以免沒資料出錯
-                        for (int i = 0; i < 5; i++) {
-                            String[] dataarray2 = new String[2];
-                            dataarray2[0] = "`-`-` 00:00:00";
-                            dataarray2[1] = "0";
-                            data2.add(dataarray2);
-                        }
-
-                        buffer.Renderer_Max(Integer.valueOf(String.valueOf(max)) + 1);
+                        Collections.reverse(data2);
+                        buffer.Renderer_Max(4);
                         System.out.println(data2.size());
                     } catch (Exception e) {
                         Log.e("log_tag", e.toString());
                     }
                 }
                 return data2;
-
             case 3:
-                /*
-                計算每日打電話 次數
-                */
                 ArrayList<String[]> data3 = new ArrayList<String[]>();
-                ArrayList<String> date3 = new ArrayList<String>();
-                String ssdate;
-                HashMap<String, Integer> ssdateList = new HashMap<String, Integer>();
-                result = DBConnector.executeQuery("http://140.116.82.102:8080/app/Selectphone.php?at=" + buffer.getAccount() + "");
+                result = DBConnector.executeQuery("http://140.116.82.102:8080/app/SelectInfChart.php?at=" + buffer.getAccount() + "&ict=3");
                 if (result.contains("<b>Notice</b>:")) {
                     //直接添加七筆，以免沒資料出錯
                     for (int i = 0; i < 5; i++) {
-                        String[] dataarray3 = new String[2];
+                        String[] dataarray3= new String[2];
                         dataarray3[0] = "`-`-` 00:00:00";
                         dataarray3[1] = "0";
                         data3.add(dataarray3);
@@ -419,61 +388,47 @@ public class SongsActivity extends AppCompatActivity {
                         JSONArray jsonArray = new JSONArray(result);
                         JSONObject jsonData;
 
+                        //直接添加七筆，以免沒資料出錯
+                        if (jsonArray.length()<=7) {
+                            for (int i = 0; i < 5; i++) {
+                                String[] dataarray3 = new String[2];
+                                dataarray3[0] = "`-`-` 00:00:00";
+                                dataarray3[1] = "0";
+                                data3.add(dataarray3);
+                            }
+                        }
                         //取數據
                         for (int i = 0; i < jsonArray.length(); i++) {
                             jsonData = jsonArray.getJSONObject(i);
-                            ssdate = jsonData.getString("date").split(" ")[0];
-
-                            if (ssdateList.containsKey(ssdate)) {
-                                int value = ssdateList.get(ssdate);
-                                value += 1;
-                                ssdateList.put(ssdate, value);
-                            } else {
-                                ssdateList.put(ssdate, 1);
-                            }
-                            if (!date3.contains(ssdate))
-                                date3.add(ssdate);
-                        }
-
-                        //list前後顛倒
-                        Integer max = 0;
-                        for (int i = date3.size() - 1; i >= 0; i--) {
-                            String key = date3.get(i);
-                            Integer value = ssdateList.get(key);
                             String[] dataarray3 = new String[2];
-                            dataarray3[0] = key;
-                            dataarray3[1] = String.valueOf(value);
-                            data3.add(dataarray3);
-
-                            if (value > max)
-                                max = value;
-                        }
-
-                        //直接添加七筆，以免沒資料出錯
-                        for (int i = 0; i < 5; i++) {
-                            String[] dataarray3 = new String[2];
-                            dataarray3[0] = "`-`-` 00:00:00";
-                            dataarray3[1] = "0";
+                            dataarray3[0] = jsonData.getString("Datetime");
+                            String subTest = jsonData.getString("write");
+                            String string_1 = subTest.substring(11, 13);
+                            double dhour = Double.valueOf(string_1).doubleValue();
+                            String string_2 = subTest.substring(14, 16);
+                            double dmin = Double.valueOf(string_2).doubleValue();
+                            String StrTime = String.valueOf(dhour+(dmin/60));
+                            dataarray3[1] = StrTime;
                             data3.add(dataarray3);
                         }
 
-                        buffer.Renderer_Max(Integer.valueOf(String.valueOf(max)) + 1);
+                        Collections.reverse(data3);
+                        buffer.Renderer_Max(4);
                         System.out.println(data3.size());
                     } catch (Exception e) {
                         Log.e("log_tag", e.toString());
                     }
                 }
                 return data3;
-
             case 4:
                 /*
                 記錄每日走路公尺
                 */
                 ArrayList<String[]> data4 = new ArrayList<String[]>();
-                ArrayList<String> date4 = new ArrayList<String>();
+                //ArrayList<String> date4 = new ArrayList<String>();
                 String sGPS;
                 HashMap<String, Float> sGPSList = new HashMap<String, Float>();
-                result = DBConnector.executeQuery("http://140.116.82.102:8080/app/Selectgps.php?at=" + buffer.getAccount() + "");
+                result = DBConnector.executeQuery("http://140.116.82.102:8080/app/SelectInfChart.php?at=" + buffer.getAccount() + "&ict=4");
                 if (result.contains("<b>Notice</b>:")) {
                     //直接添加七筆，以免沒資料出錯
                     for (int i = 0; i < 5; i++) {
@@ -482,59 +437,85 @@ public class SongsActivity extends AppCompatActivity {
                         dataarray4[1] = "0";
                         data4.add(dataarray4);
                     }
-
                     buffer.Renderer_Max(Integer.valueOf(String.valueOf(0)) + 1);
                     System.out.println(data4.size());
                 } else {
                     try {
                         JSONArray jsonArray = new JSONArray(result);
                         JSONObject jsonData;
-
+                        //直接添加七筆，以免沒資料出錯
+                        if (jsonArray.length()<=7) {
+                            for (int i = 0; i < 5; i++) {
+                                String[] dataarray4 = new String[2];
+                                dataarray4[0] = "`-`-` 00:00:00";
+                                dataarray4[1] = "0";
+                                data4.add(dataarray4);
+                            }
+                        }
                         //取數據
                         for (int i = 0; i < jsonArray.length(); i++) {
-                            jsonData = jsonArray.getJSONObject(i);
-                            sGPS = jsonData.getString("formatetime").split(" ")[0];
+//                            jsonData = jsonArray.getJSONObject(i);
+                            jsonData = jsonArray.getJSONObject((jsonArray.length()-i-1));
 
-                            if (sGPSList.containsKey(sGPS)) {
-                                String svalue = jsonData.getString("distance").toString();
-                                float value = sGPSList.get(sGPS);
-                                value = value + Float.valueOf(svalue);
-                                sGPSList.put(sGPS, value);
-                            } else {
-                                String svalue = jsonData.getString("distance").toString();
-                                sGPSList.put(sGPS, Float.valueOf(svalue));
-                            }
-                            if (!date4.contains(sGPS))
-                                date4.add(sGPS);
-                        }
-
-                        //list前後顛倒
-                        float max = 0;
-                        for (int i = date4.size() - 1; i >= 0; i--) {
-                            String key = date4.get(i);
-                            float value = sGPSList.get(key);
                             String[] dataarray4 = new String[2];
-                            dataarray4[0] = key;
-                            dataarray4[1] = String.valueOf(value);
-                            data4.add(dataarray4);
-
-                            if (value > max)
-                                max = value;
-                        }
-
-                        //直接添加七筆，以免沒資料出錯
-                        for (int i = 0; i < 5; i++) {
-                            String[] dataarray4 = new String[2];
-                            dataarray4[0] = "`-`-` 00:00:00";
-                            dataarray4[1] = "0";
+                            dataarray4[0] = jsonData.getString("dtime");
+                            String subTest = jsonData.getString("SUM(distance)");
+                            double dhour = Double.valueOf(subTest).doubleValue();
+                            dataarray4[1] = String.valueOf(dhour / 1000);
                             data4.add(dataarray4);
                         }
 
-                        buffer.Renderer_Max(Integer.valueOf(String.valueOf(max)) + 1);
+                        Collections.reverse(data4);
+                        buffer.Renderer_Max(4);
                         System.out.println(data4.size());
                     } catch (Exception e) {
-                        Log.e("log_tag4", e.toString());
+                        Log.e("log_tag", e.toString());
                     }
+//                        //取數據
+//                        for (int i = 0; i < jsonArray.length(); i++) {
+//                            jsonData = jsonArray.getJSONObject(i);
+//                            sGPS = jsonData.getString("dtime").split(" ")[0];
+//
+//                            if (sGPSList.containsKey(sGPS)) {
+//                                String svalue = jsonData.getString("distance").toString();
+//                                float value = sGPSList.get(sGPS);
+//                                value = value + Float.valueOf(svalue);
+//                                sGPSList.put(sGPS, value);
+//                            } else {
+//                                String svalue = jsonData.getString("distance").toString();
+//                                sGPSList.put(sGPS, Float.valueOf(svalue));
+//                            }
+//                            if (!date4.contains(sGPS))
+//                                date4.add(sGPS);
+//                        }
+//
+//                        //list前後顛倒
+//                        float max = 0;
+//                        for (int i = date4.size() - 1; i >= 0; i--) {
+//                            String key = date4.get(i);
+//                            float value = sGPSList.get(key);
+//                            String[] dataarray4 = new String[2];
+//                            dataarray4[0] = key;
+//                            dataarray4[1] = String.valueOf(value);
+//                            data4.add(dataarray4);
+//
+//                            if (value > max)
+//                                max = value;
+//                        }
+//
+//                        //直接添加七筆，以免沒資料出錯
+//                        for (int i = 0; i < 5; i++) {
+//                            String[] dataarray4 = new String[2];
+//                            dataarray4[0] = "`-`-` 00:00:00";
+//                            dataarray4[1] = "0";
+//                            data4.add(dataarray4);
+//                        }
+//
+//                        buffer.Renderer_Max(Integer.valueOf(String.valueOf(max)) + 1);
+//                        System.out.println(data4.size());
+//                    } catch (Exception e) {
+//                        Log.e("log_tag4", e.toString());
+//                    }
                 }
                 return data4;
 
