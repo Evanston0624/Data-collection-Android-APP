@@ -62,7 +62,8 @@ public class OffGPS extends Service {
     private PowerManager pm;
     private PowerManager.WakeLock wakeLock = null;
     /****/
-    private static final String CHANNEL_ID = "11";
+    private static final String CHANNEL_ID = "offgps_ID";
+    private static final String NAME_ID = "offgps_service";
     private static final String TAG = OffGPS.class.getSimpleName();
     /****/
 
@@ -78,7 +79,7 @@ public class OffGPS extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         /**創建通知視窗**/
-        Notification(intent, startId);
+        Notification();
 
         /**創建通知視窗**/
         if (null == intent) {
@@ -111,48 +112,27 @@ public class OffGPS extends Service {
         return super.onStartCommand(intent, flags, startId);
         //return Service.START_STICKY;
     }
-    public void Notification(Intent intent, int startId){
-        /**--------------------------------------------------創建通知細節--------------------------------------------------**/
+    public void Notification(){
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 11, intent, PendingIntent.FLAG_ONE_SHOT);
-        NotificationCompat.Builder notificationBuilder;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID);
-            NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, TAG, NotificationManager.IMPORTANCE_DEFAULT);
-            notificationChannel.enableVibration(true);
-            ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(notificationChannel);
-        } else {
-            notificationBuilder =  new NotificationCompat.Builder(this);
-        }
-        notificationBuilder
-//                .setContentTitle(notification.getTitle())
-                .setContentText(String.format("OffGPS系統啟動"))
-                // .setDefaults(DEFAULT_SOUND | DEFAULT_VIBRATE)
-                .setAutoCancel(true)
-                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                .setContentIntent(pendingIntent)
-                .setLargeIcon(icon)
-                .setColor(Color.RED)
-                .setSmallIcon(R.mipmap.ic_launcher);
-
-        notificationBuilder.setDefaults(DEFAULT_VIBRATE);
-        notificationBuilder.setLights(Color.YELLOW, 1000, 300);
-
+        /**--------------------------------------------------通知細節--------------------------------------------------**/
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(11, notificationBuilder.build());
-        /**--------------------------------------------------創建通知視窗--------------------------------------------------**/
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,TAG,
-                    NotificationManager.IMPORTANCE_HIGH);
-            notificationManager.createNotificationChannel(channel);
-
-            Notification notification = new Notification.Builder(getApplicationContext(),CHANNEL_ID).build();
+        Notification.Builder builder = new Notification.Builder(this)
+                .setContentTitle("成功大學多媒體實驗室")
+                .setContentText("GPS收集系統(offline)")
+                .setLargeIcon(icon)
+                .setSmallIcon(R.mipmap.ic_launcher);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            builder.setChannelId(CHANNEL_ID);
+            NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, NAME_ID, NotificationManager.IMPORTANCE_HIGH);
+            notificationManager.createNotificationChannel(mChannel);
+        }
+        Notification notification = builder.build();
+        /**--------------------------------------------------創建通知--------------------------------------------------**/
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForeground(11, notification);
+        }else{
             startForeground(11, notification);
         }
-        else {
-            startForeground(11, new Notification());
-        }
-        /****/
     }
     public void onDestroy() {
         if (wakeLock != null) {

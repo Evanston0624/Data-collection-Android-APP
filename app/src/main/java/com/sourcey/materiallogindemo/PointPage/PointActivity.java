@@ -128,7 +128,7 @@ public class PointActivity extends AppCompatActivity {
         String segmentent = "";
         String segmentwkt = "";
         Date nowdate = new Date(nowtime);
-        String str  = (sdf.format(nowdate))+"+12:00:00";
+        String str  = (sdf.format(nowdate))+"+04:00:00";
 
         //週
         for (int i=0;i<=4;i++){

@@ -373,7 +373,7 @@ public class PhotosActivity extends AppCompatActivity {
                         String Infstr = Infreturn(2);
                         new android.support.v7.app.AlertDialog.Builder(PhotosActivity.this).setTitle("更新舊的資訊")//設定視窗標題
                                 .setIcon(R.mipmap.ic_launcher)//設定對話視窗圖示
-                                .setMessage("今天已經填過每日情緒\n昨天的情緒分數為:" + Infstr + "\n" + "要修改舊的還是再傳一次呢?")
+                                .setMessage("今天已經填過每日情緒\n情緒分數為:" + Infstr + "\n" + "要修改舊的還是再傳一次呢?")
                                 .setPositiveButton("取消", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
@@ -601,7 +601,7 @@ public class PhotosActivity extends AppCompatActivity {
         String segmentent = "";
         String segmentwkt = "";
         try {
-            String str  = (sdf.format(nowdate))+"+12:00:00";
+            String str  = (sdf.format(nowdate))+"+04:00:00";
             Date Comparisondate = sdf6.parse(str);
             long Comparisonlong = Comparisondate.getTime();
             if(nowdate.before(Comparisondate)){
