@@ -136,7 +136,6 @@ public class Phone_listener extends Service {
             wakeLock.release();
             wakeLock = null;
         }
-//        Toast.makeText(this, "電話掛掉，即將重啟", Toast.LENGTH_LONG).show();
         stopForeground(true);
         Intent localIntent = new Intent();
         localIntent.setClass(this, Phone_listener.class); //銷毀時重新啟動Service

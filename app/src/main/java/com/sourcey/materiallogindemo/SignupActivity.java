@@ -28,7 +28,6 @@ import java.util.Calendar;
 
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
-
     @BindView(R.id.input_name)
     EditText _nameText;
     @BindView(R.id.input_address)
@@ -41,6 +40,8 @@ public class SignupActivity extends AppCompatActivity {
     EditText _passwordText;
     @BindView(R.id.input_reEnterPassword)
     EditText _reEnterPasswordText;
+    @BindView(R.id.input_MedicalName)
+    EditText _MedicalnameText;
     @BindView(R.id.btn_signup)
     Button _signupButton;
     @BindView(R.id.link_login)
@@ -98,6 +99,7 @@ public class SignupActivity extends AppCompatActivity {
 
         if (validate()) {
             _signupButton.setEnabled(false);
+            String Medicalname = _MedicalnameText.getText().toString();
             String name = _nameText.getText().toString();
             String account = _addressText.getText().toString();
             String email = _emailText.getText().toString();
@@ -111,7 +113,7 @@ public class SignupActivity extends AppCompatActivity {
             String Rt = Sign.CheckAccount(account);
             if (!Rt.equals(account)) {
                 //Call資料庫儲存資料
-                Sign.RegistAccount(name,account,password,mobile,email);
+                Sign.RegistAccount(Medicalname,name,account,password,mobile,email);
                 //loading();
 
                 //註冊成功，返回登入畫面
@@ -138,13 +140,13 @@ public class SignupActivity extends AppCompatActivity {
 
     public boolean validate() {
         boolean valid = true;
-
         String name = _nameText.getText().toString();
         String account = _addressText.getText().toString();
         String email = _emailText.getText().toString();
         String mobile = _mobileText.getText().toString();
         String password = _passwordText.getText().toString();
         String reEnterPassword = _reEnterPasswordText.getText().toString();
+        String Medicalname = _MedicalnameText.getText().toString();
 
         if (name.isEmpty() || name.length() < 2) {
             _nameText.setError("姓名至少2個字");
@@ -235,11 +237,11 @@ class Sign {
         return DA;
     }
 
-    public static void RegistAccount(String name, String account, String password, String mobile, String email){
+    public static void RegistAccount(String Medicalname, String name, String account, String password, String mobile, String email){
         try {
             Calendar mCal = Calendar.getInstance();
             CharSequence s = DateFormat.format("yyyy-MM-dd kk:mm:ss", mCal.getTime());
-            String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/RegistUser.php?at="+account+"&pw="+password+"&name="+name+"&mobile="+mobile+"&email="+email+"");
+            String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/RegistUser.php?mat="+Medicalname+"&at="+account+"&pw="+password+"&name="+name+"&mobile="+mobile+"&email="+email+"");
             //String query = "http://140.116.82.102:8080/app/InsertNewData.php?Account=" + account + "&time=" + s.toString() + "&content=趕緊寫下您在想甚麼&type=0&test_Anger=0&test_Boredom=0&test_Disgust=0&test_Anxiety=0&test_Happiness=3&test_Sadness=0&test_Surprised=3";
             //result = DBConnector.executeQuery(query);
                 /*

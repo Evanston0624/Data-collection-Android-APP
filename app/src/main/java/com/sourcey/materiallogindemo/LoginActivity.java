@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
@@ -69,7 +70,8 @@ public class LoginActivity extends AppCompatActivity {
 
     /**更新設定**/
     public String Url = "http://140.116.82.102:8080/app_webpage/app_dl/version_n.txt";
-    public String version_now = "2.0";//當前版本號
+    public String Url1 = "http://140.116.82.102:8080/app_webpage/app_dl/updateInf.txt";
+    public String version_now = "2.1";//當前版本號
     //離線GPS系統 and 圖片優化
     @BindView(R.id.input_email)
     EditText _emailText;
@@ -89,6 +91,8 @@ public class LoginActivity extends AppCompatActivity {
     private String dir_Root = "/WavRecorder/";
     private String dir_Data = "Data/";
     private String dir_Root_MP4 =  "/MP4Recorder/";
+    private String version_new = "";
+    private URL url = null;
     private boolean isclicked, issigned;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -99,39 +103,43 @@ public class LoginActivity extends AppCompatActivity {
         versionView.setText("版本號:"+version_now);
         isclicked = true;
         issigned = true;
-
         etaccount = findViewById(R.id.input_email);
         etpassword = findViewById(R.id.input_password);
-//        initGPS();
         /*****/
         //check Version
-        URL url = null;
-        String version_new = "";
+
         ConnectivityManager connectionManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);    //得到系統服務類
         NetworkInfo networkInfo = connectionManager.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isAvailable()) {
-            //Toast.makeText(context, "網路正常連接", Toast.LENGTH_SHORT).show();
-
+            /**----------------取得更新資訊------------------**/
+            //創建網址
             try {
                 url = new URL(Url);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
+            //取得網址資料(最新版本)
             CheckVersion task = new CheckVersion();
             task.execute(url);
-//            String version_new = "";
+            /**-------------------檢查版本---------------------**/
             try {
                 version_new = task.get();
                 Log.e("1", version_new);
+                //系統版本不等於最新版本
                 if (!version_now.equals(version_new)) {
+                    //得到更新功能目錄
+                    try {
+                        url = new URL(Url1);
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+                    UpdateInf task1 = new UpdateInf();
+                    task1.execute(url);
+                    String updateInf = task1.get();
+                    //設定更新視窗
                     new AlertDialog.Builder(LoginActivity.this).setTitle("更新提示")//設定視窗標題
                             .setIcon(R.mipmap.ic_launcher)//設定對話視窗圖示
-                            .setMessage("以有新版本可供更新")
-//                        .setMessage("以有新版本可供更新\n" +
-//                                    "1.新增每日目標,在成就系統可看見.\n" +
-//                                    "2.GPS系統修正,可以正確達成成就與蒐集資料.\n" +
-//                                    "3.兌換系統上線,在設定介面可看見.可兌換現金禮卷\n" +
-//                                    "4.使用者回饋系統更新" )//設定顯示的文字
+                            .setMessage("以有新版本可供更新\n" + updateInf)
                             .setPositiveButton("下載新的安裝檔", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -148,7 +156,7 @@ public class LoginActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-        /****/
+        /**--------**/
         //設定隱藏標題
         getSupportActionBar().hide();
 
@@ -201,7 +209,6 @@ public class LoginActivity extends AppCompatActivity {
         read(version_new);
     }
     private class CheckVersion extends AsyncTask<URL, Void , String> {
-
         protected String doInBackground(URL... url) {
             HttpURLConnection httpConn = null;
             String content = "";
@@ -210,6 +217,33 @@ public class LoginActivity extends AppCompatActivity {
                 if (httpConn.getResponseCode() == HttpURLConnection.HTTP_OK) {
                     Log.d("TAG", "-can't check--");
                     InputStreamReader isr = new InputStreamReader(httpConn.getInputStream(), "utf-8");
+                    int i;
+                    while ((i = isr.read()) != -1) {
+                        content = content + (char) i;
+                    }
+                    Log.e(content, content);
+                    isr.close();
+                    httpConn.disconnect();
+                    Log.e(content,content);
+                } else {
+                    Log.d("TAG", "---into-----urlConnection---fail--");
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return content;
+        }
+    }
+    private class UpdateInf extends AsyncTask<URL, Void , String> {
+        protected String doInBackground(URL... url) {
+            HttpURLConnection httpConn = null;
+            String content = "";
+            try {
+                httpConn = (HttpURLConnection) url[0].openConnection();
+                if (httpConn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    Log.d("TAG", "-can't check--");
+                    InputStreamReader isr = new InputStreamReader(httpConn.getInputStream(), "big5");
                     int i;
                     while ((i = isr.read()) != -1) {
                         content = content + (char) i;
@@ -244,11 +278,6 @@ public class LoginActivity extends AppCompatActivity {
             buffer.setaccount(semail);
             /**儲存至共用空間**/
 
-            /**傳送帳號資訊給後續頁面**/
-            //Intent intent = new Intent(LoginActivity.this, homepage.class);
-            //intent.putExtra("semail", semail);
-            //startActivityForResult(intent, randonvalue);
-            /**傳送帳號資訊給後續頁面**/
         } else {
             _loginButton.setEnabled(true);
             onLoginFailed();
@@ -331,8 +360,12 @@ public class LoginActivity extends AppCompatActivity {
             bw.newLine();
             bw.write("密碼:" + buffer.getPassword());
             bw.newLine();
+//            SharedPreferences sharedPreferences = getSharedPreferences("FirstRun",0);
+//            Boolean first_run = sharedPreferences.getBoolean("First",true);
+//            if (first_run) {
             bw.write("鬧鐘聲音:ON");
             bw.newLine();
+//            }
             bw.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -362,7 +395,6 @@ public class LoginActivity extends AppCompatActivity {
                     etpassword.setText(password);
                 }
             }
-
             in.close();
         } catch (Exception e) {
         }
@@ -372,27 +404,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /*********************************************************************/
-    private void startServicePhone(){
-        boolean isRunning = checkservice.isServiceRunning(this,"com.sourcey.materiallogindemo.Phone.Phone_listener");
-        if (isRunning) {
-            Toast.makeText(getBaseContext(), "電話服務啟動", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(getBaseContext(), "電話服務正在啟動", Toast.LENGTH_LONG).show();
-            Intent it = new Intent(LoginActivity.this, Phone_listener.class);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-                startForegroundService(it);
-            }
-            else {
-                startService(it); //開始Service
-            }
-        }
-    }
-    /*********************************************************************/
-//    private void startAlarmService(){
-//        boolean isRunning = checkservice.isServiceRunning(this,"com.sourcey.materiallogindemo.GPS.AlarmService");
+//    private void startServicePhone(){
+//        boolean isRunning = checkservice.isServiceRunning(this,"com.sourcey.materiallogindemo.Phone.Phone_listener");
 //        if (isRunning) {
+//            Toast.makeText(getBaseContext(), "電話服務啟動", Toast.LENGTH_LONG).show();
 //        } else {
-//            Intent it = new Intent(LoginActivity.this, AlarmService.class);
+//            Toast.makeText(getBaseContext(), "電話服務正在啟動", Toast.LENGTH_LONG).show();
+//            Intent it = new Intent(LoginActivity.this, Phone_listener.class);
 //            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
 //                startForegroundService(it);
 //            }
@@ -401,6 +419,7 @@ public class LoginActivity extends AppCompatActivity {
 //            }
 //        }
 //    }
+
     /***********************************確定帳號密碼是否正確*************************************/
     private void check_and_login(String account,String password,boolean TrueFalse){
         ConnectivityManager connectionManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);    //得到系統服務類
@@ -410,40 +429,37 @@ public class LoginActivity extends AppCompatActivity {
         if (networkInfo != null && networkInfo.isAvailable()) {
             //Toast.makeText(this, "網路正常連接", Toast.LENGTH_SHORT).show();
             if (SearchAccount.CheckAccount(account, password).equals(account)) {
-                //if(1==1){
-                dialog = ProgressDialog.show(LoginActivity.this,
-                        "讀取中", "請等待1秒...", true);
+                    //if(1==1){
+                    dialog = ProgressDialog.show(LoginActivity.this,
+                            "讀取中", "請等待3秒...", true);
 
-                //啟動Service
-//                startServicePhone();
-//                startAlarmService();
-                String path = Environment.getExternalStorageDirectory().getPath() + "/RDataR/";
+                    String path = Environment.getExternalStorageDirectory().getPath() + "/RDataR/";
 
-                isExist(AllRoot);
-                isExist(AllRoot + dir_Root);
-                isExist(AllRoot + dir_Root + dir_Data);
-                isExist(path);
-                isExist(AllRoot + dir_Root_MP4);
-                isExist(AllRoot + dir_Root_MP4 + dir_Data);
-                if (TrueFalse)
-                    save(path);
-                new android.os.Handler().postDelayed(
-                        new Runnable() {
-                            public void run() {
-                                // On complete call either onLoginSuccess or onLoginFailed'
-                                onLoginSuccess();
-                                success();
-                                dialog.dismiss();
+                    isExist(AllRoot);
+                    isExist(AllRoot + dir_Root);
+                    isExist(AllRoot + dir_Root + dir_Data);
+                    isExist(path);
+                    isExist(AllRoot + dir_Root_MP4);
+                    isExist(AllRoot + dir_Root_MP4 + dir_Data);
+                    if (TrueFalse)
+                        save(path);
+                    new android.os.Handler().postDelayed(
+                            new Runnable() {
+                                public void run() {
+                                    // On complete call either onLoginSuccess or onLoginFailed'
+                                    onLoginSuccess();
+                                    success();
+                                    dialog.dismiss();
 
-                                finish();
+                                    finish();
 
-                                // onLoginFailed();
-                                //progressDialog.dismiss();
-                            }
-                        }, 1000);
+                                    // onLoginFailed();
+                                    //progressDialog.dismiss();
+                                }
+                            }, 3000);
             } else {
                 _loginButton.setEnabled(true);
-                Toast.makeText(getBaseContext(), "帳號密碼錯誤!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "帳號錯誤!", Toast.LENGTH_LONG).show();
             }
         } else {
             _loginButton.setEnabled(true);

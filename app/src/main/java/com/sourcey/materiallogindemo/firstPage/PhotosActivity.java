@@ -227,7 +227,8 @@ public class PhotosActivity extends AppCompatActivity {
                 time = Ltime.get(i);
                 int icon_int = Integer.parseInt(icon_type);
                 /**Emotion data**/
-                if (icon_int == 1 || icon_int == 0) {
+//                if (icon_int == 0 || icon_int == 1 || icon_int == 2  || icon_int == 3) {
+                if (icon_int == 0 || icon_int == 1) {
                     String[] type = Lemotion.get(i).split(",");
                     int j = 0;
                     float Max = 0;
@@ -819,6 +820,7 @@ public class PhotosActivity extends AppCompatActivity {
                         icontype = "0";
                         word = writeEditTextValue;
                         writeedittext.setText("");
+//                        loading();
                         emotionbutton.callOnClick();//開啟標記
                         whichmicbutton = true;
                         writealertdialog.cancel();
@@ -834,22 +836,6 @@ public class PhotosActivity extends AppCompatActivity {
                     writeedittext.setText("");
                 }
             });
-            //重製標記
-//            writealertdialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-//                @Override
-//                public void onCancel(DialogInterface dialog) {
-//                    if (whichmicbutton) {
-//                        mood[0] = "0";
-//                        mood[1] = "0";
-//                        mood[2] = "0";
-//                        mood[3] = "0";
-//                        mood[4] = "0";
-//                        mood[5] = "0";
-//                        mood[6] = "0";
-//                        prepareNewData(false);
-//                    }
-//                }
-//            });
             writealertdialog.show();
         }
     };
@@ -1005,21 +991,21 @@ public class PhotosActivity extends AppCompatActivity {
                     }
                 }
             });
-            videoalertdialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialog) {
-                    if (whichmicbutton) {
-                        mood[0] = "0";
-                        mood[1] = "0";
-                        mood[2] = "0";
-                        mood[3] = "0";
-                        mood[4] = "0";
-                        mood[5] = "0";
-                        mood[6] = "0";
-                        //prepareNewData(false);
-                    }
-                }
-            });
+//            videoalertdialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+//                @Override
+//                public void onCancel(DialogInterface dialog) {
+//                    if (whichmicbutton) {
+//                        mood[0] = "0";
+//                        mood[1] = "0";
+//                        mood[2] = "0";
+//                        mood[3] = "0";
+//                        mood[4] = "0";
+//                        mood[5] = "0";
+//                        mood[6] = "0";
+//                        //prepareNewData(false);
+//                    }
+//                }
+//            });
             videoalertdialog.show();
         }
     };
@@ -1238,7 +1224,7 @@ public class PhotosActivity extends AppCompatActivity {
                     }
                 };
                 thread.start();
-                loading();
+//                loading();
                 VideoEmotionButton.callOnClick();//開啟標記
             } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(this, "Video recording cancelled.", Toast.LENGTH_LONG).show();
@@ -1332,26 +1318,26 @@ public class PhotosActivity extends AppCompatActivity {
                                 }
                             };
                             thread.start();
-                            loading();
+//                            loading();
                             Micbutton.callOnClick();//開啟標記
                         }
                     }
                 });
-                micalertdialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialog) {
-                        if (whichmicbutton) {
-                            mood[0] = "0";
-                            mood[1] = "0";
-                            mood[2] = "0";
-                            mood[3] = "0";
-                            mood[4] = "0";
-                            mood[5] = "0";
-                            mood[6] = "0";
-                            //prepareNewData(true);
-                        }
-                    }
-                });
+//                micalertdialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+//                    @Override
+//                    public void onCancel(DialogInterface dialog) {
+//                        if (whichmicbutton) {
+//                            mood[0] = "0";
+//                            mood[1] = "0";
+//                            mood[2] = "0";
+//                            mood[3] = "0";
+//                            mood[4] = "0";
+//                            mood[5] = "0";
+//                            mood[6] = "0";
+//                            prepareNewData(true);
+//                        }
+//                    }
+//                });
                 micalertdialog.show();
             }
         });
@@ -1731,7 +1717,7 @@ public class PhotosActivity extends AppCompatActivity {
                 }
             }
             while (Integer.valueOf(String.valueOf(new_s)) - Integer.valueOf(String.valueOf(now_s)) < 5);
-        } else {
+        } else if (icontype == "0"){
             //set Data to SQL
             SQL sql1 = new SQL();
             sql1.InsertNewData_new(buffer.getAccount(), time, content, emotion, icontype);
@@ -1743,99 +1729,111 @@ public class PhotosActivity extends AppCompatActivity {
             word = "";
             recyclerView.smoothScrollToPosition(DataList.size() - 1);
         }
-    }
-
-    private void prepareNewData_NoneTagEmotion() {
-        //產生loading畫面
-
-        icontype = "1";
-        word = str_wav;
-
-        //chart
-        Data data;
-        ArrayList<BarEntry> yVals, yValsSystem;
-        ArrayList<Bitmap> chartList = prepareChartData();
-
-        //Data
-        Calendar mCal = Calendar.getInstance();
-        CharSequence s = DateFormat.format("yyyy-MM-dd kk:mm:ss", mCal.getTime());
-        String time = s.toString();
-        String content = word;
-        String emotion = "0,0,0,0,0,0,0";
-        mood[0] = "0";
-        mood[1] = "0";
-        mood[2] = "0";
-        mood[3] = "0";
-        mood[4] = "0";
-        mood[5] = "0";
-        mood[6] = "0";
-
-        //set chart Data
-        int j = 0;
-        float Max = 0;
-        yVals = new ArrayList<>();
-        for (String st : mood) {
-            Max += Float.valueOf(st);
-        }
-        for (String st : mood) {
-            yVals.add(new BarEntry(j, Float.valueOf(st) / Max * 100));
-            j++;
-        }
-
-        //set Data to SQL
-        SQL sql = new SQL();
-        sql.UpdateData(buffer.getAccount(), time, content, emotion, icontype);
-
-        HashMap<String, List<String>> Subject = SQL.SelectSubject(buffer.getAccount(), str_wav);
-        if (icontype == "1") {
-            Calendar now_mCal = Calendar.getInstance();
-            CharSequence now_s, new_s;            now_s = DateFormat.format("ss", now_mCal.getTime());
-
-            do {
-                Calendar new_mCal = Calendar.getInstance();
-                new_s = DateFormat.format("ss", new_mCal.getTime());
-
-                if (Subject != null && Subject.get("emotion") != null && !Subject.get("emotion").get(0).equals("null,null,null")) {
-                    String[] SubjectEmotion = Subject.get("emotion").get(0).split(",");
-                    //set chart Data
-                    int js = 0;
-                    float fMax = 0;
-                    yValsSystem = new ArrayList<>();
-                    for (String st : SubjectEmotion) {
-                        fMax += Float.valueOf(st);
-                    }
-                    for (String st : SubjectEmotion) {
-                        yValsSystem.add(new BarEntry(js++, Float.valueOf(st) / fMax * 100));
-                        js++;
-                    }
-                    //set Data to Chart
-                    data = new Data(content, icontype, time, yVals, chartList, yValsSystem, chartList);
-                    DataList.add(data);
-                    // notify adapter about data set changes
-                    // so that it will render the list with new data
-                    DataAdapter.notifyDataSetChanged();
-                    word = "";
-
-                    recyclerView.smoothScrollToPosition(DataList.size() - 1);
-                    str_wav = "";
-                    break;
-                }
-            }
-            while (Integer.valueOf(String.valueOf(new_s)) - Integer.valueOf(String.valueOf(now_s)) < 5);
-        } else {
+        else if (icontype == "3" || icontype == "2") {
             //set Data to SQL
             SQL sql1 = new SQL();
             sql1.InsertNewData_new(buffer.getAccount(), time, content, emotion, icontype);
-            data = new Data(content, icontype, time, yVals, chartList);
-            DataList.add(data);
-            // notify adapter about data set changes
-            // so that it will render the list with new data
-            DataAdapter.notifyDataSetChanged();
-            word = "";
-
-            recyclerView.smoothScrollToPosition(DataList.size() - 1);
+//            data = new Data(content, icontype, time, yVals, chartList);
+//            DataList.add(data);
+//            // notify adapter about data set changes
+//            // so that it will render the list with new data
+//            DataAdapter.notifyDataSetChanged();
+//            word = "";
+//            recyclerView.smoothScrollToPosition(DataList.size() - 1);
         }
     }
+//
+//    private void prepareNewData_NoneTagEmotion() {
+//        //產生loading畫面
+//
+//        icontype = "1";
+//        word = str_wav;
+//
+//        //chart
+//        Data data;
+//        ArrayList<BarEntry> yVals, yValsSystem;
+//        ArrayList<Bitmap> chartList = prepareChartData();
+//
+//        //Data
+//        Calendar mCal = Calendar.getInstance();
+//        CharSequence s = DateFormat.format("yyyy-MM-dd kk:mm:ss", mCal.getTime());
+//        String time = s.toString();
+//        String content = word;
+//        String emotion = "0,0,0,0,0,0,0";
+//        mood[0] = "0";
+//        mood[1] = "0";
+//        mood[2] = "0";
+//        mood[3] = "0";
+//        mood[4] = "0";
+//        mood[5] = "0";
+//        mood[6] = "0";
+//
+//        //set chart Data
+//        int j = 0;
+//        float Max = 0;
+//        yVals = new ArrayList<>();
+//        for (String st : mood) {
+//            Max += Float.valueOf(st);
+//        }
+//        for (String st : mood) {
+//            yVals.add(new BarEntry(j, Float.valueOf(st) / Max * 100));
+//            j++;
+//        }
+//
+//        //set Data to SQL
+//        SQL sql = new SQL();
+//        sql.UpdateData(buffer.getAccount(), time, content, emotion, icontype);
+//
+//        HashMap<String, List<String>> Subject = SQL.SelectSubject(buffer.getAccount(), str_wav);
+//        if (icontype == "1") {
+//            Calendar now_mCal = Calendar.getInstance();
+//            CharSequence now_s, new_s;            now_s = DateFormat.format("ss", now_mCal.getTime());
+//
+//            do {
+//                Calendar new_mCal = Calendar.getInstance();
+//                new_s = DateFormat.format("ss", new_mCal.getTime());
+//
+//                if (Subject != null && Subject.get("emotion") != null && !Subject.get("emotion").get(0).equals("null,null,null")) {
+//                    String[] SubjectEmotion = Subject.get("emotion").get(0).split(",");
+//                    //set chart Data
+//                    int js = 0;
+//                    float fMax = 0;
+//                    yValsSystem = new ArrayList<>();
+//                    for (String st : SubjectEmotion) {
+//                        fMax += Float.valueOf(st);
+//                    }
+//                    for (String st : SubjectEmotion) {
+//                        yValsSystem.add(new BarEntry(js++, Float.valueOf(st) / fMax * 100));
+//                        js++;
+//                    }
+//                    //set Data to Chart
+//                    data = new Data(content, icontype, time, yVals, chartList, yValsSystem, chartList);
+//                    DataList.add(data);
+//                    // notify adapter about data set changes
+//                    // so that it will render the list with new data
+//                    DataAdapter.notifyDataSetChanged();
+//                    word = "";
+//
+//                    recyclerView.smoothScrollToPosition(DataList.size() - 1);
+//                    str_wav = "";
+//                    break;
+//                }
+//            }
+//            while (Integer.valueOf(String.valueOf(new_s)) - Integer.valueOf(String.valueOf(now_s)) < 5);
+//        } else {
+//            //set Data to SQL
+//            SQL sql1 = new SQL();
+//            sql1.InsertNewData_new(buffer.getAccount(), time, content, emotion, icontype);
+//            data = new Data(content, icontype, time, yVals, chartList);
+//            DataList.add(data);
+//            // notify adapter about data set changes
+//            // so that it will render the list with new data
+//            DataAdapter.notifyDataSetChanged();
+//            word = "";
+//
+//            recyclerView.smoothScrollToPosition(DataList.size() - 1);
+//        }
+//    }
 
     /*************************************20190621-All day data update*******************/
     private void prepareADData() {

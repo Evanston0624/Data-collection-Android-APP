@@ -307,7 +307,6 @@ public class PointActivity extends AppCompatActivity {
         newrecyc(DA, DayWork, DayWorkString);
     }
     private void newrecyc (int[] DA, int[] DayWork, String[] DayWorkString) {
-
         /**------------------------------創建Recyc------------------------------**/
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         String[] pointtext = getResources().getStringArray(R.array.PointText);

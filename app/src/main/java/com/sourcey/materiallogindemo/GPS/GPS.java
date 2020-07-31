@@ -22,6 +22,7 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.support.v4.app.ActivityCompat;
@@ -43,6 +44,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static android.app.Notification.DEFAULT_VIBRATE;
 
@@ -58,6 +61,11 @@ public class GPS extends Service {
     private double startx, starty, endx, endy;
     private Boolean firstGPStime = true, AllBegin = true;
     private int zerotime = 0;
+    /****/
+    private Timer mTimer;
+    private static final long INTERVAL = 23*60*60*1000;
+//    private static final long INTERVAL = 10*1000;
+    private Handler handler = new Handler();
 
     //螢幕休眠，service不休眠
     private PowerManager pm;
@@ -81,8 +89,16 @@ public class GPS extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         /**創建通知視窗**/
         Notification();
-        /**創建通知視窗**/
-
+        /**提醒**/
+//        if (read_Notice().equals("ON")) {
+            if (mTimer != null) {
+                mTimer.cancel();
+            } else {
+                mTimer = new Timer();
+            }
+            mTimer.scheduleAtFixedRate(new MyTimerTask(), INTERVAL, INTERVAL);
+//        }
+        /****/
         if (null == intent) {
             return 0;
         } else {
@@ -93,8 +109,7 @@ public class GPS extends Service {
                     return 0;
                 }
                 try{
-//                    locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locMgrListener);
-                    locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locMgrListener);
+                    locMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 6*1000, 0, locMgrListener);
                 }
                 catch (java.lang.SecurityException ex) {
                     Log.i(TAG, "GPS(network) is not working", ex);//
@@ -113,6 +128,23 @@ public class GPS extends Service {
         return super.onStartCommand(intent, flags, startId);
         //return Service.START_STICKY;
     }
+    /**提醒區**/
+    private class MyTimerTask extends TimerTask {
+
+        @Override
+        public void run() {
+            // 新开一个线程执行
+            handler.post(runnable);
+        }
+    }
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            Notification_warning();
+        }
+    };
+
+
     public void Notification(){
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
         /**--------------------------------------------------通知細節--------------------------------------------------**/
@@ -136,16 +168,46 @@ public class GPS extends Service {
         }
     }
 
+    public void Notification_warning() {
+        Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+        /**--------------------------------------------------通知細節--------------------------------------------------**/
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        String CHANNEL_ID_ch = "ch_ID1";
+        final String NAME_ID_ch = "ch_service1";
+        int chID = 12;
+        Notification.Builder builder = new Notification.Builder(this)
+                    .setContentTitle("成功大學多媒體實驗室")
+                    .setContentText("記得填寫今天的每日資訊唷")
+                    .setLargeIcon(icon)
+                    .setSmallIcon(R.mipmap.ic_launcher);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            builder.setChannelId(CHANNEL_ID_ch);
+            NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID_ch, NAME_ID_ch, NotificationManager.IMPORTANCE_HIGH);
+            notificationManager.createNotificationChannel(mChannel);
+        }
+        Notification notification = builder.build();
+        /**--------------------------------------------------創建通知--------------------------------------------------**/
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForeground(chID, notification);
+        }else{
+            startForeground(chID, notification);
+        }
+    }
+
     public void onDestroy() {
         if (wakeLock != null) {
             wakeLock.release();
             wakeLock = null;
         }
-        Toast.makeText(this, "GPS掛掉，即將重啟", Toast.LENGTH_LONG).show();
         stopForeground(true);
         Intent localIntent = new Intent();
         localIntent.setClass(this, GPS.class); //銷毀時重新啟動Service
-        this.startService(localIntent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            this.startForegroundService(localIntent);
+        } else {
+            this.startService(localIntent);
+        }
     }
     @Override
     public IBinder onBind(Intent intent) {
@@ -214,8 +276,8 @@ public class GPS extends Service {
     private String saccount;
     private void update() {
         Long costtime = endtime - starttime;
-        if (saccount == null || saccount.equals("null"))
-            read();
+        if (saccount == null || saccount.equals("null") || saccount == "")
+            saccount = read();
         ConnectivityManager connectionManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);    //得到系統服務類
         NetworkInfo networkInfo = connectionManager.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isAvailable()) {
@@ -231,7 +293,7 @@ public class GPS extends Service {
             ).start();
         }
     }
-    private void read() {
+    private String read() {
         String path = Environment.getExternalStorageDirectory().getPath() + "/RDataR/";
         String myData = "";
         try {
@@ -247,6 +309,26 @@ public class GPS extends Service {
             in.close();
         } catch (Exception e) {
         }
+        return saccount;
+    }
+    private String read_Notice() {
+        String path = Environment.getExternalStorageDirectory().getPath() + "/RDataR/";
+        String myData = "";
+        String resultNot = "";
+        try {
+            FileInputStream fis = new FileInputStream(path + "user.txt");
+            DataInputStream in = new DataInputStream(fis);
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            String strLine;
+            while ((strLine = br.readLine()) != null) {
+                if(strLine.contains("鬧鐘聲音"))
+                    myData = strLine;
+            }
+            resultNot = myData.replace("鬧鐘聲音:","");
+            in.close();
+        } catch (Exception e) {
+        }
+        return resultNot;
     }
     private long ComputeCosttime(long starttime, long endtime) {
         long costtime = (endtime - starttime) / 1000;

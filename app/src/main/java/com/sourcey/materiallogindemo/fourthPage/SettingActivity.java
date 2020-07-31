@@ -94,9 +94,9 @@ public class SettingActivity extends AppCompatActivity {
                             SQL sql1 = new SQL();
                             sql1.InsertNewData_new(buffer.getAccount(), buffer.getTime(), "SCL1", buffer.getEmotion(), "6");
                         } catch (Exception e) {
-                            Log.e("error Load Point Data", e.toString());
+                            Log.e("error update SCL1",e.toString());
                         }
-                                                                    Uri uri=Uri.parse("https://goo.gl/forms/pCvfYzdEsMA8iF0a2");
+                        Uri uri=Uri.parse("https://docs.google.com/forms/d/e/1FAIpQLSc4eCccuMyk71uN7DzLGFCZk6ZUYAmitylwKf70HdSeL-KxeA/viewform?entry.697311666="+buffer.getAccount());
                         Intent intent=new Intent(Intent.ACTION_VIEW,uri);
                         startActivity(intent);
                     }
@@ -112,10 +112,9 @@ public class SettingActivity extends AppCompatActivity {
                             SQL sql1 = new SQL();
                             sql1.InsertNewData_new(buffer.getAccount(), buffer.getTime(), "SCL2", buffer.getEmotion(), "7");
                         } catch (Exception e) {
-                            Log.e("error Load Point Data", e.toString());
+                            Log.e("error update SCL2",e.toString());
                         }
-                        Uri uri=Uri.parse("https://goo.gl/forms/VNMWPoKLgOjVTYND3");
-                        Intent intent=new Intent(Intent.ACTION_VIEW,uri);
+                        Uri uri=Uri.parse("https://docs.google.com/forms/d/e/1FAIpQLSePaLbHb9bmnFJ5DcGrh7q2DGS-3L28raYjkABYwgzJjfz6qQ/viewform?usp=pp_url&entry.105677866="+buffer.getAccount());                        Intent intent=new Intent(Intent.ACTION_VIEW,uri);
                         startActivity(intent);
                     }
                 }

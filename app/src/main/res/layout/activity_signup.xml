@@ -19,7 +19,6 @@
             android:layout_height="72dp"
             android:layout_marginBottom="24dp"
             android:layout_gravity="center_horizontal" />
-
         <!-- Name Label -->
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -107,6 +106,19 @@
                 android:hint="請再輸入一次密碼"/>
         </android.support.design.widget.TextInputLayout>
 
+        <!-- Medical number Label -->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@color/jumbo">
+            <EditText android:id="@+id/input_MedicalName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:hint="醫療編號(選填)" />
+        </android.support.design.widget.TextInputLayout>
         <!-- Signup Button -->
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/btn_signup"
