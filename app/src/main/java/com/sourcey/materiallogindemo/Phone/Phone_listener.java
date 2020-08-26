@@ -44,6 +44,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.sourcey.materiallogindemo.MYSQL.DBConnector;
+import com.sourcey.materiallogindemo.MYSQL.buffer;
 import com.sourcey.materiallogindemo.R;
 
 import static android.app.Notification.DEFAULT_VIBRATE;
@@ -261,7 +262,7 @@ public class Phone_listener extends Service {
 
                     read();
 
-                    String query = "http://140.116.82.102:8080/app/InsertNewPhoneData.php?Account=" + saccount + "&name=" + codename + "&number=" + mnumber + "&date=" + codedate + "&second=" + mduration + "&type=" + mtype;
+                    String query = buffer.getServerPosition()+"/app/InsertNewPhoneData.php?Account=" + saccount + "&name=" + codename + "&number=" + mnumber + "&date=" + codedate + "&second=" + mduration + "&type=" + mtype;
                     String result = DBConnector.executeQuery(query);
                     Log.i("接通",query);
                 }

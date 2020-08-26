@@ -29,6 +29,7 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.sourcey.materiallogindemo.MPChart.BarChartCustomRenderer;
+import com.sourcey.materiallogindemo.MYSQL.buffer;
 import com.sourcey.materiallogindemo.R;
 import com.sourcey.materiallogindemo.firstPage.PhotosActivity;
 
@@ -172,7 +173,8 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.MyViewHolder> 
         //String dir_path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MP4Recorder/Data/";
         //File f = new File(dir_path + path);
         //holder.mVideoView.setVideoURI(Uri.parse(f.toString()));
-        holder.mVideoView.setVideoURI(Uri.parse("http://140.116.82.102:8080/app/upload_video/" + path));
+//        holder.mVideoView.setVideoURI(Uri.parse(buffer.getServerPosition()+"/app/upload_video/" + path));
+        holder.mVideoView.setVideoURI(Uri.parse(buffer.getServerPosition()+"/app/SelectInfAv.php?fileP=" + path));
         holder.mVideoView.seekTo(100);
         MediaController mc = new MediaController(v.getContext());
         mc.setVisibility(View.VISIBLE);
@@ -325,7 +327,8 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.MyViewHolder> 
             File f = new File(dir_Root + dir_Data + path);
             mp = new MediaPlayer();
             try {
-                mp.setDataSource("http://140.116.82.102:8080/app/SER/wav/" + path);
+//                mp.setDataSource(buffer.getServerPosition()+"/app/SER/wav/" + path);
+                mp.setDataSource(buffer.getServerPosition()+"/app/SelectInfAv.php?fileP=" + path);
                 mp.prepare();
             } catch (IOException e) {
                 e.printStackTrace();

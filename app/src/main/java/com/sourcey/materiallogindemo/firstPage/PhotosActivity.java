@@ -7,11 +7,14 @@ package com.sourcey.materiallogindemo.firstPage;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -28,8 +31,10 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.SearchView;
 import android.widget.SeekBar;
@@ -97,13 +102,16 @@ public class PhotosActivity extends AppCompatActivity {
     private SeekBar dayemotionseekBar;
     private Button dayemotionbutton, daysleepbutton, daygetupbutton, adCancel;
     private Spinner sleepmonspinner, sleepdayspinner, sleephourspinner, sleepminspinner;
-    private Integer progess, checkUploadNum;
+    private Integer success, progess, checkUploadNum;
     private String sleeptime, getuptime, alldayemotion, slorup;
     private AlertDialog.Builder adbuilder;
     private AlertDialog addialog;
     private Integer UploadDayinfor = 0;
     /**20200118**/
     private SwipeRefreshLayout laySwipe;
+    /**20200805**/
+    private static TextView ToastText;
+    private static Toast Toast;
     /****/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -227,8 +235,8 @@ public class PhotosActivity extends AppCompatActivity {
                 time = Ltime.get(i);
                 int icon_int = Integer.parseInt(icon_type);
                 /**Emotion data**/
-//                if (icon_int == 0 || icon_int == 1 || icon_int == 2  || icon_int == 3) {
-                if (icon_int == 0 || icon_int == 1) {
+                if (icon_int == 0 || icon_int == 1 || icon_int == 3) {
+//                if (icon_int == 0 || icon_int == 1) {
                     String[] type = Lemotion.get(i).split(",");
                     int j = 0;
                     float Max = 0;
@@ -578,7 +586,7 @@ public class PhotosActivity extends AppCompatActivity {
         }
         int intdwresult = 0;
         try{
-            String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/DayWork.php?at=" + buffer.getAccount() + "&ict=" + checktype +
+            String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/DayWork.php?at=" + buffer.getAccount() + "&ict=" + checktype +
                     "&stt=" + segmentstt + "&ent=" + segmentent + "&ntt=" + segmentntt + "&wkt=" + segmentwkt);
             JSONArray jsonArray = new JSONArray(result);
             JSONObject jsonData = jsonArray.getJSONObject(0);
@@ -627,7 +635,7 @@ public class PhotosActivity extends AppCompatActivity {
         }
         int intdwresult = 0;
         try{
-            String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/DayWorkReturn.php?at=" + buffer.getAccount() + "&ict=" + checktype +
+            String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/DayWorkReturn.php?at=" + buffer.getAccount() + "&ict=" + checktype +
                     "&stt=" + segmentstt + "&ent=" + segmentent + "&ntt=" + segmentntt + "&wkt=" + segmentwkt);
             JSONArray jsonArray = new JSONArray(result);
             JSONObject jsonData = jsonArray.getJSONObject(0);
@@ -815,12 +823,11 @@ public class PhotosActivity extends AppCompatActivity {
                     String writeEditTextValue = writeedittext.getText().toString();
 
 //                    if (writeEditTextValue.replace("[\r\n\\s     　]", "").length() > 1) {
-                        if (writeEditTextValue.replaceAll("[\r\n\\s]", "").length() > 1) {
+                    if (writeEditTextValue.replaceAll("[\r\n\\s]", "").length() > 1) {
                         tvContent = writeEditTextValue;
                         icontype = "0";
                         word = writeEditTextValue;
                         writeedittext.setText("");
-//                        loading();
                         emotionbutton.callOnClick();//開啟標記
                         whichmicbutton = true;
                         writealertdialog.cancel();
@@ -871,7 +878,7 @@ public class PhotosActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if (word == null)
-                        word = " ";
+                        word = "";
                     if (word.length() < 1)
                         icontype = "2";
                     else
@@ -1545,10 +1552,10 @@ public class PhotosActivity extends AppCompatActivity {
         String twoHyphens = "--";
         String boundary = "*****";
         int bytesRead, bytesAvailable, bufferSize;
-        byte[] buffer;
+        byte[] buffer1;
         int maxBufferSize = 1 * 1024 * 1024;
         String responseFromServer = "";
-        String str_URL = "http://140.116.82.102:8080/app/";
+        String str_URL = buffer.getServerPosition()+"/app/";
         String urlString = str_URL + "upload.php";
         if (tf) {
             urlString = str_URL + "upload_video.php";
@@ -1593,15 +1600,15 @@ public class PhotosActivity extends AppCompatActivity {
             // create a buffer of maximum size
             bytesAvailable = fileInputStream.available();
             bufferSize = Math.min(bytesAvailable, maxBufferSize);
-            buffer = new byte[bufferSize];
+            buffer1 = new byte[bufferSize];
 
             // read file and write it into form...
-            bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+            bytesRead = fileInputStream.read(buffer1, 0, bufferSize);
             while (bytesRead > 0) {
-                dos.write(buffer, 0, bufferSize);
+                dos.write(buffer1, 0, bufferSize);
                 bytesAvailable = fileInputStream.available();
                 bufferSize = Math.min(bytesAvailable, maxBufferSize);
-                bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+                bytesRead = fileInputStream.read(buffer1, 0, bufferSize);
             }
 
             // send multipart form data necesssary after file data...
@@ -1643,6 +1650,7 @@ public class PhotosActivity extends AppCompatActivity {
     private void prepareNewData(boolean HasWord) {
         //產生loading畫面
         loading();
+        SQL sql1 = new SQL();
 
         //chart
         Data data;
@@ -1655,11 +1663,11 @@ public class PhotosActivity extends AppCompatActivity {
         String time = s.toString();
         String emotion;
         String content = word;
-        if (HasWord)
+        if (HasWord) {
             emotion = mood[0] + "," + mood[1] + "," + mood[2] + "," + mood[3] + "," + mood[4] + "," + mood[5] + "," + mood[6];
-        else
+        }else {
             emotion = "0,0,0,0,0,0,0";
-
+        }
         String[] smood = new String[3];
         smood[0] = mood[4];
         smood[1] = mood[1];
@@ -1678,7 +1686,8 @@ public class PhotosActivity extends AppCompatActivity {
         if (icontype == "1") {
             //set Data to SQL
             SQL sql = new SQL();
-            sql.UpdateData(buffer.getAccount(), time, content, emotion, icontype);
+            success = sql.UpdateData(buffer.getAccount(), time, content, emotion, icontype);
+            success(success);
         }
         HashMap<String, List<String>> Subject = SQL.SelectSubject(buffer.getAccount(), str_wav);
         if (icontype == "1") {
@@ -1719,8 +1728,8 @@ public class PhotosActivity extends AppCompatActivity {
             while (Integer.valueOf(String.valueOf(new_s)) - Integer.valueOf(String.valueOf(now_s)) < 5);
         } else if (icontype == "0"){
             //set Data to SQL
-            SQL sql1 = new SQL();
-            sql1.InsertNewData_new(buffer.getAccount(), time, content, emotion, icontype);
+            success = sql1.InsertNewData_new(buffer.getAccount(), time, content, emotion, icontype);
+            success(success);
             data = new Data(content, icontype, time, yVals, chartList);
             DataList.add(data);
             // notify adapter about data set changes
@@ -1729,10 +1738,10 @@ public class PhotosActivity extends AppCompatActivity {
             word = "";
             recyclerView.smoothScrollToPosition(DataList.size() - 1);
         }
-        else if (icontype == "3" || icontype == "2") {
+        else if (icontype == "2") {
             //set Data to SQL
-            SQL sql1 = new SQL();
-            sql1.InsertNewData_new(buffer.getAccount(), time, content, emotion, icontype);
+            success = sql1.InsertNewData_new(buffer.getAccount(), time, content, emotion, icontype);
+            success(success);
 //            data = new Data(content, icontype, time, yVals, chartList);
 //            DataList.add(data);
 //            // notify adapter about data set changes
@@ -1740,6 +1749,18 @@ public class PhotosActivity extends AppCompatActivity {
 //            DataAdapter.notifyDataSetChanged();
 //            word = "";
 //            recyclerView.smoothScrollToPosition(DataList.size() - 1);
+        }
+        else if (icontype == "3") {
+            //set Data to SQL
+            success = sql1.InsertNewData_new(buffer.getAccount(), time, content, emotion, icontype);
+            success(success);
+            data = new Data(content, icontype, time, yVals, chartList);
+            DataList.add(data);
+            // notify adapter about data set changes
+            // so that it will render the list with new data
+            DataAdapter.notifyDataSetChanged();
+            word = "";
+            recyclerView.smoothScrollToPosition(DataList.size() - 1);
         }
     }
 //
@@ -1862,6 +1883,7 @@ public class PhotosActivity extends AppCompatActivity {
         //set chart Data
         int j = 0;
         float Max = 0;
+        SQL sql1 = new SQL();
         yVals = new ArrayList<>();
         for (String st : mood) {
             Max += Float.valueOf(st);
@@ -1873,27 +1895,23 @@ public class PhotosActivity extends AppCompatActivity {
         if (icontype == "4"){
             String content = alldayemotion;
             /****/
-            SQL sql1 = new SQL();
             if (UploadDayinfor == 0) {
-                sql1.InsertNewData_new(buffer.getAccount(), time, content, emotion, icontype);
+                success = sql1.InsertNewData_new(buffer.getAccount(), time, content, emotion, icontype);
             }else if (UploadDayinfor == 1) {
-                sql1.UpdateDailyData(buffer.getAccount(), content, emotion, icontype);
+                success = sql1.UpdateDailyData(buffer.getAccount(), content, emotion, icontype);
             }
         }
         else if (icontype == "5" ||icontype == "8"){
             String content = sleeptime;
-//            SQL sql = new SQL();
-//            sql.UpdateData(buffer.getAccount(), time, content, emotion, icontype);
             /****/
-            SQL sql1 = new SQL();
             if (UploadDayinfor == 0) {
-            sql1.InsertNewData_new(buffer.getAccount(), time, content, emotion, icontype);
+                success = sql1.InsertNewData_new(buffer.getAccount(), time, content, emotion, icontype);
             }else if (UploadDayinfor == 1) {
-                sql1.UpdateDailyData(buffer.getAccount(), content, emotion, icontype);
+                success = sql1.UpdateDailyData(buffer.getAccount(), content, emotion, icontype);
             }
         }
+        success(success);
     }
-
     /****/
     /***********************************建立資料夾*************************************/
     public void isExist(String path) {
@@ -1933,5 +1951,13 @@ public class PhotosActivity extends AppCompatActivity {
                         //progressDialog.dismiss();
                     }
                 }, 2000);
+    }
+    private void success(Integer success) {
+        SQL sql1 = new SQL();
+        if (success == 1) {
+            sql1.makeTextAndShow(getApplicationContext(), "上傳成功", Toast.LENGTH_LONG);
+        }else if (success == 0 || success == null){
+            sql1.makeTextAndShow(getApplicationContext(), "上傳失敗", Toast.LENGTH_LONG);
+        }
     }
 }

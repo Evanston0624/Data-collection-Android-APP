@@ -42,6 +42,7 @@ public class SettingActivity extends AppCompatActivity {
     Button logoutbutton;
     private Switch question_voice_switch;
     String myData;
+    Integer success = 0;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting_layout);
@@ -92,7 +93,8 @@ public class SettingActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         try {
                             SQL sql1 = new SQL();
-                            sql1.InsertNewData_new(buffer.getAccount(), buffer.getTime(), "SCL1", buffer.getEmotion(), "6");
+                            success = sql1.InsertNewData_new(buffer.getAccount(), buffer.getTime(), "SCL1", buffer.getEmotion(), "6");
+//                            success(success);
                         } catch (Exception e) {
                             Log.e("error update SCL1",e.toString());
                         }
@@ -111,6 +113,7 @@ public class SettingActivity extends AppCompatActivity {
                         try {
                             SQL sql1 = new SQL();
                             sql1.InsertNewData_new(buffer.getAccount(), buffer.getTime(), "SCL2", buffer.getEmotion(), "7");
+//                            success(success);
                         } catch (Exception e) {
                             Log.e("error update SCL2",e.toString());
                         }
@@ -223,6 +226,14 @@ public class SettingActivity extends AppCompatActivity {
             }
             in.close();
         } catch (Exception e) {
+        }
+    }
+    private void success(Integer success) {
+        SQL sql1 = new SQL();
+        if (success == 1) {
+            sql1.makeTextAndShow(getApplicationContext(), "上傳成功", Toast.LENGTH_LONG);
+        }else if (success == 0 || success == null){
+            sql1.makeTextAndShow(getApplicationContext(), "上傳失敗", Toast.LENGTH_LONG);
         }
     }
 }

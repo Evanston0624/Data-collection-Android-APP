@@ -73,7 +73,7 @@ public class FeedbackActivity  extends AppCompatActivity {
         String[] DA = {"","-5","-5","-5","-5","-5","-5"};
         for (int i=1;i<7;i++) {
             try {
-                String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/UserFeedback.php?at="
+                String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/UserFeedback.php?at="
                         + myData + "&nt=" + nowtime + "&yt=" + yestertime + "&lt=" + lastweektime + "&type=" + i);
                 if (result.indexOf("\nnull\n") < 0){
                     JSONArray jsonArray = new JSONArray(result);
@@ -117,7 +117,7 @@ public class FeedbackActivity  extends AppCompatActivity {
 //                        String cresult = jsonData.getString("count(*)");
                     }
                     else if(i==6){
-                        String result7 = DBConnector.executeQuery("http://140.116.82.102:8080/app/UserFeedback.php?at="
+                        String result7 = DBConnector.executeQuery(buffer.getServerPosition()+"/app/UserFeedback.php?at="
                                 + myData + "&nt=" + nowtime + "&yt=" + yestertime + "&lt=" + lastweektime + "&type=" + 7);
                         JSONArray jsonArray7 = new JSONArray(result7);
                         JSONObject jsonData7 = jsonArray7.getJSONObject(0);

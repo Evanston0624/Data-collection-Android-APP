@@ -281,7 +281,7 @@ public class GPS extends Service {
         ConnectivityManager connectionManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);    //得到系統服務類
         NetworkInfo networkInfo = connectionManager.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isAvailable()) {
-            String query = "http://140.116.82.102:8080/app/InsertNewGPSData.php?Account=" +saccount+ "&speed=" + speed + "&startlat=" + startx +
+            String query = buffer.getServerPosition()+"/app/InsertNewGPSData.php?Account=" +saccount+ "&speed=" + speed + "&startlat=" + startx +
                     "&startlng=" + starty + "&endlat=" + endx + "&endlng=" + endy + "&starttime=" + starttime +
                     "&endtime=" + endtime + "&distance=" + distance + "&costtime=" + costtime + "&offl=0";
                 new Thread(

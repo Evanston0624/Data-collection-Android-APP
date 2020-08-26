@@ -301,7 +301,7 @@ public class OffGPS extends Service {
         if (networkInfo != null && networkInfo.isAvailable() && GPSofflineNum == 0) {
         }else if(networkInfo != null && networkInfo.isAvailable() && GPSofflineNum !=0) {
             for (int i=0;i<GPSofflineNum;i++) {
-                String query = "http://140.116.82.102:8080/app/InsertNewGPSDataOffline.php?Account=" + saccount + "&speed=" + speedary.get(i) + "&startlat=" + stxary.get(i) +
+                String query = buffer.getServerPosition()+"/app/InsertNewGPSDataOffline.php?Account=" + saccount + "&speed=" + speedary.get(i) + "&startlat=" + stxary.get(i) +
                         "&startlng=" + styary.get(i) + "&endlat=" + edxary.get(i) + "&endlng=" + edyary.get(i) + "&starttime=" + sttimeary.get(i) +
                         "&endtime=" + edtimeary.get(i) + "&distance=" + distanceary.get(i) + "&costtime=" + costimeary.get(i) + "&time=" + GPSsavetimeary.get(i) + "&offl=1";
                 new Thread(

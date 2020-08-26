@@ -84,7 +84,7 @@ public class PointActivity extends AppCompatActivity {
         int[] pointif = getResources().getIntArray(R.array.PointInf);
         int[] DA = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
         try {
-            String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/checkAccount.php?at="+myData+"&pw=0");
+            String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/checkAccount.php?at="+myData+"&pw=0");
             JSONArray jsonArray = new JSONArray(result);
             JSONObject jsonData = jsonArray.getJSONObject(0);
             for (int i=0;i<=26;i++){
@@ -147,104 +147,104 @@ public class PointActivity extends AppCompatActivity {
         /**判斷是否需要更新**/
         /**更新**/
         int j = 0;
-        for (int i=1;i<=26;i++){
-            if (DA[i] == 0) {/**如果沒達成，才計算**/
-                Integer pointcount = 0;
-
-                if(i == 1) {
-                    try {
-                        String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/PointCal.php?at=" + myData + "&ict=" + i);
-                        JSONArray jsonArray = new JSONArray(result);
-                        JSONObject jsonData = jsonArray.getJSONObject(0);
-                        String Countresilt = jsonData.getString("count(*)");
-                        pointcount = Integer.valueOf(Countresilt).intValue();
-                    } catch (Exception e) {
-                        Log.e("error Load Point Data", e.toString());
-                    }
-                } else if(i == 2) {
-                    try {
-                        String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/PointCal.php?at=" + myData + "&ict=" + i);
-                        JSONArray jsonArray = new JSONArray(result);
-                        JSONObject jsonData = jsonArray.getJSONObject(0);
-                        String Countresilt = jsonData.getString("count(*)");
-                        pointcount = Integer.valueOf(Countresilt).intValue();
-                    } catch (Exception e) {
-                        Log.e("error Load Point Data", e.toString());
-                    }
-                } else if(i > 2 & i <= 17) {
-                    try {
-                        String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/PointCal.php?at="
-                                + myData + "&ict=" + i + "&stt=" + nowtime_str + "&ent=" + endtime_str[(i-3)%5]);
-                        JSONArray jsonArray = new JSONArray(result);
-                        JSONObject jsonData = jsonArray.getJSONObject(0);
-                        String Countresilt = jsonData.getString("count(*)");
-                        pointcount = Integer.valueOf(Countresilt).intValue();
-                    } catch (Exception e) {
-                        Log.e("error Load Point Data", e.toString());
-                    }
-                } else if(i > 17 & i <= 21) {
-                    try {
-                        String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/PointCal.php?at="
-                                + myData + "&ict=" + i + "&stt=" + nowtime_str + "&ent=" + endtime_str_SCL[(i-3)%5]);
-                        JSONArray jsonArray = new JSONArray(result);
-                        JSONObject jsonData = jsonArray.getJSONObject(0);
-                        String Countresilt = jsonData.getString("count(*)");
-                        pointcount = Integer.valueOf(Countresilt).intValue();
-                    } catch (Exception e) {
-                        Log.e("error Load Point Data", e.toString());
-                    }
-                } else if(i > 21 & i <= 26& DA[i-19] == 1 & DA[i-14] == 1 & DA[i-9] == 1){
-                    pointcount = 810624;
-                }
-                /**防詐領區域**/
-                if (i > 7 & i <= 17 & pointcount >= pointif[i]) {
-                    Integer lastpointcount = 0;
-                    try {
-                        String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/PointCal.php?at="
-                                + myData + "&ict=" + i + "&stt=" + nowtime_str + "&ent=" + fool_proof_str[(i-3)%5]);
-                        JSONArray jsonArray = new JSONArray(result);
-                        JSONObject jsonData = jsonArray.getJSONObject(0);
-                        String Countresilt = jsonData.getString("count(*)");
-                        lastpointcount = Integer.valueOf(Countresilt).intValue();
-                    } catch (Exception e) {
-                        Log.e("error Load Point Data", e.toString());
-                    }
-                    if (pointcount > lastpointcount){
-                        DA[i] = 1;
-                        DA[0] = DA[0] + pointnumsum[i];
-                    }
-                }else if(i > 18 & i <= 21 & pointcount >= pointif[i]){
-                    Integer lastpointcount = 0;
-                    try {
-                        String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/PointCal.php?at="
-                                + myData + "&ict=" + i + "&stt=" + nowtime_str + "&ent=" + fool_proof_str_SCL[(i-3)%5]);
-                        JSONArray jsonArray = new JSONArray(result);
-                        JSONObject jsonData = jsonArray.getJSONObject(0);
-                        String Countresilt = jsonData.getString("count(*)");
-                        lastpointcount = Integer.valueOf(Countresilt).intValue();
-                    } catch (Exception e) {
-                        Log.e("error Load Point Data", e.toString());
-                    }
-                    if (pointcount > lastpointcount){
-                        DA[i] = 1;
-                        DA[0] = DA[0] + pointnumsum[i];
-                    }
-                    /**防詐領區域**/
-                }else if (pointcount >= pointif[i]){
-                    DA[i] = 1;
-                    DA[0] = DA[0] + pointnumsum[i];
-                }
-
-                j = 1;
-            }
-        }
-        if (j == 1) {
-            String stringsum = "";
-            for (int i=0;i<=26;i++){
-                stringsum = stringsum + ("&"+pointloadvalue[i]+"="+ DA[i]);
-            }
-            String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/PointUpd.php?at=" + myData + stringsum);
-        }
+//        for (int i=1;i<=26;i++){
+//            if (DA[i] == 0) {/**如果沒達成，才計算**/
+//                Integer pointcount = 0;
+//
+//                if(i == 1) {
+//                    try {
+//                        String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/PointCal.php?at=" + myData + "&ict=" + i);
+//                        JSONArray jsonArray = new JSONArray(result);
+//                        JSONObject jsonData = jsonArray.getJSONObject(0);
+//                        String Countresilt = jsonData.getString("count(*)");
+//                        pointcount = Integer.valueOf(Countresilt).intValue();
+//                    } catch (Exception e) {
+//                        Log.e("error Load Point Data", e.toString());
+//                    }
+//                } else if(i == 2) {
+//                    try {
+//                        String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/PointCal.php?at=" + myData + "&ict=" + i);
+//                        JSONArray jsonArray = new JSONArray(result);
+//                        JSONObject jsonData = jsonArray.getJSONObject(0);
+//                        String Countresilt = jsonData.getString("count(*)");
+//                        pointcount = Integer.valueOf(Countresilt).intValue();
+//                    } catch (Exception e) {
+//                        Log.e("error Load Point Data", e.toString());
+//                    }
+//                } else if(i > 2 & i <= 17) {
+//                    try {
+//                        String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/PointCal.php?at="
+//                                + myData + "&ict=" + i + "&stt=" + nowtime_str + "&ent=" + endtime_str[(i-3)%5]);
+//                        JSONArray jsonArray = new JSONArray(result);
+//                        JSONObject jsonData = jsonArray.getJSONObject(0);
+//                        String Countresilt = jsonData.getString("count(*)");
+//                        pointcount = Integer.valueOf(Countresilt).intValue();
+//                    } catch (Exception e) {
+//                        Log.e("error Load Point Data", e.toString());
+//                    }
+//                } else if(i > 17 & i <= 21) {
+//                    try {
+//                        String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/PointCal.php?at="
+//                                + myData + "&ict=" + i + "&stt=" + nowtime_str + "&ent=" + endtime_str_SCL[(i-3)%5]);
+//                        JSONArray jsonArray = new JSONArray(result);
+//                        JSONObject jsonData = jsonArray.getJSONObject(0);
+//                        String Countresilt = jsonData.getString("count(*)");
+//                        pointcount = Integer.valueOf(Countresilt).intValue();
+//                    } catch (Exception e) {
+//                        Log.e("error Load Point Data", e.toString());
+//                    }
+//                } else if(i > 21 & i <= 26& DA[i-19] == 1 & DA[i-14] == 1 & DA[i-9] == 1){
+//                    pointcount = 810624;
+//                }
+//                /**防詐領區域**/
+//                if (i > 7 & i <= 17 & pointcount >= pointif[i]) {
+//                    Integer lastpointcount = 0;
+//                    try {
+//                        String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/PointCal.php?at="
+//                                + myData + "&ict=" + i + "&stt=" + nowtime_str + "&ent=" + fool_proof_str[(i-3)%5]);
+//                        JSONArray jsonArray = new JSONArray(result);
+//                        JSONObject jsonData = jsonArray.getJSONObject(0);
+//                        String Countresilt = jsonData.getString("count(*)");
+//                        lastpointcount = Integer.valueOf(Countresilt).intValue();
+//                    } catch (Exception e) {
+//                        Log.e("error Load Point Data", e.toString());
+//                    }
+//                    if (pointcount > lastpointcount){
+//                        DA[i] = 1;
+//                        DA[0] = DA[0] + pointnumsum[i];
+//                    }
+//                }else if(i > 18 & i <= 21 & pointcount >= pointif[i]){
+//                    Integer lastpointcount = 0;
+//                    try {
+//                        String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/PointCal.php?at="
+//                                + myData + "&ict=" + i + "&stt=" + nowtime_str + "&ent=" + fool_proof_str_SCL[(i-3)%5]);
+//                        JSONArray jsonArray = new JSONArray(result);
+//                        JSONObject jsonData = jsonArray.getJSONObject(0);
+//                        String Countresilt = jsonData.getString("count(*)");
+//                        lastpointcount = Integer.valueOf(Countresilt).intValue();
+//                    } catch (Exception e) {
+//                        Log.e("error Load Point Data", e.toString());
+//                    }
+//                    if (pointcount > lastpointcount){
+//                        DA[i] = 1;
+//                        DA[0] = DA[0] + pointnumsum[i];
+//                    }
+//                    /**防詐領區域**/
+//                }else if (pointcount >= pointif[i]){
+//                    DA[i] = 1;
+//                    DA[0] = DA[0] + pointnumsum[i];
+//                }
+//
+//                j = 1;
+//            }
+//        }
+//        if (j == 1) {
+//            String stringsum = "";
+//            for (int i=0;i<=26;i++){
+//                stringsum = stringsum + ("&"+pointloadvalue[i]+"="+ DA[i]);
+//            }
+//            String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/PointUpd.php?at=" + myData + stringsum);
+//        }
         try {
             Date Comparisondate = sdf6.parse(str);
             long Comparisonlong = Comparisondate.getTime();
@@ -271,7 +271,7 @@ public class PointActivity extends AppCompatActivity {
         /***************************每日達成事項***************************/
 
         for(int i=1;i<7;i++){
-            String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/DayWorkReturn.php?at=" + myData + "&ict=" + i +
+            String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/DayWorkReturn.php?at=" + myData + "&ict=" + i +
                     "&stt=" + segmentstt + "&ent=" + segmentent + "&ntt=" + segmentntt + "&wkt=" + segmentwkt);
             if (i >=2 && i <=4) {
                 try {
@@ -306,6 +306,235 @@ public class PointActivity extends AppCompatActivity {
         }
         newrecyc(DA, DayWork, DayWorkString);
     }
+    private void LoadPoint (String myData){
+        /**讀取Point資料**/
+        String[] pointloadvalue = getResources().getStringArray(R.array.PointLoadValue);
+        int[] pointnumsum = getResources().getIntArray(R.array.PointNumSum);
+        int[] pointif = getResources().getIntArray(R.array.PointInf);
+        int[] DA = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+        try {
+            String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/checkAccount.php?at="+myData+"&pw=0");
+            JSONArray jsonArray = new JSONArray(result);
+            JSONObject jsonData = jsonArray.getJSONObject(0);
+            for (int i=0;i<=26;i++){
+                String Pointresilt = jsonData.getString(pointloadvalue[i]);
+                DA[i] = Integer.valueOf(Pointresilt).intValue();
+            }
+        } catch (Exception e) {
+            Log.e("error Load Point Data", e.toString());
+        }
+        /**查詢是否需要更新Point資料**/
+        /**起始時間String>Date>Long**/
+        String nowtime_str = "";
+
+        String[] endtime_str = {"","","","",""};
+        String[] fool_proof_str = {"","","","",""};
+
+        String[] endtime_str_SCL = {"","","",""};
+        String[] fool_proof_str_SCL = {"","","",""};
+
+        long nowtime = 0;
+
+        long[] month_pt = {7,30,30,60,90};
+        long[] fool_proof_pt = {4,19,27,54,79};
+
+        long[] month_pt_SCL = {7,30,60,90};
+        long[] fool_proof_pt_SCL = {4,20,54,79};
+        SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf6 = new SimpleDateFormat("yyyy-MM-dd+kk:mm:ss");
+
+        /**當前時間**/
+        //當前
+        nowtime = System.currentTimeMillis();
+        Date date = new Date(nowtime+86400000);
+        nowtime_str  = sdf.format(date);
+
+        //Daywork
+        int[] DayWork = {0,0,0,0,0,0,0};//Dayemotion,Daymood,Sleep,gitup,問卷
+        String[] DayWorkString = {"","","","","","",""};//Dayemotion,Daymood,Sleep,gitup,問卷
+        String segmentntt = "";
+        String segmentstt = "";
+        String segmentent = "";
+        String segmentwkt = "";
+        Date nowdate = new Date(nowtime);
+        String str  = (sdf.format(nowdate))+"+04:00:00";
+
+        //週
+        for (int i=0;i<=4;i++){
+            date = new Date(nowtime-(86400000*month_pt[i]));
+            endtime_str[i]  = sdf.format(date);
+            date = new Date(nowtime-(86400000*fool_proof_pt[i]));
+            fool_proof_str[i]  = sdf.format(date);
+            if (i != 4){
+                date = new Date(nowtime-(86400000*month_pt_SCL[i]));
+                endtime_str_SCL[i]  = sdf.format(date);
+                date = new Date(nowtime-(86400000*fool_proof_pt_SCL[i]));
+                fool_proof_str_SCL[i]  = sdf.format(date);
+            }
+        }
+        /**計算筆數**/
+        /**判斷是否需要更新**/
+        /**更新**/
+        int j = 1;
+        for (int i=1;i<=26;i++){
+            if (DA[i] == 0) {/**如果沒達成，才計算**/
+                Integer pointcount = 0;
+
+                if(i == 1) {
+                    try {
+                        String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/PointCal.php?at=" + myData + "&ict=" + i);
+                        JSONArray jsonArray = new JSONArray(result);
+                        JSONObject jsonData = jsonArray.getJSONObject(0);
+                        String Countresilt = jsonData.getString("count(*)");
+                        pointcount = Integer.valueOf(Countresilt).intValue();
+                    } catch (Exception e) {
+                        Log.e("error Load Point Data", e.toString());
+                    }
+                } else if(i == 2) {
+                    try {
+                        String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/PointCal.php?at=" + myData + "&ict=" + i);
+                        JSONArray jsonArray = new JSONArray(result);
+                        JSONObject jsonData = jsonArray.getJSONObject(0);
+                        String Countresilt = jsonData.getString("count(*)");
+                        pointcount = Integer.valueOf(Countresilt).intValue();
+                    } catch (Exception e) {
+                        Log.e("error Load Point Data", e.toString());
+                    }
+                } else if(i > 2 & i <= 17) {
+                    try {
+                        String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/PointCal.php?at="
+                                + myData + "&ict=" + i + "&stt=" + nowtime_str + "&ent=" + endtime_str[(i-3)%5]);
+                        JSONArray jsonArray = new JSONArray(result);
+                        JSONObject jsonData = jsonArray.getJSONObject(0);
+                        String Countresilt = jsonData.getString("count(*)");
+                        pointcount = Integer.valueOf(Countresilt).intValue();
+                    } catch (Exception e) {
+                        Log.e("error Load Point Data", e.toString());
+                    }
+                } else if(i > 17 & i <= 21) {
+                    try {
+                        String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/PointCal.php?at="
+                                + myData + "&ict=" + i + "&stt=" + nowtime_str + "&ent=" + endtime_str_SCL[(i-3)%5]);
+                        JSONArray jsonArray = new JSONArray(result);
+                        JSONObject jsonData = jsonArray.getJSONObject(0);
+                        String Countresilt = jsonData.getString("count(*)");
+                        pointcount = Integer.valueOf(Countresilt).intValue();
+                    } catch (Exception e) {
+                        Log.e("error Load Point Data", e.toString());
+                    }
+                } else if(i > 21 & i <= 26& DA[i-19] == 1 & DA[i-14] == 1 & DA[i-9] == 1){
+                    pointcount = 810624;
+                }
+                /**防詐領區域**/
+                if (i > 7 & i <= 17 & pointcount >= pointif[i]) {
+                    Integer lastpointcount = 0;
+                    try {
+                        String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/PointCal.php?at="
+                                + myData + "&ict=" + i + "&stt=" + nowtime_str + "&ent=" + fool_proof_str[(i-3)%5]);
+                        JSONArray jsonArray = new JSONArray(result);
+                        JSONObject jsonData = jsonArray.getJSONObject(0);
+                        String Countresilt = jsonData.getString("count(*)");
+                        lastpointcount = Integer.valueOf(Countresilt).intValue();
+                    } catch (Exception e) {
+                        Log.e("error Load Point Data", e.toString());
+                    }
+                    if (pointcount > lastpointcount){
+                        DA[i] = 1;
+                        DA[0] = DA[0] + pointnumsum[i];
+                    }
+                }else if(i > 18 & i <= 21 & pointcount >= pointif[i]){
+                    Integer lastpointcount = 0;
+                    try {
+                        String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/PointCal.php?at="
+                                + myData + "&ict=" + i + "&stt=" + nowtime_str + "&ent=" + fool_proof_str_SCL[(i-3)%5]);
+                        JSONArray jsonArray = new JSONArray(result);
+                        JSONObject jsonData = jsonArray.getJSONObject(0);
+                        String Countresilt = jsonData.getString("count(*)");
+                        lastpointcount = Integer.valueOf(Countresilt).intValue();
+                    } catch (Exception e) {
+                        Log.e("error Load Point Data", e.toString());
+                    }
+                    if (pointcount > lastpointcount){
+                        DA[i] = 1;
+                        DA[0] = DA[0] + pointnumsum[i];
+                    }
+                    /**防詐領區域**/
+                }else if (pointcount >= pointif[i]){
+                    DA[i] = 1;
+                    DA[0] = DA[0] + pointnumsum[i];
+                }
+
+                j = 1;
+            }
+        }
+        if (j == 1) {
+            String stringsum = "";
+            for (int i=0;i<=26;i++){
+                stringsum = stringsum + ("&"+pointloadvalue[i]+"="+ DA[i]);
+            }
+            String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/PointUpd.php?at=" + myData + stringsum);
+        }
+        try {
+            Date Comparisondate = sdf6.parse(str);
+            long Comparisonlong = Comparisondate.getTime();
+            if(nowdate.before(Comparisondate)){
+                segmentent = str;
+                date = new Date(Comparisonlong-86400000);
+                segmentstt  = sdf6.format(date);
+                date = new Date(Comparisonlong-(86400000*2));
+                segmentntt  = sdf6.format(date);
+                date = new Date(Comparisonlong-((86400000*7)+43200000));
+                segmentwkt  = sdf6.format(date);
+            }else{
+                segmentstt = str;
+                date = new Date(Comparisonlong+86400000);
+                segmentent  = sdf6.format(date);
+                date = new Date(Comparisonlong-86400000);
+                segmentntt  = sdf6.format(date);
+                date = new Date(Comparisonlong-((86400000*6)+43200000));
+                segmentwkt  = sdf6.format(date);
+            }
+        } catch (ParseException e) {
+            Log.e("error DayWork time", e.toString());
+        }
+        /***************************每日達成事項***************************/
+
+        for(int i=1;i<7;i++){
+            String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/DayWorkReturn.php?at=" + myData + "&ict=" + i +
+                    "&stt=" + segmentstt + "&ent=" + segmentent + "&ntt=" + segmentntt + "&wkt=" + segmentwkt);
+            if (i >=2 && i <=4) {
+                try {
+                    JSONArray jsonArray = new JSONArray(result);
+                    JSONObject jsonData = jsonArray.getJSONObject(0);
+                    String dwresult = jsonData.getString("Datetime");
+
+                    if (dwresult != ""){
+                        DayWork[i] = DayWork[i]+1;
+                        dwresult = jsonData.getString("write");
+                        DayWorkString[i] = DayWorkString[i]+dwresult;
+                    }
+                }catch (Exception e) {
+                    Log.e("error Day Work", e.toString());
+                }
+            }else{
+                try {
+                    JSONArray jsonArray = new JSONArray(result);
+                    JSONObject jsonData = jsonArray.getJSONObject(0);
+                    String dwresult = jsonData.getString("count(*)");
+                    int intdwresult = Integer.valueOf(dwresult).intValue();
+                    if (intdwresult != 0){
+                        DayWork[i] = DayWork[i]+1;
+                        dwresult = jsonData.getString("write");
+                        DayWorkString[i] = DayWorkString[i]+dwresult;
+                    }
+                }catch (Exception e) {
+                    Log.e("error Day Work", e.toString());
+                }
+            }
+        }
+        newrecyc(DA, DayWork, DayWorkString);
+    }
+
     private void newrecyc (int[] DA, int[] DayWork, String[] DayWorkString) {
         /**------------------------------創建Recyc------------------------------**/
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);

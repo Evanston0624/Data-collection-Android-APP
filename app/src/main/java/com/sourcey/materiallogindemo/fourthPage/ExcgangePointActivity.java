@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -31,30 +32,58 @@ import com.sourcey.materiallogindemo.R;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import butterknife.OnClick;
 
 
 public class ExcgangePointActivity extends AppCompatActivity {
     private Button ExPointButtonOne, ExPointButtonAll ,HistPointButton, ExCancel;
-    private TextView ExTextView;
-    private static Toast Toast;
-    private static TextView ToastText;
+    private TextView ExTextView, exTextView2;
 
-    private String PointNum = "";
+
+    private String PointNum = "", updateInf = "";
     private Integer intPointNum = 0;
     ArrayAdapter <String> adapter;
     private List<String> SpinnerText;
+
+    private URL url = null;
+    private String UrlEx = buffer.getServerPosition()+"/app_webpage/app_dl/exchangeInf.txt";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_exchange);
         ExCancel = findViewById(R.id.ExCancel);
+        exTextView2 = findViewById(R.id.exTextView2);
         HistPointButton = findViewById(R.id.HistPointButton);
+
+        /**設置兌換人員資訊**/
+        try {
+            url = new URL(UrlEx);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        UpdateInf task1 = new UpdateInf();
+        task1.execute(url);
+        try {
+            updateInf = task1.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        exTextView2.setText(updateInf);
+
+
         /**關閉視窗按鈕設置**/
         ExCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,7 +104,7 @@ public class ExcgangePointActivity extends AppCompatActivity {
     private String LoadPointNum (String myData){
         String PN = "";
         try {
-            String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/checkAccount.php?at=" + myData+"&pw=0");
+            String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/checkAccount.php?at=" + myData+"&pw=0");
             JSONArray jsonArray = new JSONArray(result);
             JSONObject jsonData = jsonArray.getJSONObject(0);
             PN = jsonData.getString("Pointnum");
@@ -117,7 +146,7 @@ public class ExcgangePointActivity extends AppCompatActivity {
                                                             int NewintPointNum;
                                                             String dtresult = "";
                                                             try {
-                                                                String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/PointExchangeUpd.php?at=" + buffer.getAccount() + "&Pointnum=" +
+                                                                String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/PointExchangeUpd.php?at=" + buffer.getAccount() + "&Pointnum=" +
                                                                         (intPointNum - 100) + "&Ptn=1&time=" + buffer.getTimeSP());
                                                             }catch(Exception e){
 
@@ -129,16 +158,19 @@ public class ExcgangePointActivity extends AppCompatActivity {
                                                                 PointNum = NewPointNum;
                                                                 intPointNum = NewintPointNum;
                                                                 SetTextView(PointNum);
-                                                                makeTextAndShow(getApplicationContext(), "兌換成功", Toast.LENGTH_LONG);
+                                                                SQL sql1 = new SQL();
+                                                                sql1.makeTextAndShow(getApplicationContext(), "兌換成功", Toast.LENGTH_LONG);
                                                             } else {
-                                                                makeTextAndShow(getApplicationContext(), "兌換失敗，請重新開啟程式以確認點數或洽開發人員", Toast.LENGTH_LONG);
+                                                                SQL sql1 = new SQL();
+                                                                sql1.makeTextAndShow(getApplicationContext(), "兌換失敗，請重新開啟程式以確認點數或洽開發人員", Toast.LENGTH_LONG);
                                                             }
                                                         }
                                                     })//設定結束的子視窗
                                                     .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                                         @Override
                                                         public void onClick(DialogInterface dialog, int which) {
-                                                            makeTextAndShow(getApplicationContext(), "取消", Toast.LENGTH_LONG);
+                                                            SQL sql1 = new SQL();
+                                                            sql1.makeTextAndShow(getApplicationContext(), "取消", Toast.LENGTH_LONG);
                                                         }
                                                     })
                                                     .show();//呈現對話視窗}
@@ -148,13 +180,15 @@ public class ExcgangePointActivity extends AppCompatActivity {
                                     .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            makeTextAndShow(getApplicationContext(), "取消", Toast.LENGTH_LONG);
+                                            SQL sql1 = new SQL();
+                                            sql1.makeTextAndShow(getApplicationContext(), "取消", Toast.LENGTH_LONG);
                                         }
                                     })
                                     .show();//呈現對話視窗}
                         }
                         else {
-                            makeTextAndShow(getApplicationContext(), "點數還不夠呢!繼續加油", Toast.LENGTH_LONG);
+                            SQL sql1 = new SQL();
+                            sql1.makeTextAndShow(getApplicationContext(), "點數還不夠呢!繼續加油", Toast.LENGTH_LONG);
                         }
                     }
                 }
@@ -184,7 +218,7 @@ public class ExcgangePointActivity extends AppCompatActivity {
                                                             String NewPointNum;
                                                             int NewintPointNum;
                                                             int manyPN = (intPointNum / 100) * 100;
-                                                            String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/PointExchangeUpd.php?at=" + buffer.getAccount() + "&Pointnum=" +
+                                                            String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/PointExchangeUpd.php?at=" + buffer.getAccount() + "&Pointnum=" +
                                                                     (intPointNum - manyPN)+"&Ptn="+(intPointNum/100)+"&time="+buffer.getTimeSP());
                                                             NewPointNum = LoadPointNum(buffer.getAccount());
                                                             NewintPointNum = Integer.valueOf(NewPointNum).intValue();
@@ -193,16 +227,19 @@ public class ExcgangePointActivity extends AppCompatActivity {
                                                                 PointNum = NewPointNum;
                                                                 intPointNum = NewintPointNum;
                                                                 SetTextView(PointNum);
-                                                                makeTextAndShow(getApplicationContext(), "兌換成功", Toast.LENGTH_LONG);
+                                                                SQL sql1 = new SQL();
+                                                                sql1.makeTextAndShow(getApplicationContext(), "兌換成功", Toast.LENGTH_LONG);
                                                             } else {
-                                                                makeTextAndShow(getApplicationContext(), "兌換失敗，請重新開啟程式以確認點數或洽開發人員", Toast.LENGTH_LONG);
+                                                                SQL sql1 = new SQL();
+                                                                sql1.makeTextAndShow(getApplicationContext(), "兌換失敗，請重新開啟程式以確認點數或洽開發人員", Toast.LENGTH_LONG);
                                                             }
                                                         }
                                                     })//設定結束的子視窗
                                                     .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                                         @Override
                                                         public void onClick(DialogInterface dialog, int which) {
-                                                            makeTextAndShow(getApplicationContext(), "取消", Toast.LENGTH_LONG);
+                                                            SQL sql1 = new SQL();
+                                                            sql1.makeTextAndShow(getApplicationContext(), "取消", Toast.LENGTH_LONG);
                                                         }
                                                     })
                                                     .show();//呈現對話視窗}
@@ -212,17 +249,46 @@ public class ExcgangePointActivity extends AppCompatActivity {
                                     .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            makeTextAndShow(getApplicationContext(), "取消", Toast.LENGTH_LONG);
+                                            SQL sql1 = new SQL();
+                                            sql1.makeTextAndShow(getApplicationContext(), "取消", Toast.LENGTH_LONG);
                                         }
                                     })
                                     .show();//呈現對話視窗}
                         }
                         else {
-                            makeTextAndShow(getApplicationContext(), "點數還不夠呢!繼續加油", Toast.LENGTH_LONG);
+                            SQL sql1 = new SQL();
+                            sql1.makeTextAndShow(getApplicationContext(), "點數還不夠呢!繼續加油", Toast.LENGTH_LONG);
                         }
                     }
                 }
         );
+    }
+    private class UpdateInf extends AsyncTask<URL, Void , String> {
+        protected String doInBackground(URL... url) {
+            HttpURLConnection httpConn = null;
+            String content = "";
+            try {
+                httpConn = (HttpURLConnection) url[0].openConnection();
+                if (httpConn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    Log.d("TAG", "-can't check--");
+                    InputStreamReader isr = new InputStreamReader(httpConn.getInputStream(), "big5");
+                    int i;
+                    while ((i = isr.read()) != -1) {
+                        content = content + (char) i;
+                    }
+                    Log.e(content, content);
+                    isr.close();
+                    httpConn.disconnect();
+                    Log.e(content,content);
+                } else {
+                    Log.d("TAG", "---into-----urlConnection---fail--");
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return content;
+        }
     }
     private void HistPoint() {
         HistPointButton = findViewById(R.id.HistPointButton);
@@ -268,30 +334,5 @@ public class ExcgangePointActivity extends AppCompatActivity {
                 }
         );
 
-    }
-    private static void makeTextAndShow(final Context context, final String text, final int duration) {
-        if (Toast == null) {
-            //如果還沒有建立過Toast，才建立
-            final ViewGroup toastView = new FrameLayout(context); // 用來裝toastText的容器
-            final FrameLayout.LayoutParams flp = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
-            final GradientDrawable background = new GradientDrawable();
-            ToastText = new TextView(context);
-            ToastText.setLayoutParams(flp);
-            ToastText.setSingleLine(false);
-            ToastText.setTextSize(18);
-            ToastText.setTextColor(Color.argb(0xAA, 0xFF, 0xFF, 0xFF)); // 設定文字顏色為有點透明的白色
-            background.setColor(Color.argb(0xAA, 0xFF, 0x00, 0x00)); // 設定氣泡訊息顏色為有點透明的紅色
-            background.setCornerRadius(20); // 設定氣泡訊息的圓角程度
-
-            toastView.setPadding(30, 30, 30, 30); // 設定文字和邊界的距離
-            toastView.addView(ToastText);
-            toastView.setBackgroundDrawable(background);
-
-            Toast = new Toast(context);
-            Toast.setView(toastView);
-        }
-        ToastText.setText(text);
-        Toast.setDuration(duration);
-        Toast.show();
     }
 }

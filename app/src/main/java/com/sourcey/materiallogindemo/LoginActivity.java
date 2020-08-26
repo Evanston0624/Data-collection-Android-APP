@@ -69,9 +69,9 @@ public class LoginActivity extends AppCompatActivity {
     private static final int REQUEST_SIGNUP = 0;
 
     /**更新設定**/
-    public String Url = "http://140.116.82.102:8080/app_webpage/app_dl/version_n.txt";
-    public String Url1 = "http://140.116.82.102:8080/app_webpage/app_dl/updateInf.txt";
-    public String version_now = "2.1";//當前版本號
+    public String Url = buffer.getServerPosition()+"/app_webpage/app_dl/version_n.txt";
+    public String Url1 = buffer.getServerPosition()+"/app_webpage/app_dl/updateInf2.txt";
+    public String version_now = "3.0";//當前版本號
     //離線GPS系統 and 圖片優化
     @BindView(R.id.input_email)
     EditText _emailText;
@@ -143,7 +143,7 @@ public class LoginActivity extends AppCompatActivity {
                             .setPositiveButton("下載新的安裝檔", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Uri uri = Uri.parse("http://140.116.82.102:8080/app_webpage/app_dl/mastr.apk");//下載網址
+                                    Uri uri = Uri.parse(buffer.getServerPosition()+"/app_webpage/app_dl/mastr.apk");//下載網址
                                     Intent download = new Intent(Intent.ACTION_VIEW, uri);
                                     startActivity(download);
                                 }
@@ -430,7 +430,7 @@ public class LoginActivity extends AppCompatActivity {
             //Toast.makeText(this, "網路正常連接", Toast.LENGTH_SHORT).show();
             if (SearchAccount.CheckAccount(account, password).equals(account)) {
                     //if(1==1){
-                    dialog = ProgressDialog.show(LoginActivity.this,
+                    dialog = ProgressDialog.show(this,
                             "讀取中", "請等待3秒...", true);
 
                     String path = Environment.getExternalStorageDirectory().getPath() + "/RDataR/";
@@ -473,7 +473,7 @@ class SearchAccount {
     public static String CheckAccount(String account, String password) {
         String DA = "";
         try {
-            String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/checkAccount.php?at=" + account + "&pw=" + password + "");
+            String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/checkAccount.php?at=" + account + "&pw=" + password + "");
                 /*
                 SQL 結果有多筆資料時使用JSONArray
                 只有一筆資料時直接建立JSONObject物件

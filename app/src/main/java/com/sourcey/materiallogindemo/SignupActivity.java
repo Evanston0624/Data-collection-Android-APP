@@ -20,6 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import com.sourcey.materiallogindemo.MYSQL.DBConnector;
+import com.sourcey.materiallogindemo.MYSQL.buffer;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -211,7 +212,7 @@ class Sign {
     public static String CheckAccount(String account) {
         String DA = "";
         try {
-            String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/checkAccount.php?at="+account+"&pw=0");
+            String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/checkAccount.php?at="+account+"&pw=0");
                 /*
                 SQL 結果有多筆資料時使用JSONArray
                 只有一筆資料時直接建立JSONObject物件
@@ -241,8 +242,8 @@ class Sign {
         try {
             Calendar mCal = Calendar.getInstance();
             CharSequence s = DateFormat.format("yyyy-MM-dd kk:mm:ss", mCal.getTime());
-            String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/RegistUser.php?mat="+Medicalname+"&at="+account+"&pw="+password+"&name="+name+"&mobile="+mobile+"&email="+email+"");
-            //String query = "http://140.116.82.102:8080/app/InsertNewData.php?Account=" + account + "&time=" + s.toString() + "&content=趕緊寫下您在想甚麼&type=0&test_Anger=0&test_Boredom=0&test_Disgust=0&test_Anxiety=0&test_Happiness=3&test_Sadness=0&test_Surprised=3";
+            String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/RegistUser.php?mat="+Medicalname+"&at="+account+"&pw="+password+"&name="+name+"&mobile="+mobile+"&email="+email+"");
+            //String query = buffer.getServerPosition()+"/app/InsertNewData.php?Account=" + account + "&time=" + s.toString() + "&content=趕緊寫下您在想甚麼&type=0&test_Anger=0&test_Boredom=0&test_Disgust=0&test_Anxiety=0&test_Happiness=3&test_Sadness=0&test_Surprised=3";
             //result = DBConnector.executeQuery(query);
                 /*
                 SQL 結果有多筆資料時使用JSONArray

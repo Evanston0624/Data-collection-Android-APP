@@ -1,11 +1,23 @@
 package com.sourcey.materiallogindemo.MYSQL;
 
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
+import android.os.AsyncTask;
 import android.util.Log;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +46,7 @@ public class SQL {
         emotionSystem = new ArrayList<>();
 
         try {
-            String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/SelectInfHistory.php?at=" + account + "");
+            String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/SelectInfHistory.php?at=" + account + "");
 
 
             JSONArray jsonArray = new JSONArray(result);
@@ -130,7 +142,7 @@ public class SQL {
         time = new ArrayList<>();
 
         try {
-            String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/ExchangeHistory.php?at=" + account + "");
+            String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/ExchangeHistory.php?at=" + account + "");
 
             JSONArray jsonArray = new JSONArray(result);
             JSONObject jsonData;
@@ -154,8 +166,8 @@ public class SQL {
         emotion = new ArrayList<>();
 
         try {
-            String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/SelectInfsubject.php?at=" + account + "&fn="+filename+"");
-            //System.out.println("http://140.116.82.102:8080/app/SelectInfsubject.php?at=" + account + "&fn="+filename+"");
+            String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/SelectInfsubject.php?at=" + account + "&fn="+filename+"");
+            //System.out.println(buffer.getServerPosition()+"/app/SelectInfsubject.php?at=" + account + "&fn="+filename+"");
             JSONArray jsonArray = new JSONArray(result);
             JSONObject jsonData;
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -187,45 +199,113 @@ public class SQL {
         return data;
     }
 
-    public void UpdateData(String account, String time, String content, String
+    public Integer UpdateData(String account, String time, String content, String
             emotion, String type) {
+        Integer success = 0;
         try {
             String[] t = emotion.split(",");
-            String query = "http://140.116.82.102:8080/app/upload_data.php?Account=" + account + "&time=" + time.replace(" ","+") + "&content=" + content.replace(" ","+") + "&type="
+            String query = buffer.getServerPosition()+"/app/upload_data1.php?Account=" + account + "&time=" + time.replace(" ","+") + "&content=" + content.replace(" ","+") + "&type="
                     + type + "&object_Anger=" + t[0] + "&object_Boredom=" + t[1] + "&object_Disgust=" + t[2] + "&object_Anxiety=" + t[3] + "&object_Happiness=" + t[4] + "&object_Sadness=" + t[5] + "&object_Surprised=" + t[6];
             String result = DBConnector.executeQuery(query);
+            JSONObject jsonObject = new JSONObject(result);
+            String dtresult2 = jsonObject.getString("success");
+            success = Integer.parseInt(dtresult2);
         } catch (Exception e) {
             Log.e("log_tag", e.toString());
         }
+        return success;
     }
 
-    public void InsertNewData_new(String account, String time, String content, String
+    public Integer InsertNewData_new(String account, String time, String content, String
             emotion, String type) {
+        Integer success = 0;
         try {
             String[] t = emotion.split(",");
 
-            String query = "http://140.116.82.102:8080/app/InsertNewData.php?Account=" + account + "&time=" + time.replace(" ","+") + "&content=" + content.replace(" ","+") + "&type="
-                    + type + "&object_Anger=" + t[0] + "&object_Boredom=" + t[1] + "&object_Disgust=" + t[2] + "&object_Anxiety=" + t[3] +
-                    "&object_Happiness=" + t[4] + "&object_Sadness=" + t[5] + "&object_Surprised=" + t[6];
-                String result = DBConnector.executeQuery(query);
+            String query = buffer.getServerPosition()+"/app/InsertNewData1.php?Account=" + account + "&time=" + time.replace(" ","+") + "&content=" + content.replace(" ","+") + "&type="
+                    + type + "&object_Anger=" + t[0] + "&object_Boredom=" + t[1] + "&object_Disgust=" + t[2] + "&object_Anxiety=" + t[3] + "&object_Happiness=" + t[4] + "&object_Sadness=" + t[5] + "&object_Surprised=" + t[6];
+            String result = DBConnector.executeQuery(query);
+            JSONObject jsonObject = new JSONObject(result);
+            String dtresult2 = jsonObject.getString("success");
+            success = Integer.parseInt(dtresult2);
         } catch (Exception e) {
             Log.e("log_tag", e.toString());
         }
+        return success;
     }
-    public void UpdateDailyData(String account, String content, String
+    public Integer UpdateDailyData(String account, String content, String
             emotion, String type) {
+        Integer success = 0;
         try {
             String[] t = emotion.split(",");
-            String query = "http://140.116.82.102:8080/app/SelectInfDaily.php?at=" + account + "&type=" +type;
+            String query = buffer.getServerPosition()+"/app/SelectInfDaily.php?at=" + account + "&type=" +type;
             String result = DBConnector.executeQuery(query);
             JSONArray jsonArray = new JSONArray(result);
             JSONObject jsonData = jsonArray.getJSONObject(0);
             String dtresult = jsonData.getString("datetime");
-            query = "http://140.116.82.102:8080/app/UpdateDailyData.php?at=" + account + "&time=" + dtresult.replace(" ","+") + "&content=" + content.replace(" ","+");
+            query = buffer.getServerPosition()+"/app/UpdateDailyData1.php?at=" + account + "&time=" + dtresult.replace(" ","+") + "&content=" + content.replace(" ","+");
             result = DBConnector.executeQuery(query);
-            int cc= 1;
+            JSONObject jsonObject = new JSONObject(result);
+            String dtresult2 = jsonObject.getString("success");
+            success = Integer.parseInt(dtresult2);
         } catch (Exception e) {
             Log.e("log_tag", e.toString());
+        }
+        return success;
+    }
+    /**20200805**/
+    private static TextView ToastText;
+    private static Toast Toast;
+    public static void makeTextAndShow(final Context context, final String text, final int duration) {
+        if (Toast == null) {
+            //如果還沒有建立過Toast，才建立
+            final ViewGroup toastView = new FrameLayout(context); // 用來裝toastText的容器
+            final FrameLayout.LayoutParams flp = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+            final GradientDrawable background = new GradientDrawable();
+            ToastText = new TextView(context);
+            ToastText.setLayoutParams(flp);
+            ToastText.setSingleLine(false);
+            ToastText.setTextSize(18);
+            ToastText.setTextColor(Color.argb(0xAA, 0xFF, 0xFF, 0xFF)); // 設定文字顏色為有點透明的白色
+            background.setColor(Color.argb(0xAA, 0xFF, 0x00, 0x00)); // 設定氣泡訊息顏色為有點透明的紅色
+            background.setCornerRadius(20); // 設定氣泡訊息的圓角程度
+
+            toastView.setPadding(30, 30, 30, 30); // 設定文字和邊界的距離
+            toastView.addView(ToastText);
+            toastView.setBackgroundDrawable(background);
+
+            Toast = new Toast(context);
+            Toast.setView(toastView);
+        }
+        ToastText.setText(text);
+        Toast.setDuration(duration);
+        Toast.show();
+    }
+    public class grabInf extends AsyncTask<URL, Void , String> {
+        protected String doInBackground(URL... url) {
+            HttpURLConnection httpConn = null;
+            String content = "";
+            try {
+                httpConn = (HttpURLConnection) url[0].openConnection();
+                if (httpConn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    Log.d("TAG", "-can't check--");
+                    InputStreamReader isr = new InputStreamReader(httpConn.getInputStream(), "big5");
+                    int i;
+                    while ((i = isr.read()) != -1) {
+                        content = content + (char) i;
+                    }
+                    Log.e(content, content);
+                    isr.close();
+                    httpConn.disconnect();
+                    Log.e(content,content);
+                } else {
+                    Log.d("TAG", "---into-----urlConnection---fail--");
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return content;
         }
     }
 }

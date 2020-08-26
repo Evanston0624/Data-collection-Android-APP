@@ -18,6 +18,7 @@ public class buffer {
     private static String name;
     private static String account;
     private static String password;
+    private static String ServerPosition = "http://140.116.82.102:80";
     private static String alert_question_voice;
     private static ArrayList<String[]> dailyMood, sleepTime, getupTime, GPS;
     private static int type = 1,Max = 0,count=1;
@@ -87,7 +88,9 @@ public class buffer {
     public static String getAccount() {
         return account;
     }
-
+    public static String getServerPosition() {
+        return ServerPosition;
+    }
     public static String getPassword() {
         return password;
     }

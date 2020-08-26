@@ -70,7 +70,6 @@
         android:layout_below="@+id/HistPointButton"
         android:layout_alignStart="@+id/ExImageView"
         android:layout_alignEnd="@+id/ExCancel"
-        android:text="@string/ExTextView2"
         android:textColor="#651FFF"
         android:textSize="18sp" />
 </RelativeLayout>

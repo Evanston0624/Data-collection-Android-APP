@@ -244,7 +244,7 @@ public class SongsActivity extends AppCompatActivity {
     }
 
     private ArrayList<String[]> getE() throws JSONException {
-        String result = DBConnector.executeQuery("http://140.116.82.102:8080/app/SelectInf.php?at=" + buffer.getAccount() + "");
+        String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/SelectInf.php?at=" + buffer.getAccount() + "");
 
         ArrayList<String[]> d = new ArrayList<>();
         JSONArray jsonArray = new JSONArray(result);
@@ -274,7 +274,7 @@ public class SongsActivity extends AppCompatActivity {
         switch (type) {
             case 1:
                 ArrayList<String[]> data = new ArrayList<String[]>();
-                result = DBConnector.executeQuery("http://140.116.82.102:8080/app/SelectInfChart.php?at=" + buffer.getAccount() + "&ict=1");
+                result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/SelectInfChart.php?at=" + buffer.getAccount() + "&ict=1");
                 if (result.contains("<b>Notice</b>:")) {
                     //直接添加七筆，以免沒資料出錯
                     for (int i = 0; i < 5; i++) {
@@ -319,7 +319,7 @@ public class SongsActivity extends AppCompatActivity {
                 return data;
             case 2:
                 ArrayList<String[]> data2 = new ArrayList<String[]>();
-                result = DBConnector.executeQuery("http://140.116.82.102:8080/app/SelectInfChart.php?at=" + buffer.getAccount() + "&ict=2");
+                result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/SelectInfChart.php?at=" + buffer.getAccount() + "&ict=2");
                 if (result.contains("<b>Notice</b>:")) {
                     //直接添加七筆，以免沒資料出錯
                     for (int i = 0; i < 5; i++) {
@@ -371,7 +371,7 @@ public class SongsActivity extends AppCompatActivity {
                 return data2;
             case 3:
                 ArrayList<String[]> data3 = new ArrayList<String[]>();
-                result = DBConnector.executeQuery("http://140.116.82.102:8080/app/SelectInfChart.php?at=" + buffer.getAccount() + "&ict=3");
+                result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/SelectInfChart.php?at=" + buffer.getAccount() + "&ict=3");
                 if (result.contains("<b>Notice</b>:")) {
                     //直接添加七筆，以免沒資料出錯
                     for (int i = 0; i < 5; i++) {
@@ -428,7 +428,7 @@ public class SongsActivity extends AppCompatActivity {
                 //ArrayList<String> date4 = new ArrayList<String>();
                 String sGPS;
                 HashMap<String, Float> sGPSList = new HashMap<String, Float>();
-                result = DBConnector.executeQuery("http://140.116.82.102:8080/app/SelectInfChart.php?at=" + buffer.getAccount() + "&ict=4");
+                result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/SelectInfChart.php?at=" + buffer.getAccount() + "&ict=4");
                 if (result.contains("<b>Notice</b>:")) {
                     //直接添加七筆，以免沒資料出錯
                     for (int i = 0; i < 5; i++) {
