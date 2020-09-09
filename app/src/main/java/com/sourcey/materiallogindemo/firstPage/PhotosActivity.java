@@ -236,7 +236,6 @@ public class PhotosActivity extends AppCompatActivity {
                 int icon_int = Integer.parseInt(icon_type);
                 /**Emotion data**/
                 if (icon_int == 0 || icon_int == 1 || icon_int == 3) {
-//                if (icon_int == 0 || icon_int == 1) {
                     String[] type = Lemotion.get(i).split(",");
                     int j = 0;
                     float Max = 0;
