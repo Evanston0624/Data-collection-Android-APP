@@ -72,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
     public String Url = buffer.getServerPosition()+"/app_webpage/app_dl/version_n.txt";
     public String Url1 = buffer.getServerPosition()+"/app_webpage/app_dl/updateInf.txt";
     public String version_now = "3.0";//當前版本號
+    public String version_now_offgps = "3.0.0";//當前版本號
     //離線GPS系統 and 圖片優化
     @BindView(R.id.input_email)
     EditText _emailText;

@@ -271,10 +271,9 @@ public class PointActivity extends AppCompatActivity {
         /***************************每日達成事項***************************/
 
         for(int i=1;i<7;i++){
-            String phpinput = buffer.getServerPosition()+"/app/DayWorkReturn.php?at=" + myData + "&ict=" + i +
+            String phpinput = buffer.getServerPosition()+"/app/DayWork.php?at=" + myData + "&ict=" + i +
                     "&stt=" + segmentstt + "&ent=" + segmentent + "&ntt=" + segmentntt + "&wkt=" + segmentwkt;
-//            String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/DayWorkReturn.php?at=" + myData + "&ict=" + i +
-//                    "&stt=" + segmentstt + "&ent=" + segmentent + "&ntt=" + segmentntt + "&wkt=" + segmentwkt);
+
             String result = DBConnector.executeQuery(phpinput);
             if (i >=2 && i <=4) {
                 try {
@@ -305,7 +304,6 @@ public class PointActivity extends AppCompatActivity {
                     Log.e("error Day Work", e.toString());
                 }
             }
-
         }
         newrecyc(DA, DayWork, DayWorkString);
     }
