@@ -158,19 +158,19 @@ public class homepage extends TabActivity {
                 Toast.makeText(getBaseContext(), "GPS服務啟動完成", Toast.LENGTH_LONG).show();
             }
 
-            /**離線GPS**/
-            boolean isRunningOff = checkservice.isServiceRunning(this, "com.sourcey.materiallogindemo.GPS.OffGPS");
-            if (isRunningOff) {
-                Toast.makeText(getBaseContext(), "OffGPS服務已啟動", Toast.LENGTH_LONG).show();
-            } else {
-                Intent serviceIntentOff = new Intent(this, OffGPS.class);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    this.startForegroundService(serviceIntentOff);
-                } else {
-                    this.startService(serviceIntentOff);
-                }
-                Toast.makeText(getBaseContext(), "OffGPS服務啟動完成", Toast.LENGTH_LONG).show();
-            }
+//            /**離線GPS**/
+//            boolean isRunningOff = checkservice.isServiceRunning(this, "com.sourcey.materiallogindemo.GPS.OffGPS");
+//            if (isRunningOff) {
+//                Toast.makeText(getBaseContext(), "OffGPS服務已啟動", Toast.LENGTH_LONG).show();
+//            } else {
+//                Intent serviceIntentOff = new Intent(this, OffGPS.class);
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                    this.startForegroundService(serviceIntentOff);
+//                } else {
+//                    this.startService(serviceIntentOff);
+//                }
+//                Toast.makeText(getBaseContext(), "OffGPS服務啟動完成", Toast.LENGTH_LONG).show();
+//            }
     }
     private void firstRun() {
         SharedPreferences sharedPreferences = getSharedPreferences("FirstRun",0);

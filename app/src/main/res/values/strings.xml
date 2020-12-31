@@ -224,6 +224,42 @@
         <item>810624</item><item>810624</item><item>810624</item><item>810624</item><item>810624</item>
     </integer-array>
 
+    <string-array name="PointLoadValue1231">
+        <item>Pointnum</item>
+        <item>DES1</item>
+        <item>EMOT1</item><item>EMOV1</item>
+        <item>GPS1</item><item>GPS2</item><item>GPS3</item><item>GPS4</item><item>GPS5</item>
+        <item>DES2</item><item>DES3</item><item>DES4</item><item>DES5</item><item>DES6</item>
+        <item>EMOT2</item><item>EMOT3</item><item>EMOT4</item><item>EMOT5</item><item>EMOT6</item>
+        <item>EMOT2</item><item>EMOT3</item><item>EMOT4</item><item>EMOT5</item><item>EMOT6</item>
+        <item>SCL1</item><item>SCL2</item><item>SCL3</item><item>SCL4</item>
+        <item>GES1</item><item>GES2</item><item>GES3</item><item>GES4</item><item>GES5</item>
+    </string-array>
+
+    <integer-array name="PointNumSum1231">
+        <item>0</item>
+        <item>5</item>
+        <item>2</item><item>3</item>
+        <item>10</item><item>10</item><item>15</item><item>25</item><item>40</item>
+        <item>20</item><item>30</item><item>50</item><item>70</item><item>100</item>
+        <item>5</item><item>10</item><item>20</item><item>30</item><item>40</item>
+        <item>15</item><item>20</item><item>30</item><item>40</item><item>60</item>
+        <item>10</item><item>15</item><item>25</item><item>30</item>
+        <item>20</item><item>30</item><item>50</item><item>70</item><item>100</item>
+    </integer-array>
+
+    <integer-array name="PointInf1231">
+        <item>0</item>
+        <item>1</item>
+        <item>1</item><item>1</item>
+        <item>1680</item><item>6720</item><item>9408</item><item>18480</item><item>26880</item>
+        <item>15</item><item>60</item><item>84</item><item>165</item><item>240</item>
+        <item>5</item><item>20</item><item>28</item><item>55</item><item>80</item>
+        <item>5</item><item>20</item><item>28</item><item>55</item><item>80</item>
+        <item>2</item><item>6</item><item>14</item><item>24</item>
+        <item>810624</item><item>810624</item><item>810624</item><item>810624</item><item>810624</item>
+    </integer-array>
+
     <string-array name="DayWork">
         <item>每日事項區(每天中午12點更新)</item>
         <item>今天的情緒標記</item>
@@ -234,4 +270,22 @@
         <item>上週的Altman問卷</item>
     </string-array>
 
+    <string-array name="DialogMessage">
+        <item>做的很棒 要多加油哦</item>
+        <item>每次的紀錄都讓自己更好</item>
+        <item>持續的記錄能使自己更了解自己哦</item>
+        <item>紀錄的point可兌換禮卷呢</item>
+        <item>時常記錄能獲得獎勵哦</item>
+        <item>善於與人溝通，適度採納別人意見</item>
+        <item>生活不會否定任何人，就怕自己先否定生活</item>
+        <item>生活中總有許多值得我們追求和嚮往的東西</item>
+        <item>生命，就是以不斷出發的姿勢得到重生</item>
+        <item>生活不是等待風暴過去，而是學會在雨中翩翩起舞</item>
+        <item>面前有陰影，是因為你的背後有陽光</item>
+    </string-array>
+
+    <string-array name="UploadMessage">
+        <item>上傳成功</item>
+        <item>上船失敗</item>
+    </string-array>
 </resources>

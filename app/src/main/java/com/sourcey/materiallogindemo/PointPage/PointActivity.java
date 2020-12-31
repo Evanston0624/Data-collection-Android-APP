@@ -61,7 +61,6 @@ public class PointActivity extends AppCompatActivity {
         initView();
         /**接收帳號**/
         myData = buffer.getAccount();
-        //myData = loadAccount();
         /**更新Point**/
         UpdatePoint(myData);
     }

@@ -1923,24 +1923,11 @@ public class PhotosActivity extends AppCompatActivity {
 
     /***********************************Loading用**************************************/
     private Dialog dialog;
-
+    String[] DialogText = getResources().getStringArray(R.array.DialogMessage);
     private void loading() {
-        int dialognum = (int)(Math.random()* 4);
-        if (dialognum == 1) {
-            dialog = ProgressDialog.show(this, "儲存中", "做的很棒 要多加油哦", true);
-        }
-        else if (dialognum == 2){
-            dialog = ProgressDialog.show(this, "儲存中", "每次的紀錄都讓自己更好", true);
-        }
-        else if (dialognum == 3){
-            dialog = ProgressDialog.show(this, "儲存中", "持續的記錄能使自己更了解自己哦", true);
-        }
-        else if (dialognum == 4){
-            dialog = ProgressDialog.show(this, "儲存中", "紀錄的point可兌換禮卷呢", true);
-        }
-        else{
-            dialog = ProgressDialog.show(this, "儲存中", "時常記錄能獲得獎勵哦", true);
-        }
+        int DialogNum = (int)(Math.random()* DialogText.length)-1;
+        dialog = ProgressDialog.show(this, "儲存中", DialogText[DialogNum], true);
+
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
@@ -1953,10 +1940,11 @@ public class PhotosActivity extends AppCompatActivity {
     }
     private void success(Integer success) {
         SQL sql1 = new SQL();
+        String[] UploadMessage = getResources().getStringArray(R.array.UploadMessage);
         if (success == 1) {
-            sql1.makeTextAndShow(getApplicationContext(), "上傳成功", Toast.LENGTH_LONG);
+            sql1.makeTextAndShow(getApplicationContext(), UploadMessage[0], Toast.LENGTH_LONG);
         }else if (success == 0 || success == null){
-            sql1.makeTextAndShow(getApplicationContext(), "上傳失敗", Toast.LENGTH_LONG);
+            sql1.makeTextAndShow(getApplicationContext(), UploadMessage[1], Toast.LENGTH_LONG);
         }
     }
 }
