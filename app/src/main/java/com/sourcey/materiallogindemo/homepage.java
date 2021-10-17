@@ -65,7 +65,7 @@ public class homepage extends TabActivity {
 
         // Tab for feedback
         TabSpec feedbacked = tabHost.newTabSpec("Feedback");
-        feedbacked.setIndicator("", getResources().getDrawable(R.drawable.icon_songs_tab));
+        feedbacked.setIndicator("", getResources().getDrawable(R.drawable.icon_feedback_tab));
         Intent feedbackIntent = new Intent(this, FeedbackActivity.class);
         feedbacked.setContent(feedbackIntent);
 
