@@ -36,6 +36,9 @@ dependencies {
     implementation 'com.android.support:design:27.1.0'
     implementation 'com.jakewharton:butterknife:8.8.1'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+    //20210306
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    //
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -62,6 +65,8 @@ dependencies {
     implementation 'com.stone.vega.library:VegaLayoutManager:1.0.2'
     implementation 'moe.feng:MaterialStepperView:0.2.2'
     implementation 'com.robinhood.ticker:ticker:1.2.0'
+    //20210306
+//    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
     //Architecture Libraries
     implementation "com.google.dagger:dagger:$dagger"

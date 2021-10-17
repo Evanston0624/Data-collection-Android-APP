@@ -50,6 +50,9 @@ public class SettingActivity extends AppCompatActivity {
         read();
 
         question_voice_switch = findViewById(R.id.question_voice_switch);
+        //設定隱藏標題
+        getSupportActionBar().hide();
+
         if(buffer.getAlert_question_voice()!=null){
             if(buffer.getAlert_question_voice().equals("ON"))
                 question_voice_switch.setChecked(true);

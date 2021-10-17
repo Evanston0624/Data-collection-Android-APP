@@ -14,6 +14,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -36,6 +37,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -107,28 +109,47 @@ public class PhotosActivity extends AppCompatActivity {
     private AlertDialog.Builder adbuilder;
     private AlertDialog addialog;
     private Integer UploadDayinfor = 0;
-    /**20200118**/
-    private SwipeRefreshLayout laySwipe;
-    /**20200805**/
-    private static TextView ToastText;
-    private static Toast Toast;
-    /****/
+    /**20210302**/
+    private ImageButton ShowIcon;
+    private ImageView sleep_btn,text_btn,audio_btn,video_btn,emo_btn,dass_btn,asmr_btn;
+    private ImageView dailyemo,wakeup,sleep,emo_mark,dass,amrs;
+
+    private int showed=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.photos_layout);
+        setContentView(R.layout.activity_emotion2);
 
-//        TextView writetextview = (TextView) findViewById(R.id.textView1);
-//        writetextview.setHint(buffer.getName() + "，在想甚麼呢?");
         //設定隱藏標題
         getSupportActionBar().hide();
         //設置searchView
-        searchView = findViewById(R.id.searchView);
-        searchView.setIconifiedByDefault(false);// 關閉icon切換
-        searchView.setFocusable(false); // 不要進畫面就跳出輸入鍵盤
-        searchView.setQueryHint("搜尋");
-        setSearch_function();
+//        searchView = findViewById(R.id.searchView);
+//        searchView.setIconifiedByDefault(false);// 關閉icon切換
+//        searchView.setFocusable(false); // 不要進畫面就跳出輸入鍵盤
+//        searchView.setQueryHint("搜尋");
+//        setSearch_function();
+        //Bind element
+        // 右下角的+按鈕 , show出右邊項目的 ,在案一次隱藏 ,以此類推
+        ShowIcon = (ImageButton)findViewById(R.id.showic_btn);
+        ShowIcon.setOnClickListener(show_ic_lis);
+        //從右下到右上項目
+        //第一個:每日心情與睡眠
+        sleep_btn=(ImageView)findViewById(R.id.daily_emo_btn);
+        //第二個:文字
+        text_btn=(ImageView)findViewById(R.id.text_btn);
+        //第三個:錄音
+        audio_btn=(ImageView)findViewById(R.id.audio_btn);
+        //第4個:錄影
+        video_btn=(ImageView)findViewById(R.id.video_btn);
+        //第5個:情緒
+        emo_btn=(ImageView)findViewById(R.id.emo_btn);
+        //第6個:Dass21量表
+        dass_btn=(ImageView)findViewById(R.id.dass_btn);
+        //第7個:ASMR量表
+        asmr_btn=(ImageView)findViewById(R.id.asmr_btn);
 
+        // Recycle
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
         DataAdapter = new DataAdapter(DataList);
@@ -169,7 +190,10 @@ public class PhotosActivity extends AppCompatActivity {
 
             }
         }));
-
+        //set achievement
+        AchievementFeedback();
+        //set view initial
+        setScaleScore();
         //set view initial
         setDialogInitial();
 
@@ -187,6 +211,115 @@ public class PhotosActivity extends AppCompatActivity {
         //set allday
         setAlldayInitial();
     }
+    /**20210307**/
+    private void setScaleScore() {
+        /**DASS21問卷**/
+        dass_btn.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            SQL sql1 = new SQL();
+                            success = sql1.InsertNewData_new(buffer.getAccount(), buffer.getTime(), "SCL1", buffer.getEmotion(), "6");
+//                            success(success);
+                        } catch (Exception e) {
+                            Log.e("error update SCL1",e.toString());
+                        }
+                        Uri uri=Uri.parse("https://docs.google.com/forms/d/e/1FAIpQLSc4eCccuMyk71uN7DzLGFCZk6ZUYAmitylwKf70HdSeL-KxeA/viewform?entry.697311666="+buffer.getAccount());
+                        Intent intent=new Intent(Intent.ACTION_VIEW,uri);
+                        startActivity(intent);
+                        int imageResource = getResources().getIdentifier("dass_fin", "drawable", "com.sourcey.materialloginexample");
+                        Drawable image = getResources().getDrawable(imageResource);
+                        dass.setImageDrawable(image);
+                    }
+                }
+        );
+        /**Altman問卷**/
+        asmr_btn.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            SQL sql1 = new SQL();
+                            sql1.InsertNewData_new(buffer.getAccount(), buffer.getTime(), "SCL2", buffer.getEmotion(), "7");
+//                            success(success);
+                        } catch (Exception e) {
+                            Log.e("error update SCL2",e.toString());
+                        }
+                        Uri uri=Uri.parse("https://docs.google.com/forms/d/e/1FAIpQLSePaLbHb9bmnFJ5DcGrh7q2DGS-3L28raYjkABYwgzJjfz6qQ/viewform?usp=pp_url&entry.105677866="+buffer.getAccount());                        Intent intent=new Intent(Intent.ACTION_VIEW,uri);
+                        startActivity(intent);
+                        int imageResource = getResources().getIdentifier("amsr_fin", "drawable", "com.sourcey.materialloginexample");
+                        Drawable image = getResources().getDrawable(imageResource);
+                        amrs.setImageDrawable(image);
+                    }
+                }
+        );
+    }
+    private void AchievementFeedback() {
+        String[] ImageFin = {"emomark_fin","dailyemo_fin","wake_fin","sleep_fin","dass_fin","amsr_fin"};
+        String[] ImageUnf = {"emomark_unf","dailyemo_unf","wake_unf","sleep_unf","dass_unf","amsr_unf"};
+        dailyemo = (ImageView) findViewById(R.id.dailyemo);
+        wakeup = (ImageView) findViewById(R.id.wakeup);
+        sleep = (ImageView) findViewById(R.id.sleep);
+        emo_mark = (ImageView) findViewById(R.id.emo_mark);
+        dass = (ImageView) findViewById(R.id.dass);
+        amrs = (ImageView) findViewById(R.id.amrs);
+        /**查詢是否完成**/
+        String[] DA = {"-5","-5","-5","-5","-5","-5"};
+        try{
+            String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/DayWork2.php?at=" + buffer.getAccount());
+            if (result.indexOf("\nnull\n") < 0){
+                JSONObject jsonObject = new JSONObject(result);
+                String str= jsonObject.getString("success");
+                JSONArray jsonArray = jsonObject.getJSONArray("data");
+                for (int i=0;i<6;i++) {
+                    JSONObject jsonData2 = jsonArray.getJSONObject(i);
+                    String str2 = jsonData2.getString("data"+i);
+                    DA[i] = str2;
+                }
+            }
+        } catch (JSONException e) {
+            Log.e("error DayWork time", e.toString());
+        }
+        for (int i = 0; i < 6; i++) {
+//            checkUploadNum = checkUploadInfor(i);
+            if (!DA[i].equals("0") && !DA[i].equals("-5")){
+                int imageResource = getResources().getIdentifier(ImageFin[i], "drawable", "com.sourcey.materialloginexample");
+                Drawable image = getResources().getDrawable(imageResource);
+                if (i == 0){
+                    dailyemo.setImageDrawable(image);
+                }else if(i == 1){
+                    emo_mark.setImageDrawable(image);
+                }else if(i == 2){
+                    wakeup.setImageDrawable(image);
+                }else if(i == 3){
+                    sleep.setImageDrawable(image);
+                }else if(i == 4){
+                    dass.setImageDrawable(image);
+                }else if(i == 5){
+                    amrs.setImageDrawable(image);
+                }
+            }else{
+                int imageResource = getResources().getIdentifier(ImageUnf[i], "drawable", "com.sourcey.materialloginexample");
+                Drawable image = getResources().getDrawable(imageResource);
+                if (i == 0){
+                    dailyemo.setImageDrawable(image);
+                }else if(i == 1){
+                    emo_mark.setImageDrawable(image);
+                }else if(i == 2){
+                    wakeup.setImageDrawable(image);
+                }else if(i == 3){
+                    sleep.setImageDrawable(image);
+                }else if(i == 4){
+                    dass.setImageDrawable(image);
+                }else if(i == 5){
+                    amrs.setImageDrawable(image);
+                }
+            }
+        }
+    }
+
+    /****/
     /******************************************20200118********************************************/
     /**下拉刷新**/
 //    private void initView() {
@@ -211,7 +344,31 @@ public class PhotosActivity extends AppCompatActivity {
     /**
      * Prepares sample data to provide data set to adapter
      */
+    private View.OnClickListener show_ic_lis = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (showed==0) {
+                sleep_btn.setVisibility(View.VISIBLE);
+                text_btn.setVisibility(View.VISIBLE);
+                audio_btn.setVisibility(View.VISIBLE);
+                emo_btn.setVisibility(View.VISIBLE);
+                dass_btn.setVisibility(View.VISIBLE);
+                asmr_btn.setVisibility(View.VISIBLE);
+                video_btn.setVisibility(View.VISIBLE);
 
+                showed=1;
+            }else{
+                sleep_btn.setVisibility(View.INVISIBLE);
+                text_btn.setVisibility(View.INVISIBLE);
+                audio_btn.setVisibility(View.INVISIBLE);
+                emo_btn.setVisibility(View.INVISIBLE);
+                dass_btn.setVisibility(View.INVISIBLE);
+                asmr_btn.setVisibility(View.INVISIBLE);
+                video_btn.setVisibility(View.INVISIBLE);
+                showed=0;
+            }
+        }
+    };
     private void prepareData() {
         Data data;
         ArrayList<BarEntry> yVals, yValsSystem;
@@ -328,8 +485,8 @@ public class PhotosActivity extends AppCompatActivity {
     private void setAlldayInitial() {
         /**0612**/
 
-        writebutton = (ImageButton) findViewById(R.id.buttonMain);
-        writebutton.setOnClickListener(adlis);
+//        sleep_btn = (ImageView) findViewById(R.id.daily_emo_btn);
+        sleep_btn.setOnClickListener(adlis);
 
         adlayoutinflater = getLayoutInflater();
         View Aview = adlayoutinflater.inflate(R.layout.dialog_allday, null);
@@ -411,6 +568,9 @@ public class PhotosActivity extends AppCompatActivity {
                         icontype = "4";
                         alldayemotion = String.valueOf(dayemotionseekBar.getProgress());
                         prepareADData();
+                        int imageResource = getResources().getIdentifier("dailyemo_fin", "drawable", "com.sourcey.materialloginexample");
+                        Drawable image = getResources().getDrawable(imageResource);
+                        dailyemo.setImageDrawable(image);
                     }
                 }
             });
@@ -473,6 +633,9 @@ public class PhotosActivity extends AppCompatActivity {
                                 ":" +
                                 sleepminspinner.getSelectedItem().toString();
                         prepareADData();
+                        int imageResource = getResources().getIdentifier("sleep_fin", "drawable", "com.sourcey.materialloginexample");
+                        Drawable image = getResources().getDrawable(imageResource);
+                        sleep.setImageDrawable(image);
                     }
                 }
             });
@@ -534,6 +697,9 @@ public class PhotosActivity extends AppCompatActivity {
                                 ":" +
                                 sleepminspinner.getSelectedItem().toString();
                         prepareADData();
+                        int imageResource = getResources().getIdentifier("wake_fin", "drawable", "com.sourcey.materialloginexample");
+                        Drawable image = getResources().getDrawable(imageResource);
+                        wakeup.setImageDrawable(image);
                     }
                 }
             });
@@ -649,7 +815,7 @@ public class PhotosActivity extends AppCompatActivity {
     private void setDialogInitial() {
 
         //initial writeTextview
-        imageWriteButton = (ImageButton) findViewById(R.id.imageWrite);
+//        imageWriteButton = (ImageButton) findViewById(R.id.imageWrite);
         writetextview = (TextView) findViewById(R.id.textView1);
         writelayoutinflater = getLayoutInflater();
         View Dview = writelayoutinflater.inflate(R.layout.dialog_write, null);
@@ -660,16 +826,12 @@ public class PhotosActivity extends AppCompatActivity {
         writeSubmit = (Button) Dview.findViewById(R.id.writebutton);
         writeCancel = (Button) Dview.findViewById(R.id.writeCancel);
         writealertdialog = writebuilder.create();
-        imageWriteButton.setOnClickListener(writelis);
+        text_btn.setOnClickListener(writelis);
 
         //initial writeIcon
-        /**0612**/
-        //imageWriteButton = (ImageButton) findViewById(R.id.imageWrite);
-        //imageWriteButton.setOnClickListener(writelis);
-        /**0612**/
         //initial Icon
-        emotionbutton = (ImageButton) findViewById(R.id.imageButton2);
-        emotionbutton.setOnClickListener(emotionlis);
+//        emotionbutton = (ImageButton) findViewById(R.id.imageButton2);
+        emo_btn.setOnClickListener(emotionlis);
         emotionbuilder = new AlertDialog.Builder(PhotosActivity.this);//彈跳對話框
         emotionlayoutinflater = getLayoutInflater();
         Dview = emotionlayoutinflater.inflate(R.layout.dialog_emotion, null);
@@ -827,7 +989,7 @@ public class PhotosActivity extends AppCompatActivity {
                         icontype = "0";
                         word = writeEditTextValue;
                         writeedittext.setText("");
-                        emotionbutton.callOnClick();//開啟標記
+                        emo_btn.callOnClick();//開啟標記
                         whichmicbutton = true;
                         writealertdialog.cancel();
                     }
@@ -905,6 +1067,9 @@ public class PhotosActivity extends AppCompatActivity {
                     } else {
                         icontype = "0";
                         prepareNewData(false);//call function to set new Data
+                        int imageResource = getResources().getIdentifier("emomark_fin", "drawable", "com.sourcey.materialloginexample");
+                        Drawable image = getResources().getDrawable(imageResource);
+                        emo_mark.setImageDrawable(image);
                     }
                     emotionalertdialog.cancel();
                     tvContent = "";
@@ -934,8 +1099,8 @@ public class PhotosActivity extends AppCompatActivity {
     Uri videoUri;
 
     private void videoDialog() {
-        imageVideoButton = findViewById(R.id.imageVideo);
-        imageVideoButton.setOnClickListener(videolist);
+//        imageVideoButton = findViewById(R.id.imageVideo);
+        video_btn.setOnClickListener(videolist);
     }
 
     private View.OnClickListener videolist = new View.OnClickListener() {
@@ -1023,7 +1188,7 @@ public class PhotosActivity extends AppCompatActivity {
 //    private Button videoEmotionSubmit, videoEmotionCancel;
     /*******Emotion tag*******/
     private void VideoEmotionButton() {
-        VideoEmotionButton = (ImageButton) findViewById(R.id.imageButtonVideo);
+        VideoEmotionButton = (ImageButton) findViewById(R.id.audio_d);
         VideoEmotionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1110,6 +1275,9 @@ public class PhotosActivity extends AppCompatActivity {
                         word = str_mp4;
                         videoEmotionalertdialog.cancel();
                         prepareNewData(false);
+                        int imageResource = getResources().getIdentifier("emomark_fin", "drawable", "com.sourcey.materialloginexample");
+                        Drawable image = getResources().getDrawable(imageResource);
+                        emo_mark.setImageDrawable(image);
                     }
                 });
                 videoEmotionalertdialog.show();
@@ -1262,8 +1430,8 @@ public class PhotosActivity extends AppCompatActivity {
 
     //設置Dialog 音檔
     private void micDialog() {
-        imageMicButton = (ImageButton) findViewById(R.id.imageMic);
-        imageMicButton.setOnClickListener(new View.OnClickListener() {
+//        imageMicButton = (ImageButton) findViewById(R.id.imageMic);
+        audio_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 micbuilder = new AlertDialog.Builder(PhotosActivity.this);
@@ -1287,9 +1455,11 @@ public class PhotosActivity extends AppCompatActivity {
                 ib_Recorder.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        String RecordingF = getResources().getString(R.string.RecordingFinish);
+                        String RecordingS = getResources().getString(R.string.RecordingStart);
                         if (!isRecorder) {
                             recordCancel.setVisibility(View.GONE);
-                            atextMic.setText("再次點擊-結束錄音");
+                            atextMic.setText(RecordingF);
 
                             isRecorder = true;
                             ib_Recorder.setBackgroundResource(R.drawable.recorder);
@@ -1304,7 +1474,7 @@ public class PhotosActivity extends AppCompatActivity {
                             Log.i("Msg", "Start");
                             wavRecorder.start();
                         } else {
-                            atextMic.setText("點擊麥克風-敘述近期狀況");
+                            atextMic.setText(RecordingS);
 
                             isRecorder = false;
                             ib_Recorder.setBackgroundResource(R.drawable.microphone);
@@ -1351,7 +1521,7 @@ public class PhotosActivity extends AppCompatActivity {
 
     //設置Dialog 情緒
     private void MicEmtionDialog() {
-        Micbutton = (ImageButton) findViewById(R.id.imageButtonMic);
+        Micbutton = (ImageButton) findViewById(R.id.audio_d);
         Micbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1437,6 +1607,9 @@ public class PhotosActivity extends AppCompatActivity {
                         word = str_wav;
                         Micalertdialog.cancel();
                         prepareNewData(false);
+                        int imageResource = getResources().getIdentifier("emomark_fin", "drawable", "com.sourcey.materialloginexample");
+                        Drawable image = getResources().getDrawable(imageResource);
+                        emo_mark.setImageDrawable(image);
                     }
                 });
                 Micalertdialog.show();
@@ -1923,10 +2096,17 @@ public class PhotosActivity extends AppCompatActivity {
 
     /***********************************Loading用**************************************/
     private Dialog dialog;
-    String[] DialogText = getResources().getStringArray(R.array.DialogMessage);
+
     private void loading() {
-        int DialogNum = (int)(Math.random()* DialogText.length)-1;
-        dialog = ProgressDialog.show(this, "儲存中", DialogText[DialogNum], true);
+        String[] DialogText = getResources().getStringArray(R.array.DialogMessage);
+        String InStorage = getResources().getString(R.string.InStorage);
+        int DialogNum = (int)(Math.random()* DialogText.length);
+        if (DialogNum == 0){
+            dialog = ProgressDialog.show(this, InStorage, DialogText[DialogNum], true);
+        }else if(DialogNum >= 1){
+            dialog = ProgressDialog.show(this, InStorage, DialogText[DialogNum-1], true);
+        }
+//        dialog = ProgressDialog.show(this, "儲存中", "請稍後", true);
 
         new android.os.Handler().postDelayed(
                 new Runnable() {

@@ -70,6 +70,7 @@
     <string name="on">開啟</string>
     <string name="edit">編輯</string>
     <string name="delete">刪除</string>
+    <string name="InStorage">儲存中</string>
     <string name="no_alarms">沒有任何鬧鐘，要新增一個嗎?</string>
     <string name="not_found">[day not found]</string>
     <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
@@ -81,21 +82,25 @@
     <string name="cancel">Cancel</string>
     <string name="alarm_settings">新的鬧鐘</string>
 
-    "<!--//Chart//-->
+    <!--//Chart//-->
     <string name="ChartEmotion">情緒</string>
-    <string name="ChartDailyMood">每日情緒</string>
-    <string name="ChartSleep">睡眠時間</string>
-    <string name="ChartGetup">起床時間</string>
+    <string name="ChartDailyMood">每日情緒(0~6分)</string>
+    <string name="ChartSleep">入睡時間(0~23時)</string>
+    <string name="ChartGetup">起床時間(0~23時)</string>
     <string name="ChartLong">睡了多久</string>
-    <string name="ChartGPS">GPS</string>
-    "<!--//Exhange//-->
+    <string name="ChartGPS">GPS(公里數)</string>
+    <!--//Chart//-->
+
+    <!--//Exhange//-->
     <string name="ExPointOne">兌換一張</string>
     <string name="ExPointAll">兌換全部</string>
     <string name="ExTextView"></string>
     <string name="ExTextView2">每100點Point可以兌換100元7-11禮券，於回診時與曾鈺晴小姐兌換，可使用Line先連絡哦</string>
     <string name="ExSpinner"> </string>
     <string name="HistPoint">兌換紀錄</string>
-    "<!--//Exhange//-->
+    <!--//Exhange//-->
+
+    <!--//Emotion//-->
     <string name="angry">生氣</string>
     <string name="boredom">無聊</string>
     <string name="disgust">厭惡</string>
@@ -103,9 +108,30 @@
     <string name="happiness">開心</string>
     <string name="sadness">難過</string>
     <string name="surprised">驚訝</string>
-        <string-array name="sleepandgetup">
-            <item>起床時間</item><item>睡覺時間</item>
-        </string-array>
+    <!--//Emotion//-->
+
+    <!--//Mic//-->
+    <string name="RecordingStart">點擊麥克風-敘述近期狀況</string>
+    <string name="RecordingFinish">再次點擊-結束錄音</string>
+    <!--//Mic//-->
+
+    <!--//SleepTime//-->
+
+    <!--//SleepTime//-->
+
+    <!--//GPS//-->
+    <string name="OpenGPS">請開啟GPS連結</string>
+    <string name="OpenGPSMessage">為了提高定位的精準度，更好的為您服務，請開啟GPS</string>
+    <string name="StartedGPS">GPS服務已啟動</string>
+    <string name="StartupGPS">GPS服務啟動完成</string>
+    <!--//GPS//-->
+
+    <!--//Loadding//-->
+    <string name="LoadIn">登入中</string>
+    <string-array name="sleepandgetup">
+        <item>起床時間</item><item>睡覺時間</item>
+    </string-array>
+
         <string-array name="monarray">
             <item>01</item><item>02</item><item>03</item><item>04</item><item>05</item>
             <item>06</item><item>07</item><item>08</item><item>09</item><item>10</item>
@@ -173,24 +199,52 @@
             <item>每日情緒、睡眠、GPS、情緒資訊皆有55天</item>
             <item>每日情緒、睡眠、GPS、情緒資訊皆有80天</item>
         </string-array>
+    <string-array name="PointTextV2">
+        <item>累計點數</item>
+        <item>每日情緒、睡眠紀錄1次</item>
+        <item>聲音、影像情緒資訊記錄1次</item>
+        <item>一周有GPS紀錄5天</item>
+        <item>一個月有GPS紀錄20天</item>
+        <item>一個月有GPS紀錄28天</item>
+        <item>兩個月有GPS紀錄55天</item>
+        <item>三個月有GPS紀錄80天</item>
+        <item>每日情緒、睡眠一周紀錄5天</item>
+        <item>每日情緒、睡眠一個月紀錄20天</item>
+        <item>每日情緒、睡眠一個月紀錄28天</item>
+        <item>每日情緒、睡眠兩個月紀錄55天</item>
+        <item>每日情緒、睡眠三個月紀錄80天</item>
+        <item>文字情緒資訊一周紀錄5天</item>
+        <item>文字情緒資訊一個月紀錄20天</item>
+        <item>文字情緒資訊一個月紀錄28天</item>
+        <item>文字情緒資訊兩個月紀錄55天</item>
+        <item>文字情緒資訊三個月紀錄80天</item>
+        <item>聲音、影像情緒資訊一周紀錄5天</item>
+        <item>聲音、影像情緒資訊一個月紀錄20天</item>
+        <item>聲音、影像情緒資訊一個月紀錄28天</item>
+        <item>聲音、影像情緒資訊兩個月紀錄55天</item>
+        <item>聲音、影像情緒資訊三個月紀錄80天</item>
+        <item>填寫每周的量表1次</item>
+        <item>一個月寫每周的量表3次</item>
+        <item>兩個月填寫每周的量表7次</item>
+        <item>三個月填寫每周的量表12次</item>
+        <item>每日情緒、睡眠、GPS、情緒資訊皆有5天</item>
+        <item>每日情緒、睡眠、GPS、情緒資訊皆有20天</item>
+        <item>每日情緒、睡眠、GPS、情緒資訊皆有28天</item>
+        <item>每日情緒、睡眠、GPS、情緒資訊皆有55天</item>
+        <item>每日情緒、睡眠、GPS、情緒資訊皆有80天</item>
+    </string-array>
     <string-array name="FeedbackTextSt">
         <item>持續的紀錄，資訊會更完善哦</item>
-        <item>昨天的移動距離為</item>
-        <item>昨天的睡眠時間為</item>
-        <item>昨天的心情分數為</item>
-        <item>過去七天，平均移動距離為</item>
-        <item>過去七天，平均睡眠時間為</item>
-        <item>過去七天，平均的心情分數為</item>
-        <item>過去七天，比起以往的移動距離</item>
-        <item>過去七天，比起以往的睡眠時間</item>
-        <item>過去七天，比起以往的心情分數</item>
+        <item>過去七天的移動距離平均是</item>
+        <item>以前的移動距離平均是</item>
+        <item>過去七天的起床時間大約是</item>
+        <item>以前的起床時間大約是</item>
+        <item>過去七天的睡眠時間大約是</item>
+        <item>以前的睡眠時間大約是</item>
+        <item>過去七天的每日心情平均是</item>
+        <item>以前的每日心情平均是</item>
     </string-array>
-    <string-array name="FeedbackTextEnd">
-        <item></item>
-        <item>公里</item><item>小時</item><item>分</item>
-        <item>公里</item><item>小時</item><item>分</item>
-        <item>公里</item><item>小時</item><item>分</item>
-    </string-array>
+
     <string-array name="PointLoadValue">
         <item>Pointnum</item>
         <item>DES1</item>
@@ -198,6 +252,17 @@
         <item>GPS1</item><item>GPS2</item><item>GPS3</item><item>GPS4</item><item>GPS5</item>
         <item>DES2</item><item>DES3</item><item>DES4</item><item>DES5</item><item>DES6</item>
         <item>EMO2</item><item>EMO3</item><item>EMO4</item><item>EMO5</item><item>EMO6</item>
+        <item>SCL1</item><item>SCL2</item><item>SCL3</item><item>SCL4</item>
+        <item>GES1</item><item>GES2</item><item>GES3</item><item>GES4</item><item>GES5</item>
+    </string-array>
+    <string-array name="PointLoadValueV2">
+        <item>Pointnum</item>
+        <item>DES1</item>
+        <item>EMO1</item>
+        <item>GPS1</item><item>GPS2</item><item>GPS3</item><item>GPS4</item><item>GPS5</item>
+        <item>DES2</item><item>DES3</item><item>DES4</item><item>DES5</item><item>DES6</item>
+        <item>EMO2</item><item>EMO3</item><item>EMO4</item><item>EMO5</item><item>EMO6</item>
+        <item>EMOV1</item><item>EMOV2</item><item>EMOV3</item><item>EMOV4</item><item>EMOV5</item>
         <item>SCL1</item><item>SCL2</item><item>SCL3</item><item>SCL4</item>
         <item>GES1</item><item>GES2</item><item>GES3</item><item>GES4</item><item>GES5</item>
     </string-array>
@@ -212,53 +277,28 @@
         <item>10</item><item>15</item><item>25</item><item>30</item>
         <item>20</item><item>30</item><item>50</item><item>70</item><item>100</item>
     </integer-array>
-
-    <integer-array name="PointInf">
-        <item>0</item>
-        <item>1</item>
-        <item>1</item>
-        <item>1680</item><item>6720</item><item>9408</item><item>18480</item><item>26880</item>
-        <item>15</item><item>60</item><item>84</item><item>165</item><item>240</item>
-        <item>5</item><item>20</item><item>28</item><item>55</item><item>80</item>
-        <item>2</item><item>6</item><item>14</item><item>24</item>
-        <item>810624</item><item>810624</item><item>810624</item><item>810624</item><item>810624</item>
-    </integer-array>
-
-    <string-array name="PointLoadValue1231">
-        <item>Pointnum</item>
-        <item>DES1</item>
-        <item>EMOT1</item><item>EMOV1</item>
-        <item>GPS1</item><item>GPS2</item><item>GPS3</item><item>GPS4</item><item>GPS5</item>
-        <item>DES2</item><item>DES3</item><item>DES4</item><item>DES5</item><item>DES6</item>
-        <item>EMOT2</item><item>EMOT3</item><item>EMOT4</item><item>EMOT5</item><item>EMOT6</item>
-        <item>EMOT2</item><item>EMOT3</item><item>EMOT4</item><item>EMOT5</item><item>EMOT6</item>
-        <item>SCL1</item><item>SCL2</item><item>SCL3</item><item>SCL4</item>
-        <item>GES1</item><item>GES2</item><item>GES3</item><item>GES4</item><item>GES5</item>
-    </string-array>
-
-    <integer-array name="PointNumSum1231">
+    <integer-array name="PointNumSumV2">
         <item>0</item>
         <item>5</item>
-        <item>2</item><item>3</item>
+        <item>5</item>
         <item>10</item><item>10</item><item>15</item><item>25</item><item>40</item>
         <item>20</item><item>30</item><item>50</item><item>70</item><item>100</item>
-        <item>5</item><item>10</item><item>20</item><item>30</item><item>40</item>
-        <item>15</item><item>20</item><item>30</item><item>40</item><item>60</item>
+        <item>5</item><item>10</item><item>15</item><item>30</item><item>40</item>
+        <item>15</item><item>20</item><item>35</item><item>40</item><item>60</item>
         <item>10</item><item>15</item><item>25</item><item>30</item>
         <item>20</item><item>30</item><item>50</item><item>70</item><item>100</item>
     </integer-array>
 
-    <integer-array name="PointInf1231">
-        <item>0</item>
-        <item>1</item>
-        <item>1</item><item>1</item>
-        <item>1680</item><item>6720</item><item>9408</item><item>18480</item><item>26880</item>
-        <item>15</item><item>60</item><item>84</item><item>165</item><item>240</item>
-        <item>5</item><item>20</item><item>28</item><item>55</item><item>80</item>
-        <item>5</item><item>20</item><item>28</item><item>55</item><item>80</item>
-        <item>2</item><item>6</item><item>14</item><item>24</item>
-        <item>810624</item><item>810624</item><item>810624</item><item>810624</item><item>810624</item>
-    </integer-array>
+    <!--<integer-array name="PointInf">-->
+        <!--<item>0</item>-->
+        <!--<item>1</item>-->
+        <!--<item>1</item>-->
+        <!--<item>1680</item><item>6720</item><item>9408</item><item>18480</item><item>26880</item>-->
+        <!--<item>15</item><item>60</item><item>84</item><item>165</item><item>240</item>-->
+        <!--<item>5</item><item>20</item><item>28</item><item>55</item><item>80</item>-->
+        <!--<item>2</item><item>6</item><item>14</item><item>24</item>-->
+        <!--<item>810624</item><item>810624</item><item>810624</item><item>810624</item><item>810624</item>-->
+    <!--</integer-array>-->
 
     <string-array name="DayWork">
         <item>每日事項區(每天中午12點更新)</item>

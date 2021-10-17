@@ -1,5 +1,7 @@
 package com.sourcey.materiallogindemo.FeedbackPage;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,18 +40,35 @@ public class FeedbackActivity  extends AppCompatActivity {
     private PointWordList mAdapter;
     private final LinkedList<LinkedList<String>> mWordList = new LinkedList<>();
     private SwipeRefreshLayout laySwipe;
+    private Dialog dialog;
     private String myData = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback);
 
-        /**下拉刷新**/
-        initView();
-        /**接收帳號**/
-        myData = buffer.getAccount();
-        /**更新Point**/
-        UpdateFeedback(myData);
+        dialog = ProgressDialog.show(this,
+                "讀取歷史資訊資訊中", "請稍後...", true);
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    public void run() {
+                        // On complete call either onLoginSuccess or onLoginFailed'
+                        dialog.dismiss();
+                        //設定隱藏標題
+                        getSupportActionBar().hide();
+
+                        setContentView(R.layout.activity_point);
+                        /**下拉刷新**/
+                        initView();
+                        /**接收帳號**/
+                        myData = buffer.getAccount();
+                        /**更新Point**/
+                        UpdateFeedback(myData);
+
+                        // onLoginFailed();
+                        //progressDialog.dismiss();
+                    }
+                }, 3000);
     }
     /**------------------------------下拉刷新------------------------------**/
     private void initView() {
@@ -62,81 +81,23 @@ public class FeedbackActivity  extends AppCompatActivity {
                 android.R.color.holo_orange_light);
     }
     private void UpdateFeedback(String myData){
-        SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
-        long time = System.currentTimeMillis();
-        Date date = new Date(time);
-        String nowtime  = sdf.format(date);
-        date = new Date(time-86400000);
-        String yestertime  = sdf.format(date);
-        date = new Date(time-604800000);
-        String lastweektime = sdf.format(date);
-        String[] DA = {"","-5","-5","-5","-5","-5","-5"};
-        for (int i=1;i<7;i++) {
-            try {
-                String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/UserFeedback.php?at="
-                        + myData + "&nt=" + nowtime + "&yt=" + yestertime + "&lt=" + lastweektime + "&type=" + i);
-                if (result.indexOf("\nnull\n") < 0){
-                    JSONArray jsonArray = new JSONArray(result);
-                    JSONObject jsonData = jsonArray.getJSONObject(0);
-                    if(i==1) {
-                        String Wresult= jsonData.getString("SUM(distance)");
-                        double dwvalue = Double.valueOf(Wresult);
-                        dwvalue = dwvalue/1000;
-                        java.text.DecimalFormat df =new java.text.DecimalFormat("#.00");
-                        DA[i] = df.format(dwvalue);
-                    }
-                    else if(i==2){
-//                        for (int j=0;j<3;j++) {
-//                            jsonData = jsonArray.getJSONObject(j);
-//                            String dresult = jsonData.getString("d");
-//                            String tresult = jsonData.getString("t");
-//                            String datetime = dresult + tresult;
-//                            SimpleDateFormat sdfsleep = new SimpleDateFormat("yyyy-MM-dd kk-mm:ss");
-//                            Date datesleep = (Date) sdfsleep.parse(datetime);
-//                            long longsleep = datesleep.getTime();
-//                        }
-                    }
-                    else if(i==3){
-                        String wresult = jsonData.getString("write");
-                        int iwresult = Integer.valueOf(wresult);
-                        iwresult = iwresult - 3;
-                        String str = String.valueOf(iwresult);
-                        DA[i] = str;
-                    }
-                    else if(i==4){
-                        String wresult = jsonData.getString("SUM(distance)");
-                        double dwvalue = Double.valueOf(wresult);
-                        dwvalue = dwvalue/7000;
-                        java.text.DecimalFormat df =new java.text.DecimalFormat("#.00");
-                        DA[i] = df.format(dwvalue);
-                    }
-                    else if(i==5){
-//                        String d = jsonData.getString("write");
-//                        String t = jsonData.getString("write");
-//                        String datetime = d+t;
-//                        String cresult = jsonData.getString("count(*)");
-                    }
-                    else if(i==6){
-                        String result7 = DBConnector.executeQuery(buffer.getServerPosition()+"/app/UserFeedback.php?at="
-                                + myData + "&nt=" + nowtime + "&yt=" + yestertime + "&lt=" + lastweektime + "&type=" + 7);
-                        JSONArray jsonArray7 = new JSONArray(result7);
-                        JSONObject jsonData7 = jsonArray7.getJSONObject(0);
-                        String cresult = jsonData7.getString("count(*)");
-                        int icvalue = Integer.valueOf(cresult);
-                        Double mdnum = 0.0;
-                        for (int j=0;j<jsonArray.length();j++) {
-                            jsonData = jsonArray.getJSONObject(j);
-                            String wresult = jsonData.getString("write");
-                            int iwvalue = Integer.valueOf(wresult);
-                            mdnum = mdnum + iwvalue-3;
-                        }
-                        java.text.DecimalFormat df =new java.text.DecimalFormat("#.0");
-                        DA[i] = df.format(mdnum/icvalue);
+        String[] DA = {"","-5","-5","-5","-5","-5","-5","-5","-5"};
+        try {
+            String result = DBConnector.executeQuery(buffer.getServerPosition()+"/apptext/UserFeedback2.php?at=" + myData );
+            if (result.indexOf("\nnull\n") < 0){
+                JSONObject jsonObject = new JSONObject(result);
+                String str= jsonObject.getString("success");
+                JSONArray jsonArray = jsonObject.getJSONArray("data");
+                for (int i=0;i<8;i++) {
+                    JSONObject jsonData2 = jsonArray.getJSONObject(i);
+                    String str2 = jsonData2.getString("data"+i);
+                    if (!str2.equals("null")){
+                        DA[i+1] = str2;
                     }
                 }
-            } catch (Exception e) {
-                Log.e("error Load Point Data", e.toString());
             }
+        } catch (Exception e) {
+            Log.e("error Load Point Data", e.toString());
         }
         newrecyc(DA);
     }
@@ -146,49 +107,46 @@ public class FeedbackActivity  extends AppCompatActivity {
         List<Member> memberList = new ArrayList<>();
 
         String[] feedbacktextSt = getResources().getStringArray(R.array.FeedbackTextSt);
-        String[] feedbacktextEnd = getResources().getStringArray(R.array.FeedbackTextEnd);
 
-        for (int i = 0;i<7;i++) {
-            if (DA[i] !=  "-5" ) {
-                String str = feedbacktextSt[i]+DA[i]+feedbacktextEnd[i];
+        for (int i = 0;i<8;i++) {
+            if (!DA[i].equals("-5")) {
+                String str = feedbacktextSt[i];
                 if(i == 0){
-                    memberList.add(new Member(i, R.drawable.feedback, str));
+                    memberList.add(new Member(i, R.drawable.timetable, str+DA[i]));
                 }
-                else if(i == 1){
-                    memberList.add(new Member(i, R.drawable.feedbackg, str));
-                }
-                else if(i == 2){
-                    memberList.add(new Member(i, R.drawable.feedback, str));
-                }
+//                else if(i == 1){
+//                    if (!DA[i].equals("0") && !DA[i+1].equals("0")){
+//                        memberList.add(new Member(i, R.drawable.location, feedbacktextSt[i]+DA[i]+"公里,"+feedbacktextSt[i+1]+DA[i+1]+"公里"));
+//                    }else if (!DA[i].equals("0") && DA[i+1].equals("0")){
+//                        memberList.add(new Member(i, R.drawable.location, feedbacktextSt[i]+DA[i]+"公里"));
+//                    }else if (DA[i].equals("0") && !DA[i+1].equals("0")){
+//                        memberList.add(new Member(i, R.drawable.location, feedbacktextSt[i+1]+DA[i+1]+"公里"));
+//                    }
+//                }
                 else if(i == 3){
-                    if (Double.valueOf(DA[i]) < -2 && Double.valueOf(DA[i]) >= -3)
-                        memberList.add(new Member(i, R.drawable.feedbacke0, str));
-                    else if (Double.valueOf(DA[i]) < -1 && Double.valueOf(DA[i]) >= -2)
-                        memberList.add(new Member(i, R.drawable.feedbacke1, str));
-                    else if (Double.valueOf(DA[i]) < 0 && Double.valueOf(DA[i]) >= -1)
-                        memberList.add(new Member(i, R.drawable.feedbacke2, str));
-                    else if (Double.valueOf(DA[i]) < 1 && Double.valueOf(DA[i]) >= 0)
-                        memberList.add(new Member(i, R.drawable.feedbacke3, str));
-                    else if (Double.valueOf(DA[i]) < 4 && Double.valueOf(DA[i]) >= 1)
-                        memberList.add(new Member(i, R.drawable.feedbacke4, str));
-                }
-                else if(i == 4){
-                    memberList.add(new Member(i, R.drawable.feedbackg, str));
-                }
-                else if(i == 5){
-                    memberList.add(new Member(i, R.drawable.feedback, str));
-                }
-                else if(i == 6){
-                    if (Double.valueOf(DA[i]) < -2 && Double.valueOf(DA[i]) >= -3)
-                        memberList.add(new Member(i, R.drawable.feedbacke0, str));
-                    else if (Double.valueOf(DA[i]) < -1 && Double.valueOf(DA[i]) >= -2)
-                        memberList.add(new Member(i, R.drawable.feedbacke1, str));
-                    else if (Double.valueOf(DA[i]) < 0 && Double.valueOf(DA[i]) >= -1)
-                        memberList.add(new Member(i, R.drawable.feedbacke2, str));
-                    else if (Double.valueOf(DA[i]) < 1 && Double.valueOf(DA[i]) >= 0)
-                        memberList.add(new Member(i, R.drawable.feedbacke3, str));
-                    else if (Double.valueOf(DA[i]) < 4 && Double.valueOf(DA[i]) >= 1)
-                        memberList.add(new Member(i, R.drawable.feedbacke4, str));
+                    if (!DA[i].equals("0") && !DA[i+1].equals("0")){
+                        memberList.add(new Member(2, R.drawable.getup, feedbacktextSt[i]+DA[i]+","+feedbacktextSt[i+1]+DA[i+1]));
+                    }else if(!DA[i].equals("0") && DA[i+1].equals("0")){
+                        memberList.add(new Member(2, R.drawable.getup, feedbacktextSt[i]+DA[i]));
+                    }else if(DA[i].equals("0") && !DA[i+1].equals("0")){
+                        memberList.add(new Member(2, R.drawable.getup, feedbacktextSt[i+1]+DA[i+1]));
+                    }
+                }else if(i == 5){
+                    if (!DA[i].equals("0") && !DA[i+1].equals("0")){
+                        memberList.add(new Member(3, R.drawable.sleep2, feedbacktextSt[i]+DA[i]+","+feedbacktextSt[i+1]+DA[i+1]));
+                    }else if(!DA[i].equals("0") && DA[i+1].equals("0")){
+                        memberList.add(new Member(3, R.drawable.sleep2, feedbacktextSt[i]+DA[i]));
+                    }else if(DA[i].equals("0") && !DA[i+1].equals("0")){
+                        memberList.add(new Member(3, R.drawable.sleep2, feedbacktextSt[i+1]+DA[i+1]));
+                    }
+                }else if(i == 7){
+                    if (!DA[i].equals("0") && !DA[i+1].equals("0")){
+                        memberList.add(new Member(4, R.drawable.mood, feedbacktextSt[i]+DA[i]+"分,"+feedbacktextSt[i+1]+DA[i+1]+"分"));
+                    }else if(!DA[i].equals("0") && DA[i+1].equals("0")){
+                        memberList.add(new Member(4, R.drawable.mood, feedbacktextSt[i]+DA[i]+"分"));
+                    }else if(DA[i].equals("0") && !DA[i+1].equals("0")){
+                        memberList.add(new Member(4, R.drawable.mood, feedbacktextSt[i+1]+DA[i+1]+"分"));
+                    }
                 }
             }
         }

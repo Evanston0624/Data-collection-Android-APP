@@ -46,7 +46,6 @@ public class homepage extends TabActivity {
         /**接收帳號**/
 
 
-        //firstRun();
         initGPS();
         startService();
         tabHost = getTabHost();
@@ -58,17 +57,17 @@ public class homepage extends TabActivity {
         Intent photosIntent = new Intent(this, PhotosActivity.class);
         photoed.setContent(photosIntent);
 
-        // Tab for Songs
+//         Tab for Songs
         TabSpec songster = tabHost.newTabSpec("Songs");
         songster.setIndicator("", getResources().getDrawable(R.drawable.icon_songs_tab));
         Intent songsIntent = new Intent(this, SongsActivity.class);
         songster.setContent(songsIntent);
 
-//        // Tab for feedback
-//        TabSpec feedbacked = tabHost.newTabSpec("Feedback");
-//        feedbacked.setIndicator("", getResources().getDrawable(R.drawable.icon_songs_tab));
-//        Intent feedbackIntent = new Intent(this, FeedbackActivity.class);
-//        feedbacked.setContent(feedbackIntent);
+        // Tab for feedback
+        TabSpec feedbacked = tabHost.newTabSpec("Feedback");
+        feedbacked.setIndicator("", getResources().getDrawable(R.drawable.icon_songs_tab));
+        Intent feedbackIntent = new Intent(this, FeedbackActivity.class);
+        feedbacked.setContent(feedbackIntent);
 
         // Tab for Videos
         TabSpec point = tabHost.newTabSpec("Point");
@@ -85,7 +84,7 @@ public class homepage extends TabActivity {
         // Adding all TabSpec to TabHost
         tabHost.addTab(photoed); // Adding photos tab
         tabHost.addTab(songster); // Adding songs tab
-//        tabHost.addTab(feedbacked); // Adding songs tab
+        tabHost.addTab(feedbacked); // Adding songs tab
         tabHost.addTab(point); // Adding videos tab
         tabHost.addTab(seta); // Adding videos tab
     }
@@ -122,11 +121,14 @@ public class homepage extends TabActivity {
      * 打开GPS对话框
      */
     private void openGPSDialog() {
+        String OpenGPS = getResources().getString(R.string.OpenGPS);
+        String OpenGPSMessage = getResources().getString(R.string.OpenGPSMessage);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("請開啟GPS連結")
+        builder.setTitle(OpenGPS)
                 .setIcon(R.drawable.ico_gps)
-                .setMessage("為了提高定位的精準度，更好的為您服務，請開啟GPS")
-                .setPositiveButton("設置", new DialogInterface.OnClickListener() {
+                .setMessage(OpenGPSMessage)
+                .setPositiveButton("Setting", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //跳轉到手機打開GPS頁面
@@ -147,7 +149,8 @@ public class homepage extends TabActivity {
             /**在線GPS**/
             boolean isRunning = checkservice.isServiceRunning(this, "com.sourcey.materiallogindemo.GPS.GPS");
             if (isRunning) {
-                Toast.makeText(getBaseContext(), "GPS服務已啟動", Toast.LENGTH_LONG).show();
+                String StartedGPS = getResources().getString(R.string.StartedGPS);
+                Toast.makeText(getBaseContext(), StartedGPS, Toast.LENGTH_LONG).show();
             } else {
                 Intent serviceIntent = new Intent(this, GPS.class);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -155,9 +158,9 @@ public class homepage extends TabActivity {
                 } else {
                     this.startService(serviceIntent);
                 }
-                Toast.makeText(getBaseContext(), "GPS服務啟動完成", Toast.LENGTH_LONG).show();
+                String StartupGPS = getResources().getString(R.string.StartupGPS);
+                Toast.makeText(getBaseContext(), StartupGPS, Toast.LENGTH_LONG).show();
             }
-
 //            /**離線GPS**/
 //            boolean isRunningOff = checkservice.isServiceRunning(this, "com.sourcey.materiallogindemo.GPS.OffGPS");
 //            if (isRunningOff) {
@@ -171,35 +174,5 @@ public class homepage extends TabActivity {
 //                }
 //                Toast.makeText(getBaseContext(), "OffGPS服務啟動完成", Toast.LENGTH_LONG).show();
 //            }
-    }
-    private void firstRun() {
-        SharedPreferences sharedPreferences = getSharedPreferences("FirstRun",0);
-        Boolean first_run = sharedPreferences.getBoolean("First",true);
-        if (first_run){
-            sharedPreferences.edit().putBoolean("First",false).apply();
-
-            long firsttime = System.currentTimeMillis()/1000;
-            SharedPreferences pref = getSharedPreferences("time", MODE_PRIVATE);
-            pref.edit()
-                    .putLong("firsttime", firsttime)
-                    .apply();//此時資料才真正寫入到設定檔中
-            Toast.makeText(getBaseContext(), "問卷時間儲存", Toast.LENGTH_LONG).show();
-        }
-        else {
-            long firsttime = getSharedPreferences("time", MODE_PRIVATE)
-                    .getLong("firsttime",1);
-            long newtime = System.currentTimeMillis()/1000;
-            if (newtime-firsttime >= 561600) {
-                Toast.makeText(getBaseContext(), "!!!填寫週問卷的日子到了!!!", Toast.LENGTH_LONG).show();
-                firsttime = newtime;
-                SharedPreferences pref = getSharedPreferences("time", MODE_PRIVATE);
-                pref.edit()
-                        .putLong("firsttime", firsttime)
-                        .apply();//此時資料才真正寫入到設定檔中
-                Intent intent = new Intent();
-                intent.setClass(this, homepage.class);
-                startActivity(intent);
-            }
-        }
     }
 }

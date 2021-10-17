@@ -17,7 +17,7 @@
         app:cardCornerRadius="3dp"
         app:cardElevation="4dp">
 
-        <android.support.constraint.ConstraintLayout
+        <android.support.constraint.endx
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="20dp">
@@ -116,6 +116,6 @@
                     android:text="@string/mon" />
             </GridLayout>
 
-        </android.support.constraint.ConstraintLayout>
+        </android.support.constraint.endx>
     </android.support.v7.widget.CardView>
 </FrameLayout>

@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
     /**更新設定**/
     public String Url = buffer.getServerPosition()+"/app_webpage/app_dl/version_n.txt";
     public String Url1 = buffer.getServerPosition()+"/app_webpage/app_dl/updateInf.txt";
-    public String version_now = "4.0";//當前版本號
+    public String version_now = "3.0";//當前版本號
     //離線GPS系統 and 圖片優化
     @BindView(R.id.input_email)
     EditText _emailText;
@@ -431,7 +431,7 @@ public class LoginActivity extends AppCompatActivity {
             if (SearchAccount.CheckAccount(account, password).equals(account)) {
                     //if(1==1){
                     dialog = ProgressDialog.show(this,
-                            "讀取中", "請等待3秒...", true);
+                            "登入中", "請稍後...", true);
 
                     String path = Environment.getExternalStorageDirectory().getPath() + "/RDataR/";
 
@@ -451,12 +451,10 @@ public class LoginActivity extends AppCompatActivity {
                                     success();
                                     dialog.dismiss();
 
-                                    finish();
-
                                     // onLoginFailed();
                                     //progressDialog.dismiss();
                                 }
-                            }, 3000);
+                            }, 5000);
             } else {
                 _loginButton.setEnabled(true);
                 Toast.makeText(getBaseContext(), "帳號錯誤!", Toast.LENGTH_LONG).show();

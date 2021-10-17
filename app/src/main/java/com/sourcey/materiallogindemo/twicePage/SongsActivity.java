@@ -4,6 +4,8 @@ package com.sourcey.materiallogindemo.twicePage;
  * Created by River on 2018/3/14.
  */
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -29,19 +31,31 @@ import butterknife.ButterKnife;
 
 //這是setting哦
 public class SongsActivity extends AppCompatActivity {
+    private Dialog dialog;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.songs_layout);
+
+
+        dialog = ProgressDialog.show(this,
+                "讀取歷史軌跡資訊中", "請稍後...", true);
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    public void run() {
+                        // On complete call either onLoginSuccess or onLoginFailed'
+                        //設定隱藏標題
+                        getSupportActionBar().hide();
+
+                        dialog.dismiss();
+                        setContentView(R.layout.songs_layout);
+
+                        try {
+                            get();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, 5000);
         ButterKnife.bind(this);
-
-        //設定隱藏標題
-        getSupportActionBar().hide();
-
-        try {
-            get();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     private void get() throws JSONException {
