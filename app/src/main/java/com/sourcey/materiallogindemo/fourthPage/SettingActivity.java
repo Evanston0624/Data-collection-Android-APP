@@ -1,23 +1,34 @@
 package com.sourcey.materiallogindemo.fourthPage;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.data.BarEntry;
+import com.sourcey.materiallogindemo.ControlData.Data;
 import com.sourcey.materiallogindemo.LoginActivity;
 import com.sourcey.materiallogindemo.MYSQL.DBConnector;
 import com.sourcey.materiallogindemo.MYSQL.SQL;
 import com.sourcey.materiallogindemo.MYSQL.buffer;
 import com.sourcey.materiallogindemo.R;
+import com.sourcey.materiallogindemo.firstPage.PhotosActivity;
 import com.sourcey.materiallogindemo.homepage;
 import com.sourcey.materiallogindemo.thirdPage.Question.SearchAccount;
 
@@ -31,6 +42,10 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
 
 import butterknife.ButterKnife;
 
@@ -41,8 +56,22 @@ import butterknife.ButterKnife;
 public class SettingActivity extends AppCompatActivity {
     Button logoutbutton;
     private Switch question_voice_switch;
-    String myData;
-    Integer success = 0;
+    /**use feedback**/
+    String myData, tvContent, word, icontype;
+    private TextView writetextview;
+    private LayoutInflater writelayoutinflater;
+    private AlertDialog.Builder writebuilder;
+    private EditText writeedittext;
+    private Button writeSubmit, writeCancel, feedbackbutton;
+    private AlertDialog writealertdialog;
+    private String[] mood = new String[7];
+    private Integer success;
+    /**use feedback**/
+
+
+
+
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting_layout);
@@ -88,85 +117,55 @@ public class SettingActivity extends AppCompatActivity {
                     }
                 }
         );
-        /**DASS21問卷**/
-        logoutbutton = (Button) findViewById(R.id.scale1);
-        logoutbutton.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        try {
-                            SQL sql1 = new SQL();
-                            success = sql1.InsertNewData_new(buffer.getAccount(), buffer.getTime(), "SCL1", buffer.getEmotion(), "6");
-//                            success(success);
-                        } catch (Exception e) {
-                            Log.e("error update SCL1",e.toString());
-                        }
-                        Uri uri=Uri.parse("https://docs.google.com/forms/d/e/1FAIpQLSc4eCccuMyk71uN7DzLGFCZk6ZUYAmitylwKf70HdSeL-KxeA/viewform?entry.697311666="+buffer.getAccount());
-                        Intent intent=new Intent(Intent.ACTION_VIEW,uri);
-                        startActivity(intent);
-                    }
-                }
-        );
-        /**Altman問卷**/
-        logoutbutton = (Button) findViewById(R.id.scale2);
-        logoutbutton.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        try {
-                            SQL sql1 = new SQL();
-                            sql1.InsertNewData_new(buffer.getAccount(), buffer.getTime(), "SCL2", buffer.getEmotion(), "7");
-//                            success(success);
-                        } catch (Exception e) {
-                            Log.e("error update SCL2",e.toString());
-                        }
-                        Uri uri=Uri.parse("https://docs.google.com/forms/d/e/1FAIpQLSePaLbHb9bmnFJ5DcGrh7q2DGS-3L28raYjkABYwgzJjfz6qQ/viewform?usp=pp_url&entry.105677866="+buffer.getAccount());                        Intent intent=new Intent(Intent.ACTION_VIEW,uri);
-                        startActivity(intent);
-                    }
-                }
-        );
-        /*******************************************************************************************/
-        /**feedback**/
-        logoutbutton = (Button) findViewById(R.id.scale3);//
-        logoutbutton.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent i=new Intent(SettingActivity.this, ExcgangePointActivity.class);
-                        startActivity(i);
-                    }
-                }
-        );
+        /**意見回饋**/
+        setDialogInitial();
+
         /*******************************************************************************************/
     }
 
-    private String loadAccount(){
-
-        //accountNum = LoadPointData.ReadAccount();
-
-        String path = Environment.getExternalStorageDirectory().getPath() + "/RDataR/";
-
-        try {
-            FileInputStream fis = new FileInputStream(path + "user.txt");
-            DataInputStream in = new DataInputStream(fis);
-            BufferedReader br = new BufferedReader(new InputStreamReader(in));
-            String strLine;
-            while ((strLine = br.readLine()) != null) {
-                if (strLine.contains("帳號:") && strLine.length() > 6) {
-                    myData = strLine;
-                }
-            }
-            in.close();
-        }
-        catch (Exception e) {
-            Log.e("error not load Account", e.toString());
-        }
-        myData=myData.replaceAll("帳","");
-        myData=myData.replaceAll("號","");
-        myData=myData.replaceAll(":","");
-        return myData;
+    private void setDialogInitial() {
+        //initial writeTextview
+        feedbackbutton = (Button) findViewById(R.id.usefeedback);
+        writetextview = (TextView) findViewById(R.id.textView1);
+        writelayoutinflater = getLayoutInflater();
+        View Dview = writelayoutinflater.inflate(R.layout.dialog_feedback, null);
+        writebuilder = new AlertDialog.Builder(SettingActivity.this);
+        writebuilder.setCancelable(false);
+        writebuilder.setView(Dview);
+        writeedittext = (EditText) Dview.findViewById(R.id.writeeditText);
+        writeSubmit = (Button) Dview.findViewById(R.id.writebutton);
+        writeCancel = (Button) Dview.findViewById(R.id.writeCancel);
+        writealertdialog = writebuilder.create();
+        feedbackbutton.setOnClickListener(writelis);
     }
-    //按下返回鍵回到homepage畫面
+    private View.OnClickListener writelis = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            writebuilder = new AlertDialog.Builder(SettingActivity.this);
+            writelayoutinflater = getLayoutInflater();
+
+            writeSubmit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String writeEditTextValue = writeedittext.getText().toString();
+
+//                    if (writeEditTextValue.replace("[\r\n\\s     　]", "").length() > 1) {
+                    if (writeEditTextValue.replaceAll("[\r\n\\s]", "").length() > 1) {
+                        tvContent = writeEditTextValue;
+                        icontype = "9";
+                        word = writeEditTextValue;
+                        writeedittext.setText("");
+//                        feedbackbutton.callOnClick();//開啟標記
+                        prepareNewData(false);
+                        writealertdialog.cancel();
+                    }
+                    writealertdialog.cancel();
+                }
+            });
+            writealertdialog.show();
+        }
+    };
+        //按下返回鍵回到homepage畫面
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) { // 按下的如果是BACK，同时没有重复
@@ -176,10 +175,35 @@ public class SettingActivity extends AppCompatActivity {
             finish();
             overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
         }
-
         return super.onKeyDown(keyCode, event);
     }
+    private void prepareNewData(boolean HasWord) {
+        //產生loading畫面
+        loading();
+        SQL sql1 = new SQL();
 
+        //Data
+        String emotion;
+        String content = word;
+        if (HasWord) {
+            emotion = mood[0] + "," + mood[1] + "," + mood[2] + "," + mood[3] + "," + mood[4] + "," + mood[5] + "," + mood[6];
+        }else {
+            emotion = "0,0,0,0,0,0,0";
+        }
+        String[] smood = new String[3];
+        smood[0] = mood[4];
+        smood[1] = mood[1];
+        smood[2] = mood[5];
+        //set chart Data
+
+        if (icontype == "9") {
+            //set Data to SQL
+            success = sql1.UpdateData(buffer.getAccount(), buffer.getTime(), content, emotion, icontype);
+            success(success);
+            // notify adapter about data set changes
+            // so that it will render the list with new data
+        }
+    }
     /***********************************儲存Account************************************/
     private void save(){
         String path = Environment.getExternalStorageDirectory().getPath() + "/RDataR/";
@@ -231,12 +255,37 @@ public class SettingActivity extends AppCompatActivity {
         } catch (Exception e) {
         }
     }
+    /**loading**/
+    private Dialog dialog;
+    private void loading() {
+        String[] DialogText = getResources().getStringArray(R.array.DialogMessage);
+        String InStorage = getResources().getString(R.string.InStorage);
+        int DialogNum = (int)(Math.random()* DialogText.length);
+        if (DialogNum == 0){
+            dialog = ProgressDialog.show(this, InStorage, DialogText[DialogNum], true);
+        }else if(DialogNum >= 1){
+            dialog = ProgressDialog.show(this, InStorage, DialogText[DialogNum-1], true);
+        }
+//        dialog = ProgressDialog.show(this, "儲存中", "請稍後", true);
+
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    public void run() {
+                        // On complete call either onLoginSuccess or onLoginFailed'
+                        dialog.dismiss();
+                        // onLoginFailed();
+                        //progressDialog.dismiss();
+                    }
+                }, 2000);
+    }
+    /**確認回傳值**/
     private void success(Integer success) {
         SQL sql1 = new SQL();
+        String[] UploadMessage = getResources().getStringArray(R.array.UploadMessage);
         if (success == 1) {
-            sql1.makeTextAndShow(getApplicationContext(), "上傳成功", Toast.LENGTH_LONG);
+            sql1.makeTextAndShow(getApplicationContext(), UploadMessage[0], Toast.LENGTH_LONG);
         }else if (success == 0 || success == null){
-            sql1.makeTextAndShow(getApplicationContext(), "上傳失敗", Toast.LENGTH_LONG);
+            sql1.makeTextAndShow(getApplicationContext(), UploadMessage[1], Toast.LENGTH_LONG);
         }
     }
 }

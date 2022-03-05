@@ -185,49 +185,49 @@
             app:layout_constraintTop_toBottomOf="@id/guideline_top2"
             app:srcCompat="@drawable/finitems" />
 
-        <ImageView
+        <TextView
             android:id="@+id/dailyemo"
+            android:text="@string/dailymood"
+            android:gravity="center"
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
             android:layout_marginTop="1dp"
-            android:background="@android:color/transparent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/versp03"
             app:layout_constraintTop_toBottomOf="@+id/textView3"
-            app:srcCompat="@drawable/dailyemo_unf"
             android:layout_height="0dp"
             android:layout_width="0dp"
             android:layout_marginRight="2dp"
             android:layout_marginLeft="2dp"
             app:layout_constraintDimensionRatio="h,3:1"
             app:layout_constraintHorizontal_bias="1.0"/>
-        <ImageView
+        <TextView
             android:id="@+id/wakeup"
+            android:text="@string/wakeup"
+            android:gravity="center"
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
             android:layout_marginTop="1dp"
-            android:background="@android:color/transparent"
             app:layout_constraintLeft_toRightOf="@id/versp03"
             app:layout_constraintRight_toLeftOf="@id/versp04"
             app:layout_constraintTop_toBottomOf="@+id/textView3"
             android:layout_marginRight="2dp"
             android:layout_marginLeft="2dp"
-            app:srcCompat="@drawable/wake_fin"
             android:layout_height="0dp"
             android:layout_width="0dp"
             app:layout_constraintDimensionRatio="h,3:1"
             app:layout_constraintHorizontal_bias="1.0"/>
 
-        <ImageView
+        <TextView
             android:id="@+id/sleep"
+            android:text="@string/sleep"
+            android:gravity="center"
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
             android:layout_marginTop="1dp"
-            android:background="@android:color/transparent"
             app:layout_constraintLeft_toRightOf="@id/versp04"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3"
-            app:srcCompat="@drawable/sleep_fin"
             android:layout_marginRight="2dp"
             android:layout_marginLeft="2dp"
             android:layout_height="0dp"
@@ -235,52 +235,52 @@
             app:layout_constraintDimensionRatio="h,3:1"
             app:layout_constraintHorizontal_bias="1.0" />
 
-        <ImageView
+        <TextView
             android:id="@+id/emo_mark"
+            android:text="@string/emo_mark"
+            android:gravity="center"
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
             android:layout_marginTop="1dp"
-            android:background="@android:color/transparent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/versp03"
             app:layout_constraintTop_toBottomOf="@+id/dailyemo"
             android:layout_marginRight="2dp"
             android:layout_marginLeft="2dp"
-            app:srcCompat="@drawable/emomark_unf"
             android:layout_height="0dp"
             android:layout_width="0dp"
             app:layout_constraintDimensionRatio="h,3:1"
             app:layout_constraintHorizontal_bias="1.0"/>
 
-        <ImageView
+        <TextView
             android:id="@+id/dass"
+            android:text="@string/dass"
+            android:gravity="center"
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
             android:layout_marginTop="1dp"
-            android:background="@android:color/transparent"
             app:layout_constraintLeft_toRightOf="@id/versp03"
             app:layout_constraintRight_toLeftOf="@id/versp04"
             app:layout_constraintTop_toBottomOf="@+id/dailyemo"
             android:layout_marginRight="2dp"
             android:layout_marginLeft="2dp"
-            app:srcCompat="@drawable/dass_fin"
             android:layout_height="0dp"
             android:layout_width="0dp"
             app:layout_constraintDimensionRatio="h,3:1"
             app:layout_constraintHorizontal_bias="1.0"/>
 
-        <ImageView
-            android:id="@+id/amrs"
+        <TextView
+            android:id="@+id/asrm"
+            android:text="@string/asrm"
+            android:gravity="center"
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
             android:layout_marginTop="1dp"
-            android:background="@android:color/transparent"
             app:layout_constraintLeft_toRightOf="@id/versp04"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dailyemo"
             android:layout_marginRight="2dp"
             android:layout_marginLeft="2dp"
-            app:srcCompat="@drawable/amsr_fin"
             android:layout_height="0dp"
             android:layout_width="0dp"
             app:layout_constraintDimensionRatio="h,3:1"
@@ -301,37 +301,41 @@
             app:layout_constraintDimensionRatio="h,3:1"
             app:layout_constraintHorizontal_bias="1.0" />
 
-        <ImageView
+        <TextView
             android:id="@+id/fin"
+            android:text="@string/collec_fini"
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
             android:layout_marginTop="1dp"
-            android:background="@android:color/transparent"
+            android:background="@color/primaryColorWhite"
+            android:textColor="@color/colorWhite"
+            android:gravity="center"
             app:layout_constraintLeft_toRightOf="@id/illu"
             app:layout_constraintRight_toLeftOf="@id/versp06"
             app:layout_constraintTop_toBottomOf="@+id/guideline_top5"
             android:layout_marginRight="2dp"
             android:layout_marginLeft="2dp"
             android:layout_marginBottom="2dp"
-            app:srcCompat="@drawable/fin"
             android:layout_height="0dp"
             android:layout_width="0dp"
             app:layout_constraintDimensionRatio="h,3:1"
             app:layout_constraintHorizontal_bias="1.0" />
 
-        <ImageView
+        <TextView
             android:id="@+id/unf"
+            android:text="@string/collec_unfini"
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
             android:layout_marginTop="1dp"
-            android:background="@android:color/transparent"
+            android:background="@color/colorWhite"
+            android:textColor="@color/black"
+            android:gravity="center"
             app:layout_constraintLeft_toRightOf="@id/versp06"
             app:layout_constraintRight_toRightOf="@id/versp07"
             app:layout_constraintTop_toBottomOf="@+id/guideline_top5"
             android:layout_marginRight="2dp"
             android:layout_marginLeft="2dp"
             android:layout_marginBottom="2dp"
-            app:srcCompat="@drawable/unf"
             android:layout_height="0dp"
             android:layout_width="0dp"
             app:layout_constraintDimensionRatio="h,3:1"

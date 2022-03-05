@@ -222,7 +222,7 @@ public class SQL {
         try {
             String[] t = emotion.split(",");
 
-            String query = buffer.getServerPosition()+"/app/InsertNewData1.php?Account=" + account + "&time=" + time.replace(" ","+") + "&content=" + content.replace(" ","+") + "&type="
+            String query = buffer.getServerPosition()+"/app/InsertNewData1.php?Account=" + account + "&content=" + content.replace(" ","+") + "&type="
                     + type + "&object_Anger=" + t[0] + "&object_Boredom=" + t[1] + "&object_Disgust=" + t[2] + "&object_Anxiety=" + t[3] + "&object_Happiness=" + t[4] + "&object_Sadness=" + t[5] + "&object_Surprised=" + t[6];
             String result = DBConnector.executeQuery(query);
             JSONObject jsonObject = new JSONObject(result);

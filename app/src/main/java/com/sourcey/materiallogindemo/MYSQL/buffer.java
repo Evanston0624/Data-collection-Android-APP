@@ -41,7 +41,7 @@ public class buffer {
         dailyMood = arraList.get(0);
         sleepTime = arraList.get(1);
         getupTime = arraList.get(2);
-        GPS = arraList.get(3);
+//        GPS = arraList.get(3);
     }
 
     public static void setGPSData(ArrayList<String[]> gps){

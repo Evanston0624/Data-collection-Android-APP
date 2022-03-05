@@ -83,13 +83,6 @@ public class PointActivity extends AppCompatActivity {
                 }, 1000);
 
 //        setContentView(R.layout.activity_point);
-//
-//        /**下拉刷新**/
-//        initView();
-//        /**接收帳號**/
-//        myData = buffer.getAccount();
-//        /**更新Point**/
-//        UpdatePoint(myData);
     }
     /**------------------------------下拉刷新------------------------------**/
     private void initView() {
@@ -107,8 +100,6 @@ public class PointActivity extends AppCompatActivity {
         /**讀取Point資料**/
         String[] pointloadvalue = getResources().getStringArray(R.array.PointLoadValueV2);
         int[] pointnumsum = getResources().getIntArray(R.array.PointNumSumV2);
-//        int[] pointif = getResources().getIntArray(R.array.PointInf);
-//        int[] DA = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
         int[] DA = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
 //        int pointnumber = 26;

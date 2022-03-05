@@ -63,19 +63,19 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 tools:scaleX="100"></com.sourcey.materiallogindemo.twicePage.KLineChart>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/ChartGPS"
-                android:textSize="25dp" />
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/ChartGPS"-->
+                <!--android:textSize="25dp" />-->
 
-            <com.sourcey.materiallogindemo.twicePage.KLineChart
-                android:id="@+id/chartGPS"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                tools:scaleX="100"></com.sourcey.materiallogindemo.twicePage.KLineChart>
+            <!--<com.sourcey.materiallogindemo.twicePage.KLineChart-->
+                <!--android:id="@+id/chartGPS"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="200dp"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--tools:scaleX="100"></com.sourcey.materiallogindemo.twicePage.KLineChart>-->
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </RelativeLayout>

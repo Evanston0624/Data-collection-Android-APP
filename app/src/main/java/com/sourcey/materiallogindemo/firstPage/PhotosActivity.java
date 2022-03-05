@@ -112,7 +112,7 @@ public class PhotosActivity extends AppCompatActivity {
     /**20210302**/
     private ImageButton ShowIcon;
     private ImageView sleep_btn,text_btn,audio_btn,video_btn,emo_btn,dass_btn,asmr_btn;
-    private ImageView dailyemo,wakeup,sleep,emo_mark,dass,amrs;
+    private TextView dailyemo,wakeup,sleep,emo_mark,dass,asrm;
 
     private int showed=0;
 
@@ -228,9 +228,10 @@ public class PhotosActivity extends AppCompatActivity {
                         Uri uri=Uri.parse("https://docs.google.com/forms/d/e/1FAIpQLSc4eCccuMyk71uN7DzLGFCZk6ZUYAmitylwKf70HdSeL-KxeA/viewform?entry.697311666="+buffer.getAccount());
                         Intent intent=new Intent(Intent.ACTION_VIEW,uri);
                         startActivity(intent);
-                        int imageResource = getResources().getIdentifier("dass_fin", "drawable", "com.sourcey.materialloginexample");
-                        Drawable image = getResources().getDrawable(imageResource);
-                        dass.setImageDrawable(image);
+//                        int imageResource = getResources().getIdentifier("dass_fin", "drawable", "com.sourcey.materialloginexample");
+//                        Drawable image = getResources().getDrawable(imageResource);
+                        dass.setBackgroundResource(R.color.primaryColorWhite);
+                        dass.setTextColor(Color.WHITE);
                     }
                 }
         );
@@ -248,9 +249,10 @@ public class PhotosActivity extends AppCompatActivity {
                         }
                         Uri uri=Uri.parse("https://docs.google.com/forms/d/e/1FAIpQLSePaLbHb9bmnFJ5DcGrh7q2DGS-3L28raYjkABYwgzJjfz6qQ/viewform?usp=pp_url&entry.105677866="+buffer.getAccount());                        Intent intent=new Intent(Intent.ACTION_VIEW,uri);
                         startActivity(intent);
-                        int imageResource = getResources().getIdentifier("amsr_fin", "drawable", "com.sourcey.materialloginexample");
-                        Drawable image = getResources().getDrawable(imageResource);
-                        amrs.setImageDrawable(image);
+//                        int imageResource = getResources().getIdentifier("amsr_fin", "drawable", "com.sourcey.materialloginexample");
+//                        Drawable image = getResources().getDrawable(imageResource);
+                        asrm.setBackgroundResource(R.color.primaryColorWhite);
+                        asrm.setTextColor(Color.WHITE);
                     }
                 }
         );
@@ -258,12 +260,12 @@ public class PhotosActivity extends AppCompatActivity {
     private void AchievementFeedback() {
         String[] ImageFin = {"emomark_fin","dailyemo_fin","wake_fin","sleep_fin","dass_fin","amsr_fin"};
         String[] ImageUnf = {"emomark_unf","dailyemo_unf","wake_unf","sleep_unf","dass_unf","amsr_unf"};
-        dailyemo = (ImageView) findViewById(R.id.dailyemo);
-        wakeup = (ImageView) findViewById(R.id.wakeup);
-        sleep = (ImageView) findViewById(R.id.sleep);
-        emo_mark = (ImageView) findViewById(R.id.emo_mark);
-        dass = (ImageView) findViewById(R.id.dass);
-        amrs = (ImageView) findViewById(R.id.amrs);
+        dailyemo = (TextView) findViewById(R.id.dailyemo);
+        wakeup = (TextView) findViewById(R.id.wakeup);
+        sleep = (TextView) findViewById(R.id.sleep);
+        emo_mark = (TextView) findViewById(R.id.emo_mark);
+        dass = (TextView) findViewById(R.id.dass);
+        asrm = (TextView) findViewById(R.id.asrm);
         /**查詢是否完成**/
         String[] DA = {"-5","-5","-5","-5","-5","-5"};
         try{
@@ -284,36 +286,42 @@ public class PhotosActivity extends AppCompatActivity {
         for (int i = 0; i < 6; i++) {
 //            checkUploadNum = checkUploadInfor(i);
             if (!DA[i].equals("0") && !DA[i].equals("-5")){
-                int imageResource = getResources().getIdentifier(ImageFin[i], "drawable", "com.sourcey.materialloginexample");
-                Drawable image = getResources().getDrawable(imageResource);
+//                int imageResource = getResources().getIdentifier(ImageFin[i], "drawable", "com.sourcey.materialloginexample");
+//                Drawable image = getResources().getDrawable(imageResource);
                 if (i == 0){
-                    dailyemo.setImageDrawable(image);
+                    dailyemo.setBackgroundResource(R.color.primaryColorWhite);
+                    dailyemo.setTextColor(Color.WHITE);
                 }else if(i == 1){
-                    emo_mark.setImageDrawable(image);
+                    emo_mark.setBackgroundResource(R.color.primaryColorWhite);
+                    emo_mark.setTextColor(Color.WHITE);
                 }else if(i == 2){
-                    wakeup.setImageDrawable(image);
+                    wakeup.setBackgroundResource(R.color.primaryColorWhite);
+                    wakeup.setTextColor(Color.WHITE);
                 }else if(i == 3){
-                    sleep.setImageDrawable(image);
+                    sleep.setBackgroundResource(R.color.primaryColorWhite);
+                    sleep.setTextColor(Color.WHITE);
                 }else if(i == 4){
-                    dass.setImageDrawable(image);
+                    dass.setBackgroundResource(R.color.primaryColorWhite);
+                    dass.setTextColor(Color.WHITE);
                 }else if(i == 5){
-                    amrs.setImageDrawable(image);
+                    asrm.setBackgroundResource(R.color.primaryColorWhite);
+                    asrm.setTextColor(Color.WHITE);
                 }
             }else{
-                int imageResource = getResources().getIdentifier(ImageUnf[i], "drawable", "com.sourcey.materialloginexample");
-                Drawable image = getResources().getDrawable(imageResource);
+//                int imageResource = getResources().getIdentifier(ImageUnf[i], "drawable", "com.sourcey.materialloginexample");
+//                Drawable image = getResources().getDrawable(imageResource);
                 if (i == 0){
-                    dailyemo.setImageDrawable(image);
+                    dailyemo.setBackgroundResource(R.color.colorWhite);
                 }else if(i == 1){
-                    emo_mark.setImageDrawable(image);
+                    emo_mark.setBackgroundResource(R.color.colorWhite);
                 }else if(i == 2){
-                    wakeup.setImageDrawable(image);
+                    wakeup.setBackgroundResource(R.color.colorWhite);
                 }else if(i == 3){
-                    sleep.setImageDrawable(image);
+                    sleep.setBackgroundResource(R.color.colorWhite);
                 }else if(i == 4){
-                    dass.setImageDrawable(image);
+                    dass.setBackgroundResource(R.color.colorWhite);
                 }else if(i == 5){
-                    amrs.setImageDrawable(image);
+                    asrm.setBackgroundResource(R.color.colorWhite);
                 }
             }
         }
@@ -568,9 +576,10 @@ public class PhotosActivity extends AppCompatActivity {
                         icontype = "4";
                         alldayemotion = String.valueOf(dayemotionseekBar.getProgress());
                         prepareADData();
-                        int imageResource = getResources().getIdentifier("dailyemo_fin", "drawable", "com.sourcey.materialloginexample");
-                        Drawable image = getResources().getDrawable(imageResource);
-                        dailyemo.setImageDrawable(image);
+//                        int imageResource = getResources().getIdentifier("dailyemo_fin", "drawable", "com.sourcey.materialloginexample");
+//                        Drawable image = getResources().getDrawable(imageResource);
+                        dailyemo.setBackgroundResource(R.color.primaryColorWhite);
+                        dailyemo.setTextColor(Color.WHITE);
                     }
                 }
             });
@@ -633,9 +642,10 @@ public class PhotosActivity extends AppCompatActivity {
                                 ":" +
                                 sleepminspinner.getSelectedItem().toString();
                         prepareADData();
-                        int imageResource = getResources().getIdentifier("sleep_fin", "drawable", "com.sourcey.materialloginexample");
-                        Drawable image = getResources().getDrawable(imageResource);
-                        sleep.setImageDrawable(image);
+//                        int imageResource = getResources().getIdentifier("sleep_fin", "drawable", "com.sourcey.materialloginexample");
+//                        Drawable image = getResources().getDrawable(imageResource);
+                        sleep.setBackgroundResource(R.color.primaryColorWhite);
+                        sleep.setTextColor(Color.WHITE);
                     }
                 }
             });
@@ -697,9 +707,10 @@ public class PhotosActivity extends AppCompatActivity {
                                 ":" +
                                 sleepminspinner.getSelectedItem().toString();
                         prepareADData();
-                        int imageResource = getResources().getIdentifier("wake_fin", "drawable", "com.sourcey.materialloginexample");
-                        Drawable image = getResources().getDrawable(imageResource);
-                        wakeup.setImageDrawable(image);
+//                        int imageResource = getResources().getIdentifier("wake_fin", "drawable", "com.sourcey.materialloginexample");
+//                        Drawable image = getResources().getDrawable(imageResource);
+                        wakeup.setBackgroundResource(R.color.primaryColorWhite);
+                        wakeup.setTextColor(Color.WHITE);
                     }
                 }
             });
@@ -1067,9 +1078,10 @@ public class PhotosActivity extends AppCompatActivity {
                     } else {
                         icontype = "0";
                         prepareNewData(false);//call function to set new Data
-                        int imageResource = getResources().getIdentifier("emomark_fin", "drawable", "com.sourcey.materialloginexample");
-                        Drawable image = getResources().getDrawable(imageResource);
-                        emo_mark.setImageDrawable(image);
+//                        int imageResource = getResources().getIdentifier("emomark_fin", "drawable", "com.sourcey.materialloginexample");
+//                        Drawable image = getResources().getDrawable(imageResource);
+                        emo_mark.setBackgroundResource(R.color.primaryColorWhite);
+                        emo_mark.setTextColor(Color.WHITE);
                     }
                     emotionalertdialog.cancel();
                     tvContent = "";
@@ -1275,9 +1287,10 @@ public class PhotosActivity extends AppCompatActivity {
                         word = str_mp4;
                         videoEmotionalertdialog.cancel();
                         prepareNewData(false);
-                        int imageResource = getResources().getIdentifier("emomark_fin", "drawable", "com.sourcey.materialloginexample");
-                        Drawable image = getResources().getDrawable(imageResource);
-                        emo_mark.setImageDrawable(image);
+//                        int imageResource = getResources().getIdentifier("emomark_fin", "drawable", "com.sourcey.materialloginexample");
+//                        Drawable image = getResources().getDrawable(imageResource);
+                        emo_mark.setBackgroundResource(R.color.primaryColorWhite);
+                        emo_mark.setTextColor(Color.WHITE);
                     }
                 });
                 videoEmotionalertdialog.show();
@@ -1607,9 +1620,10 @@ public class PhotosActivity extends AppCompatActivity {
                         word = str_wav;
                         Micalertdialog.cancel();
                         prepareNewData(false);
-                        int imageResource = getResources().getIdentifier("emomark_fin", "drawable", "com.sourcey.materialloginexample");
-                        Drawable image = getResources().getDrawable(imageResource);
-                        emo_mark.setImageDrawable(image);
+//                        int imageResource = getResources().getIdentifier("emomark_fin", "drawable", "com.sourcey.materialloginexample");
+//                        Drawable image = getResources().getDrawable(imageResource);
+                        emo_mark.setBackgroundResource(R.color.primaryColorWhite);
+                        emo_mark.setTextColor(Color.WHITE);
                     }
                 });
                 Micalertdialog.show();

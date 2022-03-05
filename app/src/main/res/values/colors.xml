@@ -27,6 +27,7 @@
   <drawable name="lightgrey">#d3d3d3</drawable>
   <color name="primaryColor">#2196F3</color>
   <color name="primaryColorDark">#1976D2</color>
+  <color name="primaryColorWhite">#4472C4</color>
   <color name="cyan">#00BCD4</color>
   <color name="teal">#009688</color>
   <color name="amber">#FFC107</color>

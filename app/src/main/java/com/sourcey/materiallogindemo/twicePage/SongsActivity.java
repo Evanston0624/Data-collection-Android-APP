@@ -77,8 +77,8 @@ public class SongsActivity extends AppCompatActivity {
         buffer.typeadd();
 
         //取GPS資料
-        ArrayList<String[]> GPS = getInf(4);
-        chart_GPS(GPS);
+//        ArrayList<String[]> GPS = getInf(4);
+//        chart_GPS(GPS);
         /*
         if(GPS==null){
             for(int i = 0;i < GPS.size();i++){
@@ -109,7 +109,7 @@ public class SongsActivity extends AppCompatActivity {
         arrayList.add(dailyMood);
         arrayList.add(sleepTime);
         arrayList.add(getupTime);
-        arrayList.add(GPS);
+//        arrayList.add(GPS);
         buffer.setArraList(arrayList);
     }
 
@@ -239,8 +239,8 @@ public class SongsActivity extends AppCompatActivity {
             i++;
         }
 
-        final KLineChart chart = (KLineChart) findViewById(R.id.chartGPS);
-        chart.setData(data, GPS);
+//        final KLineChart chart = (KLineChart) findViewById(R.id.chartGPS);
+//        chart.setData(data, GPS);
     }
 
     //按下返回鍵回到homepage畫面
@@ -532,7 +532,6 @@ public class SongsActivity extends AppCompatActivity {
 //                    }
                 }
                 return data4;
-
             default:
                 return null;
         }
