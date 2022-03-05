@@ -113,6 +113,9 @@
     <string name="wakeup">起床時間</string>
     <string name="sleep">睡眠時間</string>
     <string name="emo_mark">影音情緒</string>
+    <string name="emo_voice">錄音情緒</string>
+    <string name="emo_av">錄影情緒</string>
+    <string name="selfscale">自評量表</string>
     <string name="dass">DASS量表</string>
     <string name="asrm">ASRM量表</string>
     <!--//Datatype//-->

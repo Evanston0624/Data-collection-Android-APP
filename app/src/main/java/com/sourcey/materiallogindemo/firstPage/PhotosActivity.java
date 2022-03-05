@@ -111,8 +111,8 @@ public class PhotosActivity extends AppCompatActivity {
     private Integer UploadDayinfor = 0;
     /**20210302**/
     private ImageButton ShowIcon;
-    private ImageView sleep_btn,text_btn,audio_btn,video_btn,emo_btn,dass_btn,asmr_btn;
-    private TextView dailyemo,wakeup,sleep,emo_mark,dass,asrm;
+    private ImageView sleep_btn,text_btn,audio_btn,video_btn,emo_btn, selfscale_btn, dass_btn,asmr_btn;
+    private TextView dailyemo,wakeup,sleep,emo_voice,emo_av,selfscale;
 
     private int showed=0;
 
@@ -123,6 +123,7 @@ public class PhotosActivity extends AppCompatActivity {
 
         //設定隱藏標題
         getSupportActionBar().hide();
+
         //設置searchView
 //        searchView = findViewById(R.id.searchView);
 //        searchView.setIconifiedByDefault(false);// 關閉icon切換
@@ -144,10 +145,12 @@ public class PhotosActivity extends AppCompatActivity {
         video_btn=(ImageView)findViewById(R.id.video_btn);
         //第5個:情緒
         emo_btn=(ImageView)findViewById(R.id.emo_btn);
-        //第6個:Dass21量表
-        dass_btn=(ImageView)findViewById(R.id.dass_btn);
-        //第7個:ASMR量表
-        asmr_btn=(ImageView)findViewById(R.id.asmr_btn);
+        //第6個:自評量表
+        selfscale_btn=(ImageView)findViewById(R.id.self_btn);
+//        //第6個:Dass21量表
+//        dass_btn=(ImageView)findViewById(R.id.dass_btn);
+//        //第7個:ASMR量表
+//        asmr_btn=(ImageView)findViewById(R.id.asmr_btn);
 
         // Recycle
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -211,51 +214,67 @@ public class PhotosActivity extends AppCompatActivity {
         //set allday
         setAlldayInitial();
     }
+
     /**20210307**/
     private void setScaleScore() {
-        /**DASS21問卷**/
-        dass_btn.setOnClickListener(
+        /**20220305自評量表**/
+        selfscale_btn.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        try {
-                            SQL sql1 = new SQL();
-                            success = sql1.InsertNewData_new(buffer.getAccount(), buffer.getTime(), "SCL1", buffer.getEmotion(), "6");
-//                            success(success);
-                        } catch (Exception e) {
-                            Log.e("error update SCL1",e.toString());
-                        }
-                        Uri uri=Uri.parse("https://docs.google.com/forms/d/e/1FAIpQLSc4eCccuMyk71uN7DzLGFCZk6ZUYAmitylwKf70HdSeL-KxeA/viewform?entry.697311666="+buffer.getAccount());
+                        Uri uri=Uri.parse("http://140.116.82.102:8080/app_webpage/selfScale.html?at="+buffer.getAccount());
                         Intent intent=new Intent(Intent.ACTION_VIEW,uri);
                         startActivity(intent);
 //                        int imageResource = getResources().getIdentifier("dass_fin", "drawable", "com.sourcey.materialloginexample");
 //                        Drawable image = getResources().getDrawable(imageResource);
-                        dass.setBackgroundResource(R.color.primaryColorWhite);
-                        dass.setTextColor(Color.WHITE);
+                        selfscale.setBackgroundResource(R.color.primaryColorWhite);
+                        selfscale.setTextColor(Color.WHITE);
                     }
                 }
         );
-        /**Altman問卷**/
-        asmr_btn.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        try {
-                            SQL sql1 = new SQL();
-                            sql1.InsertNewData_new(buffer.getAccount(), buffer.getTime(), "SCL2", buffer.getEmotion(), "7");
-//                            success(success);
-                        } catch (Exception e) {
-                            Log.e("error update SCL2",e.toString());
-                        }
-                        Uri uri=Uri.parse("https://docs.google.com/forms/d/e/1FAIpQLSePaLbHb9bmnFJ5DcGrh7q2DGS-3L28raYjkABYwgzJjfz6qQ/viewform?usp=pp_url&entry.105677866="+buffer.getAccount());                        Intent intent=new Intent(Intent.ACTION_VIEW,uri);
-                        startActivity(intent);
-//                        int imageResource = getResources().getIdentifier("amsr_fin", "drawable", "com.sourcey.materialloginexample");
-//                        Drawable image = getResources().getDrawable(imageResource);
-                        asrm.setBackgroundResource(R.color.primaryColorWhite);
-                        asrm.setTextColor(Color.WHITE);
-                    }
-                }
-        );
+//        /**DASS21問卷**/
+//        dass_btn.setOnClickListener(
+//                new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        try {
+//                            SQL sql1 = new SQL();
+//                            success = sql1.InsertNewData_new(buffer.getAccount(), buffer.getTime(), "SCL1", buffer.getEmotion(), "6");
+////                            success(success);
+//                        } catch (Exception e) {
+//                            Log.e("error update SCL1",e.toString());
+//                        }
+//                        Uri uri=Uri.parse("https://docs.google.com/forms/d/e/1FAIpQLSc4eCccuMyk71uN7DzLGFCZk6ZUYAmitylwKf70HdSeL-KxeA/viewform?entry.697311666="+buffer.getAccount());
+//                        Intent intent=new Intent(Intent.ACTION_VIEW,uri);
+//                        startActivity(intent);
+////                        int imageResource = getResources().getIdentifier("dass_fin", "drawable", "com.sourcey.materialloginexample");
+////                        Drawable image = getResources().getDrawable(imageResource);
+//                        dass.setBackgroundResource(R.color.primaryColorWhite);
+//                        dass.setTextColor(Color.WHITE);
+//                    }
+//                }
+//        );
+//        /**Altman問卷**/
+//        asmr_btn.setOnClickListener(
+//                new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        try {
+//                            SQL sql1 = new SQL();
+//                            sql1.InsertNewData_new(buffer.getAccount(), buffer.getTime(), "SCL2", buffer.getEmotion(), "7");
+////                            success(success);
+//                        } catch (Exception e) {
+//                            Log.e("error update SCL2",e.toString());
+//                        }
+//                        Uri uri=Uri.parse("https://docs.google.com/forms/d/e/1FAIpQLSePaLbHb9bmnFJ5DcGrh7q2DGS-3L28raYjkABYwgzJjfz6qQ/viewform?usp=pp_url&entry.105677866="+buffer.getAccount());                        Intent intent=new Intent(Intent.ACTION_VIEW,uri);
+//                        startActivity(intent);
+////                        int imageResource = getResources().getIdentifier("amsr_fin", "drawable", "com.sourcey.materialloginexample");
+////                        Drawable image = getResources().getDrawable(imageResource);
+//                        asrm.setBackgroundResource(R.color.primaryColorWhite);
+//                        asrm.setTextColor(Color.WHITE);
+//                    }
+//                }
+//        );
     }
     private void AchievementFeedback() {
         String[] ImageFin = {"emomark_fin","dailyemo_fin","wake_fin","sleep_fin","dass_fin","amsr_fin"};
@@ -263,13 +282,16 @@ public class PhotosActivity extends AppCompatActivity {
         dailyemo = (TextView) findViewById(R.id.dailyemo);
         wakeup = (TextView) findViewById(R.id.wakeup);
         sleep = (TextView) findViewById(R.id.sleep);
-        emo_mark = (TextView) findViewById(R.id.emo_mark);
-        dass = (TextView) findViewById(R.id.dass);
-        asrm = (TextView) findViewById(R.id.asrm);
+        emo_voice = (TextView) findViewById(R.id.emo_voice);
+        emo_av = (TextView) findViewById(R.id.emo_av);
+        selfscale = (TextView) findViewById(R.id.selfscale);
+//        emo_mark = (TextView) findViewById(R.id.emo_mark);
+//        dass = (TextView) findViewById(R.id.dass);
+//        asrm = (TextView) findViewById(R.id.asrm);
         /**查詢是否完成**/
         String[] DA = {"-5","-5","-5","-5","-5","-5"};
         try{
-            String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/DayWork2.php?at=" + buffer.getAccount());
+            String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/DayWork_v3.php?at=" + buffer.getAccount());
             if (result.indexOf("\nnull\n") < 0){
                 JSONObject jsonObject = new JSONObject(result);
                 String str= jsonObject.getString("success");
@@ -292,20 +314,20 @@ public class PhotosActivity extends AppCompatActivity {
                     dailyemo.setBackgroundResource(R.color.primaryColorWhite);
                     dailyemo.setTextColor(Color.WHITE);
                 }else if(i == 1){
-                    emo_mark.setBackgroundResource(R.color.primaryColorWhite);
-                    emo_mark.setTextColor(Color.WHITE);
-                }else if(i == 2){
                     wakeup.setBackgroundResource(R.color.primaryColorWhite);
                     wakeup.setTextColor(Color.WHITE);
-                }else if(i == 3){
+                }else if(i == 2) {
                     sleep.setBackgroundResource(R.color.primaryColorWhite);
                     sleep.setTextColor(Color.WHITE);
+                }else if(i == 3){
+                    emo_voice.setBackgroundResource(R.color.primaryColorWhite);
+                    emo_voice.setTextColor(Color.WHITE);
                 }else if(i == 4){
-                    dass.setBackgroundResource(R.color.primaryColorWhite);
-                    dass.setTextColor(Color.WHITE);
+                    emo_av.setBackgroundResource(R.color.primaryColorWhite);
+                    emo_av.setTextColor(Color.WHITE);
                 }else if(i == 5){
-                    asrm.setBackgroundResource(R.color.primaryColorWhite);
-                    asrm.setTextColor(Color.WHITE);
+                    selfscale.setBackgroundResource(R.color.primaryColorWhite);
+                    selfscale.setTextColor(Color.WHITE);
                 }
             }else{
 //                int imageResource = getResources().getIdentifier(ImageUnf[i], "drawable", "com.sourcey.materialloginexample");
@@ -313,15 +335,15 @@ public class PhotosActivity extends AppCompatActivity {
                 if (i == 0){
                     dailyemo.setBackgroundResource(R.color.colorWhite);
                 }else if(i == 1){
-                    emo_mark.setBackgroundResource(R.color.colorWhite);
-                }else if(i == 2){
                     wakeup.setBackgroundResource(R.color.colorWhite);
-                }else if(i == 3){
+                }else if(i == 2){
                     sleep.setBackgroundResource(R.color.colorWhite);
+                }else if(i == 3) {
+                    emo_voice.setBackgroundResource(R.color.colorWhite);
                 }else if(i == 4){
-                    dass.setBackgroundResource(R.color.colorWhite);
+                    emo_av.setBackgroundResource(R.color.colorWhite);
                 }else if(i == 5){
-                    asrm.setBackgroundResource(R.color.colorWhite);
+                    selfscale.setBackgroundResource(R.color.colorWhite);
                 }
             }
         }
@@ -359,20 +381,22 @@ public class PhotosActivity extends AppCompatActivity {
                 sleep_btn.setVisibility(View.VISIBLE);
                 text_btn.setVisibility(View.VISIBLE);
                 audio_btn.setVisibility(View.VISIBLE);
-                emo_btn.setVisibility(View.VISIBLE);
-                dass_btn.setVisibility(View.VISIBLE);
-                asmr_btn.setVisibility(View.VISIBLE);
                 video_btn.setVisibility(View.VISIBLE);
+                emo_btn.setVisibility(View.VISIBLE);
+                selfscale_btn.setVisibility(View.VISIBLE);
+//                dass_btn.setVisibility(View.VISIBLE);
+//                asmr_btn.setVisibility(View.VISIBLE);
 
                 showed=1;
             }else{
                 sleep_btn.setVisibility(View.INVISIBLE);
                 text_btn.setVisibility(View.INVISIBLE);
                 audio_btn.setVisibility(View.INVISIBLE);
-                emo_btn.setVisibility(View.INVISIBLE);
-                dass_btn.setVisibility(View.INVISIBLE);
-                asmr_btn.setVisibility(View.INVISIBLE);
                 video_btn.setVisibility(View.INVISIBLE);
+                emo_btn.setVisibility(View.INVISIBLE);
+                selfscale_btn.setVisibility(View.INVISIBLE);
+//                dass_btn.setVisibility(View.INVISIBLE);
+//                asmr_btn.setVisibility(View.INVISIBLE);
                 showed=0;
             }
         }
@@ -1080,8 +1104,6 @@ public class PhotosActivity extends AppCompatActivity {
                         prepareNewData(false);//call function to set new Data
 //                        int imageResource = getResources().getIdentifier("emomark_fin", "drawable", "com.sourcey.materialloginexample");
 //                        Drawable image = getResources().getDrawable(imageResource);
-                        emo_mark.setBackgroundResource(R.color.primaryColorWhite);
-                        emo_mark.setTextColor(Color.WHITE);
                     }
                     emotionalertdialog.cancel();
                     tvContent = "";
@@ -1134,7 +1156,6 @@ public class PhotosActivity extends AppCompatActivity {
                     videoalertdialog.cancel();
                 }
             });
-
             video_Recorder = (ImageButton) Dview.findViewById(R.id.video_Recorder);
             video_Recorder.setOnClickListener(new View.OnClickListener() {
                 //點擊開始錄製之動作
@@ -1192,7 +1213,6 @@ public class PhotosActivity extends AppCompatActivity {
             videoalertdialog.show();
         }
     };
-
 //    private ImageButton VideoEmotionButton;
 //    private AlertDialog.Builder videoEmotionbuilder;
 //    private LayoutInflater videoEmotionlayoutinflater;
@@ -1200,7 +1220,7 @@ public class PhotosActivity extends AppCompatActivity {
 //    private Button videoEmotionSubmit, videoEmotionCancel;
     /*******Emotion tag*******/
     private void VideoEmotionButton() {
-        VideoEmotionButton = (ImageButton) findViewById(R.id.audio_d);
+        VideoEmotionButton = (ImageButton) findViewById(R.id.video_d);
         VideoEmotionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1261,7 +1281,6 @@ public class PhotosActivity extends AppCompatActivity {
                         mood[6] = videopSurprised.getText().toString().replaceAll("[ \r\n\\s]", "");
                         prepareNewData(true);
 
-
                         //每次結束先初始化
                         videopAngry.setText("0");
                         videopBoredom.setText("0");
@@ -1289,8 +1308,8 @@ public class PhotosActivity extends AppCompatActivity {
                         prepareNewData(false);
 //                        int imageResource = getResources().getIdentifier("emomark_fin", "drawable", "com.sourcey.materialloginexample");
 //                        Drawable image = getResources().getDrawable(imageResource);
-                        emo_mark.setBackgroundResource(R.color.primaryColorWhite);
-                        emo_mark.setTextColor(Color.WHITE);
+                        emo_av.setBackgroundResource(R.color.primaryColorWhite);
+                        emo_av.setTextColor(Color.WHITE);
                     }
                 });
                 videoEmotionalertdialog.show();
@@ -1612,7 +1631,6 @@ public class PhotosActivity extends AppCompatActivity {
                         micSurprisedSeekbar.setProgress(0);
                     }
                 });
-
                 MicCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -1622,8 +1640,8 @@ public class PhotosActivity extends AppCompatActivity {
                         prepareNewData(false);
 //                        int imageResource = getResources().getIdentifier("emomark_fin", "drawable", "com.sourcey.materialloginexample");
 //                        Drawable image = getResources().getDrawable(imageResource);
-                        emo_mark.setBackgroundResource(R.color.primaryColorWhite);
-                        emo_mark.setTextColor(Color.WHITE);
+                        emo_voice.setBackgroundResource(R.color.primaryColorWhite);
+                        emo_voice.setTextColor(Color.WHITE);
                     }
                 });
                 Micalertdialog.show();
@@ -1876,43 +1894,43 @@ public class PhotosActivity extends AppCompatActivity {
             success(success);
         }
         HashMap<String, List<String>> Subject = SQL.SelectSubject(buffer.getAccount(), str_wav);
-        if (icontype == "1") {
-            Calendar now_mCal = Calendar.getInstance();
-            CharSequence now_s, new_s;
-            now_s = DateFormat.format("ss", now_mCal.getTime());
-
-            do {
-                Calendar new_mCal = Calendar.getInstance();
-                new_s = DateFormat.format("ss", new_mCal.getTime());
-
-                if (Subject != null && Subject.get("emotion") != null && !Subject.get("emotion").get(0).equals("null,null,null")) {
-                    String[] SubjectEmotion = Subject.get("emotion").get(0).split(",");
-                    //set chart Data
-                    int js = 0;
-                    float fMax = 0;
-                    yValsSystem = new ArrayList<>();
-                    for (String st : SubjectEmotion) {
-                        fMax += Float.valueOf(st);
-                    }
-                    for (String st : SubjectEmotion) {
-                        yValsSystem.add(new BarEntry(js++, Float.valueOf(st) / fMax * 100));
-                        js++;
-                    }
-                    //set Data to Chart
-                    data = new Data(content, icontype, time, yVals, chartList, yValsSystem, chartList);
-                    DataList.add(data);
-                    // notify adapter about data set changes
-                    // so that it will render the list with new data
-                    DataAdapter.notifyDataSetChanged();
-                    word = "";
-
-                    recyclerView.smoothScrollToPosition(DataList.size() - 1);
-                    str_wav = "";
-                    break;
-                }
-            }
-            while (Integer.valueOf(String.valueOf(new_s)) - Integer.valueOf(String.valueOf(now_s)) < 5);
-        } else if (icontype == "0"){
+//        if (icontype == "1") {
+//            Calendar now_mCal = Calendar.getInstance();
+//                CharSequence now_s, new_s;
+//                now_s = DateFormat.format("ss", now_mCal.getTime());
+//                do {
+//                    Calendar new_mCal = Calendar.getInstance();
+//                    new_s = DateFormat.format("ss", new_mCal.getTime());
+//
+//                    if (Subject != null && Subject.get("emotion") != null && !Subject.get("emotion").get(0).equals("null,null,null")) {
+//                        String[] SubjectEmotion = Subject.get("emotion").get(0).split(",");
+//                        //set chart Data
+//                        int js = 0;
+//                        float fMax = 0;
+//                        yValsSystem = new ArrayList<>();
+//                        for (String st : SubjectEmotion) {
+//                            fMax += Float.valueOf(st);
+//                        }
+//                        for (String st : SubjectEmotion) {
+//                            yValsSystem.add(new BarEntry(js++, Float.valueOf(st) / fMax * 100));
+//                            js++;
+//                        }
+//                        //set Data to Chart
+//                        data = new Data(content, icontype, time, yVals, chartList, yValsSystem, chartList);
+//                        DataList.add(data);
+//                        // notify adapter about data set changes
+//                        // so that it will render the list with new data
+//                        DataAdapter.notifyDataSetChanged();
+//                        word = "";
+//
+//                        recyclerView.smoothScrollToPosition(DataList.size() - 1);
+//                        str_wav = "";
+//                        break;
+//                    }
+//            }
+//            while (Integer.valueOf(String.valueOf(new_s)) - Integer.valueOf(String.valueOf(now_s)) < 5);
+//        }
+        if (icontype == "0"){
             //set Data to SQL
             success = sql1.InsertNewData_new(buffer.getAccount(), time, content, emotion, icontype);
             success(success);

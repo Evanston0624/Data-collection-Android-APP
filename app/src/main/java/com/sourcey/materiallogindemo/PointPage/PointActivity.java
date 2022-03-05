@@ -58,7 +58,8 @@ public class PointActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        //設定隱藏標題
+        getSupportActionBar().hide();
         dialog = ProgressDialog.show(this,
                 "讀取成就點數資訊中", "請稍後...", true);
         new android.os.Handler().postDelayed(
@@ -66,8 +67,6 @@ public class PointActivity extends AppCompatActivity {
                     public void run() {
                         // On complete call either onLoginSuccess or onLoginFailed'
                         dialog.dismiss();
-                        //設定隱藏標題
-                        getSupportActionBar().hide();
 
                         setContentView(R.layout.activity_point);
                         /**下拉刷新**/

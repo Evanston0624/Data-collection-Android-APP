@@ -204,7 +204,7 @@ public class SQL {
         Integer success = 0;
         try {
             String[] t = emotion.split(",");
-            String query = buffer.getServerPosition()+"/app/upload_data1.php?Account=" + account + "&time=" + time.replace(" ","+") + "&content=" + content.replace(" ","+") + "&type="
+            String query = buffer.getServerPosition()+"/app/upload_data_v2.php?Account=" + account + "&time=" + time.replace(" ","+") + "&content=" + content.replace(" ","+") + "&type="
                     + type + "&object_Anger=" + t[0] + "&object_Boredom=" + t[1] + "&object_Disgust=" + t[2] + "&object_Anxiety=" + t[3] + "&object_Happiness=" + t[4] + "&object_Sadness=" + t[5] + "&object_Surprised=" + t[6];
             String result = DBConnector.executeQuery(query);
             JSONObject jsonObject = new JSONObject(result);
@@ -222,8 +222,22 @@ public class SQL {
         try {
             String[] t = emotion.split(",");
 
-            String query = buffer.getServerPosition()+"/app/InsertNewData1.php?Account=" + account + "&content=" + content.replace(" ","+") + "&type="
+            String query = buffer.getServerPosition()+"/app/InsertNewData_v2.php?Account=" + account + "&content=" + content.replace(" ","+") + "&type="
                     + type + "&object_Anger=" + t[0] + "&object_Boredom=" + t[1] + "&object_Disgust=" + t[2] + "&object_Anxiety=" + t[3] + "&object_Happiness=" + t[4] + "&object_Sadness=" + t[5] + "&object_Surprised=" + t[6];
+            String result = DBConnector.executeQuery(query);
+            JSONObject jsonObject = new JSONObject(result);
+            String dtresult2 = jsonObject.getString("success");
+            success = Integer.parseInt(dtresult2);
+        } catch (Exception e) {
+            Log.e("log_tag", e.toString());
+        }
+        return success;
+    }
+
+    public Integer InsertFeedback(String account, String content, String type) {
+        Integer success = 0;
+        try {
+            String query = buffer.getServerPosition()+"/app/InsertFeedback.php?at=" + account + "&type=" + type + "&write=" + content;
             String result = DBConnector.executeQuery(query);
             JSONObject jsonObject = new JSONObject(result);
             String dtresult2 = jsonObject.getString("success");
@@ -243,7 +257,7 @@ public class SQL {
             JSONArray jsonArray = new JSONArray(result);
             JSONObject jsonData = jsonArray.getJSONObject(0);
             String dtresult = jsonData.getString("datetime");
-            query = buffer.getServerPosition()+"/app/UpdateDailyData1.php?at=" + account + "&time=" + dtresult.replace(" ","+") + "&content=" + content.replace(" ","+");
+            query = buffer.getServerPosition()+"/app/UpdateDailyData.php?at=" + account + "&time=" + dtresult.replace(" ","+") + "&content=" + content.replace(" ","+");
             result = DBConnector.executeQuery(query);
             JSONObject jsonObject = new JSONObject(result);
             String dtresult2 = jsonObject.getString("success");

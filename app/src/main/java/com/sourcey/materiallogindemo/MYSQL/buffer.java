@@ -18,7 +18,7 @@ public class buffer {
     private static String name;
     private static String account;
     private static String password;
-    private static String ServerPosition = "http://140.116.82.102:80";
+    private static String ServerPosition = "http://140.116.82.102:8080";
     private static String alert_question_voice;
     private static ArrayList<String[]> dailyMood, sleepTime, getupTime, GPS;
     private static int type = 1,Max = 0,count=1;

@@ -68,10 +68,11 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
 
-    /**更新設定**/
+    /******************更新設定******************/
     public String Url = buffer.getServerPosition()+"/app_webpage/app_dl/version_n.txt";
-    public String Url1 = buffer.getServerPosition()+"/app_webpage/app_dl/updateInf.txt";
-    public String version_now = "4.0";//當前版本號
+    public String Url1 = buffer.getServerPosition()+"/app_webpage/app_dl/updateInf_4.9.txt";
+    public String version_now = "4.9";//當前版本號
+    /******************更新設定******************/
     //離線GPS系統 and 圖片優化
     @BindView(R.id.input_email)
     EditText _emailText;
@@ -243,7 +244,7 @@ public class LoginActivity extends AppCompatActivity {
                 httpConn = (HttpURLConnection) url[0].openConnection();
                 if (httpConn.getResponseCode() == HttpURLConnection.HTTP_OK) {
                     Log.d("TAG", "-can't check--");
-                    InputStreamReader isr = new InputStreamReader(httpConn.getInputStream(), "big5");
+                    InputStreamReader isr = new InputStreamReader(httpConn.getInputStream(), "utf-8");
                     int i;
                     while ((i = isr.read()) != -1) {
                         content = content + (char) i;
@@ -419,7 +420,6 @@ public class LoginActivity extends AppCompatActivity {
 //            }
 //        }
 //    }
-
     /***********************************確定帳號密碼是否正確*************************************/
     private void check_and_login(String account,String password,boolean TrueFalse){
         ConnectivityManager connectionManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);    //得到系統服務類
@@ -454,7 +454,7 @@ public class LoginActivity extends AppCompatActivity {
                                     // onLoginFailed();
                                     //progressDialog.dismiss();
                                 }
-                            }, 5000);
+                            }, 2000);
             } else {
                 _loginButton.setEnabled(true);
                 Toast.makeText(getBaseContext(), "帳號錯誤!", Toast.LENGTH_LONG).show();

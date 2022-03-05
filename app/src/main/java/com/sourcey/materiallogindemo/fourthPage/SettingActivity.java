@@ -198,7 +198,7 @@ public class SettingActivity extends AppCompatActivity {
 
         if (icontype == "9") {
             //set Data to SQL
-            success = sql1.UpdateData(buffer.getAccount(), buffer.getTime(), content, emotion, icontype);
+            success = sql1.InsertFeedback(buffer.getAccount(), content , icontype);
             success(success);
             // notify adapter about data set changes
             // so that it will render the list with new data

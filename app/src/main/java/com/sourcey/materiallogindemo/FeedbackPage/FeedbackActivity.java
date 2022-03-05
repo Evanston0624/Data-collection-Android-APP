@@ -47,6 +47,9 @@ public class FeedbackActivity  extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback);
 
+        //設定隱藏標題
+        getSupportActionBar().hide();
+
         dialog = ProgressDialog.show(this,
                 "讀取歷史資訊資訊中", "請稍後...", true);
         new android.os.Handler().postDelayed(
@@ -54,8 +57,6 @@ public class FeedbackActivity  extends AppCompatActivity {
                     public void run() {
                         // On complete call either onLoginSuccess or onLoginFailed'
                         dialog.dismiss();
-                        //設定隱藏標題
-                        getSupportActionBar().hide();
 
                         setContentView(R.layout.activity_point);
                         /**下拉刷新**/
@@ -68,7 +69,7 @@ public class FeedbackActivity  extends AppCompatActivity {
                         // onLoginFailed();
                         //progressDialog.dismiss();
                     }
-                }, 3000);
+                }, 2000);
     }
     /**------------------------------下拉刷新------------------------------**/
     private void initView() {

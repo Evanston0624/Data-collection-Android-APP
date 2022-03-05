@@ -34,6 +34,8 @@ public class SongsActivity extends AppCompatActivity {
     private Dialog dialog;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //設定隱藏標題
+        getSupportActionBar().hide();
 
 
         dialog = ProgressDialog.show(this,
@@ -42,8 +44,6 @@ public class SongsActivity extends AppCompatActivity {
                 new Runnable() {
                     public void run() {
                         // On complete call either onLoginSuccess or onLoginFailed'
-                        //設定隱藏標題
-                        getSupportActionBar().hide();
 
                         dialog.dismiss();
                         setContentView(R.layout.songs_layout);
@@ -54,7 +54,7 @@ public class SongsActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     }
-                }, 5000);
+                }, 3000);
         ButterKnife.bind(this);
     }
 

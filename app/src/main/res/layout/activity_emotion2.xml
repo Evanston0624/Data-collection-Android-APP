@@ -95,7 +95,7 @@
         android:id="@+id/daily_items"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="7dp"
         android:adjustViewBounds="true"
         android:background="@drawable/rs"
         app:layout_constraintBottom_toTopOf="@id/guideline_topp"
@@ -236,8 +236,8 @@
             app:layout_constraintHorizontal_bias="1.0" />
 
         <TextView
-            android:id="@+id/emo_mark"
-            android:text="@string/emo_mark"
+            android:id="@+id/emo_voice"
+            android:text="@string/emo_voice"
             android:gravity="center"
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
@@ -253,8 +253,8 @@
             app:layout_constraintHorizontal_bias="1.0"/>
 
         <TextView
-            android:id="@+id/dass"
-            android:text="@string/dass"
+            android:id="@+id/emo_av"
+            android:text="@string/emo_av"
             android:gravity="center"
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
@@ -270,8 +270,8 @@
             app:layout_constraintHorizontal_bias="1.0"/>
 
         <TextView
-            android:id="@+id/asrm"
-            android:text="@string/asrm"
+            android:id="@+id/selfscale"
+            android:text="@string/selfscale"
             android:gravity="center"
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
@@ -285,7 +285,22 @@
             android:layout_width="0dp"
             app:layout_constraintDimensionRatio="h,3:1"
             app:layout_constraintHorizontal_bias="1.0"/>
-
+        <!--<TextView-->
+            <!--android:id="@+id/asrm"-->
+            <!--android:text="@string/asrm"-->
+            <!--android:gravity="center"-->
+            <!--android:scaleType="fitCenter"-->
+            <!--android:adjustViewBounds="true"-->
+            <!--android:layout_marginTop="1dp"-->
+            <!--app:layout_constraintLeft_toRightOf="@id/versp04"-->
+            <!--app:layout_constraintRight_toRightOf="parent"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/dailyemo"-->
+            <!--android:layout_marginRight="2dp"-->
+            <!--android:layout_marginLeft="2dp"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_width="0dp"-->
+            <!--app:layout_constraintDimensionRatio="h,3:1"-->
+            <!--app:layout_constraintHorizontal_bias="1.0"/>-->
         <ImageView
             android:id="@+id/illu"
             android:scaleType="fitCenter"
@@ -442,7 +457,7 @@
         app:srcCompat="@drawable/emo_pic" />
 
     <ImageView
-        android:id="@+id/dass_btn"
+        android:id="@+id/self_btn"
         android:layout_width="0dp"
         android:layout_height="52dp"
 
@@ -452,18 +467,29 @@
 
         app:layout_constraintBottom_toTopOf="@id/emo_btn"
         app:layout_constraintRight_toLeftOf="@id/guideline_right"
-        app:srcCompat="@drawable/dass_pic" />
+        app:srcCompat="@drawable/self_pic" />
+    <!--<ImageView-->
+        <!--android:id="@+id/dass_btn"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="52dp"-->
 
-    <ImageView
-        android:id="@+id/asmr_btn"
-        android:layout_width="0dp"
-        android:layout_height="52dp"
+        <!--android:scaleType="fitEnd"-->
+        <!--android:layout_marginRight="4dp"-->
+        <!--android:layout_marginBottom="4dp"-->
 
-        android:scaleType="fitEnd"
-        android:layout_marginRight="4dp"
-        android:layout_marginBottom="4dp"
+        <!--app:layout_constraintBottom_toTopOf="@id/emo_btn"-->
+        <!--app:layout_constraintRight_toLeftOf="@id/guideline_right"-->
+        <!--app:srcCompat="@drawable/dass_pic" />-->
+    <!--<ImageView-->
+        <!--android:id="@+id/asmr_btn"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="52dp"-->
 
-        app:layout_constraintBottom_toTopOf="@id/dass_btn"
-        app:layout_constraintRight_toLeftOf="@id/guideline_right"
-        app:srcCompat="@drawable/amsr_pic" />
+        <!--android:scaleType="fitEnd"-->
+        <!--android:layout_marginRight="4dp"-->
+        <!--android:layout_marginBottom="4dp"-->
+
+        <!--app:layout_constraintBottom_toTopOf="@id/dass_btn"-->
+        <!--app:layout_constraintRight_toLeftOf="@id/guideline_right"-->
+        <!--app:srcCompat="@drawable/amsr_pic" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>
