@@ -345,6 +345,13 @@
         <item>生活不是等待風暴過去，而是學會在雨中翩翩起舞</item>
         <item>面前有陰影，是因為你的背後有陽光</item>
     </string-array>
+    <!--植物種類-->
+    <!--從1開始-->
+    <string-array name="PlantType">
+        <item>plant_choose</item>
+        <item>sunflower</item>
+        <item>dandelion</item>
+    </string-array>
 
     <string-array name="UploadMessage">
         <item>上傳成功</item>

@@ -22,6 +22,7 @@ import com.sourcey.materiallogindemo.FeedbackPage.FeedbackActivity;
 import com.sourcey.materiallogindemo.GPS.GPS;
 import com.sourcey.materiallogindemo.GPS.GPSBroadcastReceiver;
 import com.sourcey.materiallogindemo.GPS.OffGPS;
+import com.sourcey.materiallogindemo.PointPage.PlantActivity;
 import com.sourcey.materiallogindemo.PointPage.PointActivity;
 import com.sourcey.materiallogindemo.firstPage.PhotosActivity;
 import com.sourcey.materiallogindemo.fourthPage.SettingActivity;
@@ -47,7 +48,7 @@ public class homepage extends TabActivity {
 
 
         initGPS();
-        startService();
+//        startService();
         tabHost = getTabHost();
 
         // Tab for Photos
@@ -63,17 +64,23 @@ public class homepage extends TabActivity {
         Intent songsIntent = new Intent(this, SongsActivity.class);
         songster.setContent(songsIntent);
 
-        // Tab for feedback
+        // Tab for Feedback
         TabSpec feedbacked = tabHost.newTabSpec("Feedback");
         feedbacked.setIndicator("", getResources().getDrawable(R.drawable.icon_feedback_tab));
         Intent feedbackIntent = new Intent(this, FeedbackActivity.class);
         feedbacked.setContent(feedbackIntent);
 
-        // Tab for Videos
-        TabSpec point = tabHost.newTabSpec("Point");
-        point.setIndicator("", getResources().getDrawable(R.drawable.icon_point_tab));
-        Intent pointIntent = new Intent(this, PointActivity.class);
-        point.setContent(pointIntent);
+//        // Tab for Point
+//        TabSpec point = tabHost.newTabSpec("Point");
+//        point.setIndicator("", getResources().getDrawable(R.drawable.icon_point_tab));
+//        Intent pointIntent = new Intent(this, PointActivity.class);
+//        point.setContent(pointIntent);
+
+        // Tab for Plant
+        TabSpec plant = tabHost.newTabSpec("Plant");
+        plant.setIndicator("", getResources().getDrawable(R.drawable.icon_point_tab));
+        Intent plantIntent = new Intent(this, PlantActivity.class);
+        plant.setContent(plantIntent);
 
         // Tab for Setting
         TabSpec seta = tabHost.newTabSpec("Setting");
@@ -85,7 +92,8 @@ public class homepage extends TabActivity {
         tabHost.addTab(photoed); // Adding photos tab
         tabHost.addTab(songster); // Adding songs tab
         tabHost.addTab(feedbacked); // Adding songs tab
-        tabHost.addTab(point); // Adding videos tab
+//        tabHost.addTab(point); // Adding videos tab
+        tabHost.addTab(plant); // Adding videos tab
         tabHost.addTab(seta); // Adding videos tab
     }
 

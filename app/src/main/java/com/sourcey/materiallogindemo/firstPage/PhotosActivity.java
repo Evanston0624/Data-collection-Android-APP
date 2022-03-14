@@ -386,7 +386,6 @@ public class PhotosActivity extends AppCompatActivity {
                 selfscale_btn.setVisibility(View.VISIBLE);
 //                dass_btn.setVisibility(View.VISIBLE);
 //                asmr_btn.setVisibility(View.VISIBLE);
-
                 showed=1;
             }else{
                 sleep_btn.setVisibility(View.INVISIBLE);
@@ -1420,6 +1419,8 @@ public class PhotosActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == VIDEO_CAPTURE) {
             if (resultCode == RESULT_OK) {
+                emo_av.setBackgroundResource(R.color.primaryColorWhite);
+                emo_av.setTextColor(Color.WHITE);
                 /****/
                 Thread thread = new Thread() {
                     @Override
@@ -1463,6 +1464,7 @@ public class PhotosActivity extends AppCompatActivity {
     //設置Dialog 音檔
     private void micDialog() {
 //        imageMicButton = (ImageButton) findViewById(R.id.imageMic);
+        //開啟錄音頁面
         audio_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1528,6 +1530,9 @@ public class PhotosActivity extends AppCompatActivity {
                             thread.start();
 //                            loading();
                             Micbutton.callOnClick();//開啟標記
+                            emo_voice.setBackgroundResource(R.color.primaryColorWhite);
+                            emo_voice.setTextColor(Color.WHITE);
+
                         }
                     }
                 });

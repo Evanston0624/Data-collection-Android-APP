@@ -28,6 +28,7 @@
         <activity android:name=".thirdPage.VideosActivity" />
         <activity android:name=".PointPage.PointActivity" />
         <activity android:name=".FeedbackPage.FeedbackActivity" />
+        <activity android:name=".PointPage.PlantActivity" />
 
 
         <activity android:name=".fourthPage.SettingActivity" />
@@ -64,11 +65,11 @@
                 <action android:name=".GPS.OffGPS"/>
             </intent-filter>
         </service>
-        <service android:name=".GPS.AlarmService">
-            <intent-filter android:priority="1000">
-                <action android:name=".GPS.AlarmService"/>
-            </intent-filter>
-        </service>
+        <!--<service android:name=".GPS.AlarmService">-->
+            <!--<intent-filter android:priority="1000">-->
+                <!--<action android:name=".GPS.AlarmService"/>-->
+            <!--</intent-filter>-->
+        <!--</service>-->
 
         <provider
             android:name="android.support.v4.content.FileProvider"
