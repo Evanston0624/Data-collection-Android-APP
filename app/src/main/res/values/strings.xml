@@ -87,6 +87,9 @@
     <string name="feedbacktitle">有什麼話要跟我們說嗎?\n在下面留言吧!</string>
     <!--//use feedback//-->
 
+    <!--//use feedback//-->
+    <string name="waterdroplets">水滴;</string>
+    <!--//use feedback//-->
 
 
     <!--//Chart//-->
@@ -336,7 +339,7 @@
         <item>做的很棒 要多加油哦</item>
         <item>每次的紀錄都讓自己更好</item>
         <item>持續的記錄能使自己更了解自己哦</item>
-        <item>紀錄的point可兌換禮卷呢</item>
+        <item>植物生長的水滴可兌換禮卷呢</item>
         <item>時常記錄能獲得獎勵哦</item>
         <item>善於與人溝通，適度採納別人意見</item>
         <item>生活不會否定任何人，就怕自己先否定生活</item>
@@ -356,5 +359,26 @@
     <string-array name="UploadMessage">
         <item>上傳成功</item>
         <item>上傳失敗</item>
+    </string-array>
+    <string-array name="NotYetPlanted">
+        <item>還沒種植植物呢!\n選擇一種植物來種植吧!</item>
+        <item>選這個</item>
+        <item>晚點選</item>
+    </string-array>
+    <string-array name="WaterChangeInf">
+        <item>植物長大了</item>
+        <item>植物成長茁壯!\n要兌換成10點水滴且重新開始嗎?</item>
+        <item>兌換</item>
+        <item>兌換成功!</item>
+        <item>兌換失敗請稍後再試!</item>
+        <item>先不要</item>
+    </string-array>
+    <string-array name="WitheredPlants">
+        <item>植物枯萎了</item>
+        <item>太久沒有上線了!\n 有想要復活植物嗎?</item>
+        <item>復活</item>
+        <item>復活成功!</item>
+        <item>復活失敗請稍後再試!</item>
+        <item>先不要</item>
     </string-array>
 </resources>
