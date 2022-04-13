@@ -27,6 +27,7 @@
         <activity android:name=".twicePage.SongsActivity" />
         <activity android:name=".thirdPage.VideosActivity" />
         <activity android:name=".PointPage.PointActivity" />
+        <activity android:name=".PushTechnology.PushTActivity" />
         <activity android:name=".PointPage.PlantActivity" />
         <activity android:name=".FeedbackPage.FeedbackActivity" />
         <!--<activity android:name=".PushTechnology.PushTActivity" />-->
