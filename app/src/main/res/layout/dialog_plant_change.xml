@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <ImageButton
+        android:id="@+id/callemotion1"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+    <Button
+        android:id="@+id/dayCancel"
+        android:layout_width="25dp"
+        android:layout_height="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/shap_oval"
+        android:text="X" />
+    <!--day emotion==============================================================================-->
+    <ImageView
+        android:id="@+id/bdimageView"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_below="@+id/dayCancel"
+        android:layout_marginTop="2dp"
+        app:srcCompat="@drawable/bd" />
+
+    <ImageView
+        android:id="@+id/positive"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/dayemotionseekBar"
+        android:layout_alignEnd="@+id/dayemotionseekBar"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="0dp"
+        app:srcCompat="@drawable/positive" />
+
+    <ImageView
+        android:id="@+id/negative"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/dayemotionseekBar"
+        android:layout_alignStart="@+id/dayemotionseekBar"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="20dp"
+        app:srcCompat="@drawable/negative" />
+
+    <SeekBar
+        android:id="@+id/dayemotionseekBar"
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bdimageView"
+        android:layout_marginTop="0dp"
+        android:max="6"
+        android:progress="3" />
+
+    <Button
+        android:id="@+id/dayemotionbutton"
+        android:layout_width="100dp"
+        android:layout_height="47dp"
+        android:layout_below="@+id/dayemotionseekBar"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_toStartOf="@+id/positive"
+        android:layout_toEndOf="@+id/negative"
+        android:text="送出每日情緒" />
+    <!--sleeping time============================================================================-->
+    <ImageView
+        android:id="@+id/sleepimageView"
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:layout_below="@+id/dayemotionbutton"
+        android:layout_marginTop="4dp"
+        app:srcCompat="@drawable/sleep" />
+    <Spinner
+        android:id="@+id/sleepmonspinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sleepimageView"
+        android:layout_marginTop="20dp"
+        android:entries="@array/monarray" />
+
+    <TextView
+        android:id="@+id/sleepmontextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sleepimageView"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_toEndOf="@+id/sleepmonspinner"
+        android:text="月" />
+    <Spinner
+        android:id="@+id/sleepdayspinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sleepimageView"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_toEndOf="@+id/sleepmontextView"
+        android:entries="@array/dayarray" />
+
+    <TextView
+        android:id="@+id/sleepdaytextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sleepimageView"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_toEndOf="@+id/sleepdayspinner"
+        android:text="日" />
+
+    <Spinner
+        android:id="@+id/sleephourspinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sleepmonspinner"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="15dp"
+        android:entries="@array/hourarray" />
+
+    <TextView
+        android:id="@+id/sleephourtextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sleepmontextView"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_toEndOf="@+id/sleephourspinner"
+        android:text="時" />
+
+    <Spinner
+        android:id="@+id/sleepminspinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sleepdayspinner"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="15dp"
+        android:layout_toEndOf="@+id/sleephourtextView"
+        android:entries="@array/minarray" />
+
+    <TextView
+        android:id="@+id/sleepmintextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sleepmontextView"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_toEndOf="@+id/sleepminspinner"
+        android:text="分" />
+
+    <!--get up time==============================================================================-->
+
+    <Button
+        android:id="@+id/daysleepbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sleepminspinner"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="2dp"
+        android:layout_toEndOf="@+id/daygetupbutton"
+        android:text="送出睡眠時間" />
+
+    <Button
+        android:id="@+id/daygetupbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sleepminspinner"
+        android:layout_alignStart="@+id/sleepimageView"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="2dp"
+        android:text="送出起床時間" />
+    <requestFocus />
+</RelativeLayout>
