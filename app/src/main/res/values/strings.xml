@@ -354,6 +354,7 @@
         <item>plant_choose</item>
         <item>sunflower</item>
         <item>dandelion</item>
+        <item>humble</item>
     </string-array>
 
     <string-array name="UploadMessage">
@@ -364,10 +365,12 @@
         <item>還沒種植植物呢!\n選擇一種植物來種植吧!</item>
         <item>選這個</item>
         <item>晚點選</item>
+        <item>兌換成功!</item>
+        <item>兌換失敗請稍後再試!</item>
     </string-array>
     <string-array name="WaterChangeInf">
         <item>植物長大了</item>
-        <item>植物成長茁壯!\n要兌換成10點水滴且重新開始嗎?</item>
+        <item>植物成長茁壯!\n要兌換成10點水滴且重新開始嗎?\n水滴可於回診時與助理兌換禮券</item>
         <item>兌換</item>
         <item>兌換成功!</item>
         <item>兌換失敗請稍後再試!</item>

@@ -70,8 +70,8 @@ public class LoginActivity extends AppCompatActivity {
 
     /******************更新設定******************/
     public String Url = buffer.getServerPosition()+"/app_webpage/app_dl/version_n.txt";
-    public String Url1 = buffer.getServerPosition()+"/app_webpage/app_dl/updateInf_4.9.txt";
-    public String version_now = "4.9";//當前版本號
+    public String Url1 = buffer.getServerPosition()+"/app_webpage/app_dl/updateInf.txt";
+    public String version_now = "5.0";//當前版本號
     /******************更新設定******************/
     //離線GPS系統 and 圖片優化
     @BindView(R.id.input_email)

@@ -1,4 +1,4 @@
-package com.sourcey.materiallogindemo.PointPage;
+package com.sourcey.materiallogindemo.PushTechnology;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +16,7 @@ public class PushTWord extends AppCompatActivity {
         ShowTV = (TextView) findViewById(R.id.textView);
 
         Intent intent = getIntent();
-        String mPosition = intent.getStringExtra(PointWordList.SPosition);
+        String mPosition = intent.getStringExtra(PushTWordList.SPosition);
         ShowTV.setText("This is the ingredients of Recipe " + mPosition);
     }
 }

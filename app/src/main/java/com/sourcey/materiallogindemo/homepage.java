@@ -49,7 +49,7 @@ public class homepage extends TabActivity {
 
 
         initGPS();
-//        startService();
+        startService();
         tabHost = getTabHost();
 
         // Tab for Photos
@@ -60,16 +60,16 @@ public class homepage extends TabActivity {
         photoed.setContent(photosIntent);
 
 ////         Tab for Songs
-//        TabSpec songster = tabHost.newTabSpec("Songs");
-//        songster.setIndicator("", getResources().getDrawable(R.drawable.icon_songs_tab));
-//        Intent songsIntent = new Intent(this, SongsActivity.class);
-//        songster.setContent(songsIntent);
+////        TabSpec songster = tabHost.newTabSpec("Songs");
+////        songster.setIndicator("", getResources().getDrawable(R.drawable.icon_songs_tab));
+////        Intent songsIntent = new Intent(this, SongsActivity.class);
+////        songster.setContent(songsIntent);
 
-//        //         Tab for Songs
+        //         Tab for Songs
 //        TabSpec pushT = tabHost.newTabSpec("PushT");
-//        songster.setIndicator("", getResources().getDrawable(R.drawable.icon_songs_tab));
-//        Intent PushTIntent = new Intent(this, PushTActivity.class);
-//        songster.setContent(PushTIntent);
+////        pushT.setIndicator("", getResources().getDrawable(R.drawable.icon_songs_tab));
+////        Intent PushTIntent = new Intent(this, PushTActivity.class);
+////        pushT.setContent(PushTIntent);
 
         // Tab for Feedback
         TabSpec feedbacked = tabHost.newTabSpec("Feedback");
@@ -77,15 +77,15 @@ public class homepage extends TabActivity {
         Intent feedbackIntent = new Intent(this, FeedbackActivity.class);
         feedbacked.setContent(feedbackIntent);
 
-        // Tab for Point
-        TabSpec point = tabHost.newTabSpec("Point");
-        point.setIndicator("", getResources().getDrawable(R.drawable.icon_point_tab));
-        Intent pointIntent = new Intent(this, PointActivity.class);
-        point.setContent(pointIntent);
+//        // Tab for Point
+//        TabSpec point = tabHost.newTabSpec("Point");
+//        point.setIndicator("", getResources().getDrawable(R.drawable.icon_point_tab));
+//        Intent pointIntent = new Intent(this, PointActivity.class);
+//        point.setContent(pointIntent);
 
         // Tab for Plant
         TabSpec plant = tabHost.newTabSpec("Plant");
-        plant.setIndicator("", getResources().getDrawable(R.drawable.icon_point_tab));
+        plant.setIndicator("", getResources().getDrawable(R.drawable.icon_plant_tab));
         Intent plantIntent = new Intent(this, PlantActivity.class);
         plant.setContent(plantIntent);
 
@@ -98,9 +98,10 @@ public class homepage extends TabActivity {
         // Adding all TabSpec to TabHost
         tabHost.addTab(photoed); // Adding photos tab
 //        tabHost.addTab(pushT); // Adding songs tab
-        tabHost.addTab(feedbacked); // Adding songs tab
-        tabHost.addTab(point); // Adding videos tab
         tabHost.addTab(plant); // Adding videos tab
+//        tabHost.addTab(songster); // Adding songs tab
+        tabHost.addTab(feedbacked); // Adding songs tab
+//        tabHost.addTab(point); // Adding videos tab
         tabHost.addTab(seta); // Adding videos tab
     }
 

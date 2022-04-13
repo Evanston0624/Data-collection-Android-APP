@@ -128,7 +128,6 @@ public class PushTActivity extends AppCompatActivity {
 //    private void newrecyc (int[] DA, int[] DayWork, String[] DayWorkString) {
         /**------------------------------創建Recyc------------------------------**/
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-        String[] pointtext = getResources().getStringArray(R.array.PointTextV2);
 //        String[] dayworktext = getResources().getStringArray(R.array.DayWork);
 //        int pointnumber = 31;
 //        int[] pointnumsum = getResources().getIntArray(R.array.PointNumSumV2);

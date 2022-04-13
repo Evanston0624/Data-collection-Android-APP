@@ -13,8 +13,10 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,17 +41,24 @@ public class PlantActivity extends AppCompatActivity {
     private SwipeRefreshLayout laySwipe;
 
     //植物生長點數
-    private Double point_num = 0.0;
+    private Double point_num;
     //是否沒再用
-    private Integer Disappear = -1;
+    private Integer Disappear;
     //兌換點數
-    private Integer Drop = -1;
+    private Integer Drop;
     //沒種植(0)--有種植的植物項目1, 2, 3, ...
-    private Integer Plantedtype = -1;
+    private Integer Plantedtype;
     //Preset
-    private Integer preset = 0;
+    private Integer preset;
     //
     private Integer[][] plantpath = new Integer[6][2];
+
+    //
+    private LayoutInflater adlayoutinflater;
+    private android.app.AlertDialog.Builder adbuilder;
+    private android.app.AlertDialog addialog;
+    private ImageButton plant_ch1,plant_ch2,plant_ch3;
+    private Button adCancel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +72,7 @@ public class PlantActivity extends AppCompatActivity {
                         // On complete call either onLoginSuccess or onLoginFailed'
                         dialog.dismiss();
                         setContentView(R.layout.activity_plant);
+                        setPlantchange();
                         UpdatePoint();
                         imagebutton();
                     }
@@ -81,7 +91,7 @@ public class PlantActivity extends AppCompatActivity {
             plantpath[4][1] = R.raw.sunflower4_2;
             plantpath[5][0] = R.raw.sunflower5_1;
             plantpath[5][1] = R.raw.sunflower5_2;
-        }else if(Plantedtype == 2) {
+        } else if (Plantedtype == 2) {
             plantpath[0][0] = R.raw.dandelion0;
             plantpath[1][0] = R.raw.dandelion1_1;
             plantpath[1][1] = R.raw.dandelion1_2;
@@ -93,6 +103,18 @@ public class PlantActivity extends AppCompatActivity {
             plantpath[4][1] = R.raw.dandelion4_2;
             plantpath[5][0] = R.raw.dandelion5_1;
             plantpath[5][1] = R.raw.dandelion5_2;
+        } else if (Plantedtype == 3) {
+            plantpath[0][0] = R.raw.humble0;
+            plantpath[1][0] = R.raw.humble1_1;
+            plantpath[1][1] = R.raw.humble1_2;
+            plantpath[2][0] = R.raw.humble2_1;
+            plantpath[2][1] = R.raw.humble2_2;
+            plantpath[3][0] = R.raw.humble3_1;
+            plantpath[3][1] = R.raw.humble3_2;
+            plantpath[4][0] = R.raw.humble4_1;
+            plantpath[4][1] = R.raw.humble4_2;
+            plantpath[5][0] = R.raw.humble5_1;
+            plantpath[5][1] = R.raw.humble5_2;
         }
     }
     private void UpdatePoint (){
@@ -100,6 +122,16 @@ public class PlantActivity extends AppCompatActivity {
         watertext = (TextView)findViewById(R.id.watertext);
         planttext = (TextView)findViewById(R.id.planttext);
         planreload = (ImageButton) findViewById(R.id.planreload);
+        //植物生長點數
+        point_num = 0.0;
+        //是否沒再用
+        Disappear = -1;
+        //兌換點數
+        Drop = -1;
+        //沒種植(0)--有種植的植物項目1, 2, 3, ...
+        Plantedtype = -1;
+        //Preset
+        preset = 0;
         /**讀取Point資料**/
         try{
             String result = DBConnector.executeQuery(buffer.getServerPosition()+"/app/checkAccount.php?at=" + buffer.getAccount()+"&pw=0");
@@ -118,7 +150,7 @@ public class PlantActivity extends AppCompatActivity {
             Log.e("error DayWork time", e.toString());
         }
         //是否有抓取到資訊
-        if (Disappear != -1){
+        if (Disappear != -1 && Drop != -1){
             int growtype = -2;
 //            String[] planttype = getResources().getStringArray(R.array.PlantType);
             String[] DialogMessage = getResources().getStringArray(R.array.DialogMessage);
@@ -128,38 +160,13 @@ public class PlantActivity extends AppCompatActivity {
             //未種植區域---------------------------------------------
             if (Plantedtype == 0) {
                 growtype = -1;
-                final String[] DiaInf = getResources().getStringArray(R.array.NotYetPlanted);
                 //未種植顯示種子
                 String str = "android.resource://" + getPackageName() + "/" + R.raw.plant_choose;
 //                String str = "http://140.116.82.102:8080/app_webpage/app_video/"+planttype[Plantedtype]+".mp4";
                 videoView.setVideoURI(Uri.parse(str));
                 watertext.setText(waterdroplets+Drop);
-                Clickevent(0);
-                //未種植時跳出詢問是否種植與選擇
-//                final String[] items = {"單選1", "單選2", "單選3", "單選4"};
-                new AlertDialog.Builder(PlantActivity.this)
-                        .setTitle(DiaInf[0])//設定視窗標題
-                        .setSingleChoiceItems(new String[]{"向日葵", "???"}, 0, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                preset = which+1;
-                            }
-                        })
-                        .setPositiveButton(DiaInf[1], new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String result = DBConnector.executeQuery(buffer.getServerPosition() + "/app/UpdatePlantedtype.php?at=" + buffer.getAccount() + "&pty="+preset);
-                                UpdatePoint ();
-                                dialog.dismiss();
-                            }
-                        })
-                        .setNegativeButton(DiaInf[2], new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .show();
+                setPlant_chose_view();
+
             }else if (Plantedtype > 0){
                 //載入植物影片路徑
                 File_location_loading();
@@ -230,6 +237,89 @@ public class PlantActivity extends AppCompatActivity {
         }
 
     }
+    private void setPlantchange(){
+        adlayoutinflater = getLayoutInflater();
+        View Aview = adlayoutinflater.inflate(R.layout.dialog_plant_change, null);
+        adbuilder = new android.app.AlertDialog.Builder(PlantActivity.this);
+        adbuilder.setCancelable(false);
+        adbuilder.setView(Aview);
+
+        plant_ch1 = (ImageButton) Aview.findViewById(R.id.imageButton);
+        plant_ch2 = (ImageButton) Aview.findViewById(R.id.imageButton2);
+        plant_ch3 = (ImageButton) Aview.findViewById(R.id.imageButton3);
+        adCancel = (Button) Aview.findViewById(R.id.dayCancel);
+        addialog = adbuilder.create();
+
+    }
+    private void setPlant_chose_view(){
+        //未種植時跳出詢問是否種植與選擇
+        adbuilder = new android.app.AlertDialog.Builder(PlantActivity.this);
+        adlayoutinflater = getLayoutInflater();
+        adCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addialog.cancel();
+            }
+        });
+        plant_ch1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                preset = 1;
+                uploadPlanttype();
+            }
+        });
+        plant_ch2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                preset = 2;
+                uploadPlanttype();
+            }
+        });
+        plant_ch3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                preset = 3;
+                uploadPlanttype();
+            }
+        });
+        addialog.show();
+    }
+    private void uploadPlanttype(){
+        final String[] DiaInf = getResources().getStringArray(R.array.NotYetPlanted);
+        new AlertDialog.Builder(PlantActivity.this)
+                .setPositiveButton(DiaInf[1], new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Integer success = 0;
+                        try {
+                            String result = DBConnector.executeQuery(buffer.getServerPosition() + "/app/UpdatePlantedtype.php?at=" + buffer.getAccount() + "&pty="+preset);
+
+                            if (result.indexOf("\nnull\n") < 0) {
+                                JSONObject jsonObject = new JSONObject(result);
+                                success = jsonObject.getInt("success");
+                            }
+                        } catch (JSONException e) {
+                            Log.e("error DayWork time", e.toString());
+                        }
+                        if(success == 1){
+                            Toast.makeText(PlantActivity.this, DiaInf[3], Toast.LENGTH_LONG).show();
+                            addialog.cancel();
+                            UpdatePoint();
+                        }else{
+                            Toast.makeText(PlantActivity.this, DiaInf[4], Toast.LENGTH_LONG).show();
+                        }
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton(DiaInf[2], new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+        addialog.show();
+    }
     private void  imagebutton (){
         planreload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -250,37 +340,7 @@ public class PlantActivity extends AppCompatActivity {
             if (growtype == -1){
                 //未種植顯示種子
                 //未種植顯示種子
-                final String[] DiaInf = getResources().getStringArray(R.array.NotYetPlanted);
-                String str = "android.resource://" + getPackageName() + "/" + R.raw.plant_choose;
-//                String str = "http://140.116.82.102:8080/app_webpage/app_video/"+planttype[Plantedtype]+".mp4";
-                videoView.setVideoURI(Uri.parse(str));
-                Clickevent(0);
-                //未種植時跳出詢問是否種植與選擇
-//                final String[] items = {"單選1", "單選2", "單選3", "單選4"};
-                new AlertDialog.Builder(PlantActivity.this)
-                        .setTitle(DiaInf[0])//設定視窗標題
-                        .setSingleChoiceItems(new String[]{"向日葵", "???"}, 0, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                preset = which+1;
-                            }
-                        })
-                        .setPositiveButton(DiaInf[1], new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                final int checktype = which;
-                                String result = DBConnector.executeQuery(buffer.getServerPosition() + "/app/UpdatePlantedtype.php?at=" + buffer.getAccount() + "&pty="+preset);
-                                UpdatePoint ();
-                                dialog.dismiss();
-                            }
-                        })
-                        .setNegativeButton(DiaInf[2], new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .show();
+                setPlant_chose_view();
             }else if (growtype == 0){
                 //枯萎區
                 final String[] DiaInf = getResources().getStringArray(R.array.WitheredPlants);
@@ -357,6 +417,7 @@ public class PlantActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Integer success = 0;
+                                preset = 0;
                                 try {
                                     String result2 = DBConnector.executeQuery(buffer.getServerPosition() + "/app/UpdatePlantedtype.php?at=" + buffer.getAccount() + "&pty="+preset);
                                     String result = DBConnector.executeQuery(buffer.getServerPosition() + "/app/UpdateDrop.php?at=" + buffer.getAccount() + "&pw=0");
