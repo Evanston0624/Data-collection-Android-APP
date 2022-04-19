@@ -171,7 +171,7 @@ public class PushTActivity extends AppCompatActivity {
         //----------點擊彈跳----------//
         @Override
         public MemberAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(context).inflate(R.layout.point_card, parent, false);
+            View view = LayoutInflater.from(context).inflate(R.layout.pusht_card, parent, false);
             return new ViewHolder(view);
         }
         @Override
