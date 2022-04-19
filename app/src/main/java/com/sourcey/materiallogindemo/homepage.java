@@ -66,10 +66,10 @@ public class homepage extends TabActivity {
 ////        songster.setContent(songsIntent);
 
         //         Tab for PushT
-        TabSpec pushT = tabHost.newTabSpec("PushT");
-        pushT.setIndicator("", getResources().getDrawable(R.drawable.icon_songs_tab));
-        Intent PushTIntent = new Intent(this, PushTActivity.class);
-        pushT.setContent(PushTIntent);
+//        TabSpec pushT = tabHost.newTabSpec("PushT");
+//        pushT.setIndicator("", getResources().getDrawable(R.drawable.icon_songs_tab));
+//        Intent PushTIntent = new Intent(this, PushTActivity.class);
+//        pushT.setContent(PushTIntent);
 
         // Tab for Feedback
         TabSpec feedbacked = tabHost.newTabSpec("Feedback");
@@ -99,7 +99,7 @@ public class homepage extends TabActivity {
         tabHost.addTab(photoed); // Adding photos tab
         tabHost.addTab(plant); // Adding videos tab
 //        tabHost.addTab(songster); // Adding songs tab
-        tabHost.addTab(pushT); // Adding songs tab
+//        tabHost.addTab(pushT); // Adding songs tab
 
         tabHost.addTab(feedbacked); // Adding songs tab
 
