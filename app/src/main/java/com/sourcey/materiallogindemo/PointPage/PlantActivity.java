@@ -57,7 +57,7 @@ public class PlantActivity extends AppCompatActivity {
     private LayoutInflater adlayoutinflater;
     private android.app.AlertDialog.Builder adbuilder;
     private android.app.AlertDialog addialog;
-    private ImageButton plant_ch1,plant_ch2,plant_ch3;
+    private ImageButton plant_ch1,plant_ch2,plant_ch3,plant_ch4,plant_ch5;
     private Button adCancel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,45 +78,7 @@ public class PlantActivity extends AppCompatActivity {
                     }
                 }, 2000);
     }
-    private void  File_location_loading() {
-        if (Plantedtype == 1) {
-            plantpath[0][0] = R.raw.sunflower0;
-            plantpath[1][0] = R.raw.sunflower1_1;
-            plantpath[1][1] = R.raw.sunflower1_2;
-            plantpath[2][0] = R.raw.sunflower2_1;
-            plantpath[2][1] = R.raw.sunflower2_2;
-            plantpath[3][0] = R.raw.sunflower3_1;
-            plantpath[3][1] = R.raw.sunflower3_2;
-            plantpath[4][0] = R.raw.sunflower4_1;
-            plantpath[4][1] = R.raw.sunflower4_2;
-            plantpath[5][0] = R.raw.sunflower5_1;
-            plantpath[5][1] = R.raw.sunflower5_2;
-        } else if (Plantedtype == 2) {
-            plantpath[0][0] = R.raw.dandelion0;
-            plantpath[1][0] = R.raw.dandelion1_1;
-            plantpath[1][1] = R.raw.dandelion1_2;
-            plantpath[2][0] = R.raw.dandelion2_1;
-            plantpath[2][1] = R.raw.dandelion2_2;
-            plantpath[3][0] = R.raw.dandelion3_1;
-            plantpath[3][1] = R.raw.dandelion3_2;
-            plantpath[4][0] = R.raw.dandelion4_1;
-            plantpath[4][1] = R.raw.dandelion4_2;
-            plantpath[5][0] = R.raw.dandelion5_1;
-            plantpath[5][1] = R.raw.dandelion5_2;
-        } else if (Plantedtype == 3) {
-            plantpath[0][0] = R.raw.humble0;
-            plantpath[1][0] = R.raw.humble1_1;
-            plantpath[1][1] = R.raw.humble1_2;
-            plantpath[2][0] = R.raw.humble2_1;
-            plantpath[2][1] = R.raw.humble2_2;
-            plantpath[3][0] = R.raw.humble3_1;
-            plantpath[3][1] = R.raw.humble3_2;
-            plantpath[4][0] = R.raw.humble4_1;
-            plantpath[4][1] = R.raw.humble4_2;
-            plantpath[5][0] = R.raw.humble5_1;
-            plantpath[5][1] = R.raw.humble5_2;
-        }
-    }
+
     private void UpdatePoint (){
         videoView = (VideoView)findViewById(R.id.videoView);
         watertext = (TextView)findViewById(R.id.watertext);
@@ -230,12 +192,9 @@ public class PlantActivity extends AppCompatActivity {
             int num = (int) Math.random()*(DialogMessage.length - 0);
             planttext.setText(DialogMessage[num]);
 
-
-
         }else{
             Toast.makeText(this, "載入錯誤 請稍後再試", Toast.LENGTH_SHORT).show();
         }
-
     }
     private void setPlantchange(){
         adlayoutinflater = getLayoutInflater();
@@ -247,9 +206,10 @@ public class PlantActivity extends AppCompatActivity {
         plant_ch1 = (ImageButton) Aview.findViewById(R.id.imageButton);
         plant_ch2 = (ImageButton) Aview.findViewById(R.id.imageButton2);
         plant_ch3 = (ImageButton) Aview.findViewById(R.id.imageButton3);
+        plant_ch4 = (ImageButton) Aview.findViewById(R.id.imageButton4);
+        plant_ch5 = (ImageButton) Aview.findViewById(R.id.imageButton5);
         adCancel = (Button) Aview.findViewById(R.id.dayCancel);
         addialog = adbuilder.create();
-
     }
     private void setPlant_chose_view(){
         //未種植時跳出詢問是否種植與選擇
@@ -279,6 +239,20 @@ public class PlantActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 preset = 3;
+                uploadPlanttype();
+            }
+        });
+        plant_ch4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                preset = 4;
+                uploadPlanttype();
+            }
+        });
+        plant_ch5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                preset = 5;
                 uploadPlanttype();
             }
         });
@@ -446,5 +420,69 @@ public class PlantActivity extends AppCompatActivity {
             }
             return false;
         });
+    }
+    private void  File_location_loading() {
+        if (Plantedtype == 1) {
+            plantpath[0][0] = R.raw.sunflower0;
+            plantpath[1][0] = R.raw.sunflower1_1;
+            plantpath[1][1] = R.raw.sunflower1_2;
+            plantpath[2][0] = R.raw.sunflower2_1;
+            plantpath[2][1] = R.raw.sunflower2_2;
+            plantpath[3][0] = R.raw.sunflower3_1;
+            plantpath[3][1] = R.raw.sunflower3_2;
+            plantpath[4][0] = R.raw.sunflower4_1;
+            plantpath[4][1] = R.raw.sunflower4_2;
+            plantpath[5][0] = R.raw.sunflower5_1;
+            plantpath[5][1] = R.raw.sunflower5_2;
+        } else if (Plantedtype == 2) {
+            plantpath[0][0] = R.raw.dandelion0;
+            plantpath[1][0] = R.raw.dandelion1_1;
+            plantpath[1][1] = R.raw.dandelion1_2;
+            plantpath[2][0] = R.raw.dandelion2_1;
+            plantpath[2][1] = R.raw.dandelion2_2;
+            plantpath[3][0] = R.raw.dandelion3_1;
+            plantpath[3][1] = R.raw.dandelion3_2;
+            plantpath[4][0] = R.raw.dandelion4_1;
+            plantpath[4][1] = R.raw.dandelion4_2;
+            plantpath[5][0] = R.raw.dandelion5_1;
+            plantpath[5][1] = R.raw.dandelion5_2;
+        } else if (Plantedtype == 3) {
+            plantpath[0][0] = R.raw.humble0;
+            plantpath[1][0] = R.raw.humble1_1;
+            plantpath[1][1] = R.raw.humble1_2;
+            plantpath[2][0] = R.raw.humble2_1;
+            plantpath[2][1] = R.raw.humble2_2;
+            plantpath[3][0] = R.raw.humble3_1;
+            plantpath[3][1] = R.raw.humble3_2;
+            plantpath[4][0] = R.raw.humble4_1;
+            plantpath[4][1] = R.raw.humble4_2;
+            plantpath[5][0] = R.raw.humble5_1;
+            plantpath[5][1] = R.raw.humble5_2;
+        }else if (Plantedtype == 4) {
+            plantpath[0][0] = R.raw.convallaria0;
+            plantpath[1][0] = R.raw.convallaria1_1;
+            plantpath[1][1] = R.raw.convallaria1_2;
+            plantpath[2][0] = R.raw.convallaria2_1;
+            plantpath[2][1] = R.raw.convallaria2_2;
+            plantpath[3][0] = R.raw.convallaria3_1;
+            plantpath[3][1] = R.raw.convallaria3_2;
+            plantpath[4][0] = R.raw.convallaria4_1;
+            plantpath[4][1] = R.raw.convallaria4_2;
+            plantpath[5][0] = R.raw.convallaria5_1;
+            plantpath[5][1] = R.raw.convallaria5_2;
+        }
+        else if (Plantedtype == 5) {
+            plantpath[0][0] = R.raw.holly0;
+            plantpath[1][0] = R.raw.holly1_1;
+            plantpath[1][1] = R.raw.holly1_2;
+            plantpath[2][0] = R.raw.holly2_1;
+            plantpath[2][1] = R.raw.holly2_2;
+            plantpath[3][0] = R.raw.holly3_1;
+            plantpath[3][1] = R.raw.holly3_2;
+            plantpath[4][0] = R.raw.holly4_1;
+            plantpath[4][1] = R.raw.holly4_2;
+            plantpath[5][0] = R.raw.holly5_1;
+            plantpath[5][1] = R.raw.holly5_2;
+        }
     }
 }

@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="0dp"
-        android:text="還沒種植植物呢!\n選擇一種植物來種植吧!"/>
+        android:text="還沒種植植物呢!\n選擇一個盆栽來種植吧!"/>
 
     <ImageButton
         android:id="@+id/callemotion1"
@@ -50,7 +50,22 @@
         android:layout_toEndOf="@+id/imageButton2"
         android:scaleType="centerInside"
         app:srcCompat="@drawable/humble_ch" />
+    <ImageButton
+        android:id="@+id/imageButton4"
+        android:layout_width="100dp"
+        android:layout_height="120dp"
+        android:layout_below="@+id/imageButton"
+        android:scaleType="centerInside"
+        app:srcCompat="@drawable/convallaria_ch" />
 
+    <ImageButton
+        android:id="@+id/imageButton5"
+        android:layout_width="100dp"
+        android:layout_height="120dp"
+        android:layout_below="@+id/imageButton2"
+        android:layout_toEndOf="@+id/imageButton4"
+        android:scaleType="centerInside"
+        app:srcCompat="@drawable/holly_ch" />
     <requestFocus />
 
 </RelativeLayout>
