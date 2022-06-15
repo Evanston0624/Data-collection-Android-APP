@@ -104,7 +104,17 @@ public class SettingActivity extends AppCompatActivity {
                 }
             }
         });
-
+//        logoutbutton = (Button) findViewById(R.id.WebAPP);
+//        logoutbutton.setOnClickListener(
+//                new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Uri uri=Uri.parse("http://140.116.82.102:8080/app_webpage/login.html");
+//                        Intent intent=new Intent(Intent.ACTION_VIEW,uri);
+//                        startActivity(intent);
+//                    }
+//                }
+//        );
         logoutbutton = (Button) findViewById(R.id.logout);
         logoutbutton.setOnClickListener(
                 new View.OnClickListener() {
