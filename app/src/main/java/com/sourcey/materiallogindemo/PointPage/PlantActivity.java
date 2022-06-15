@@ -18,6 +18,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -39,6 +40,9 @@ public class PlantActivity extends AppCompatActivity {
     private TextView watertext,planttext;
     private ImageButton planreload;
     private SwipeRefreshLayout laySwipe;
+
+    //生長進度
+    private ProgressBar growthProgress;
 
     //植物生長點數
     private Double point_num;
@@ -78,7 +82,17 @@ public class PlantActivity extends AppCompatActivity {
                     }
                 }, 2000);
     }
-
+    private void setGrowthprogress(double point_num){
+        growthProgress = (ProgressBar) findViewById(R.id.plantPbar);
+        growthProgress.setMax(1000); //設定最大值 (僅適用水平狀進度條)
+//        growthProgress.setProgress(120); //設定主要進度值 (僅適用水平狀進度條)
+//        growthProgress.setSecondaryProgress(180); //設定次要進度值 (僅適用水平狀進度條)
+        int IntValue = (int) point_num;
+        if (IntValue >= 1000){
+            IntValue = 1000;
+        }
+        growthProgress.setProgress(IntValue);
+    }
     private void UpdatePoint (){
         videoView = (VideoView)findViewById(R.id.videoView);
         watertext = (TextView)findViewById(R.id.watertext);
@@ -110,6 +124,9 @@ public class PlantActivity extends AppCompatActivity {
 //                }
         } catch (JSONException e) {
             Log.e("error DayWork time", e.toString());
+        }
+        if (point_num != 0.0){
+            setGrowthprogress(point_num);
         }
         //是否有抓取到資訊
         if (Disappear != -1 && Drop != -1){

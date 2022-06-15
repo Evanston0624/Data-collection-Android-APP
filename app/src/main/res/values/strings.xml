@@ -157,6 +157,8 @@
         <item>起床時間</item><item>睡覺時間</item>
     </string-array>
 
+    <!--//PlantPage//-->
+    <string name="growthProgress">生長進度:</string>
         <string-array name="monarray">
             <item>01</item><item>02</item><item>03</item><item>04</item><item>05</item>
             <item>06</item><item>07</item><item>08</item><item>09</item><item>10</item>
