@@ -54,7 +54,6 @@ public class homepage extends TabActivity {
 
         // Tab for Photos
         TabSpec photoed = tabHost.newTabSpec("Photos");
-        // setting Title and Icon for the Tab
         photoed.setIndicator("", getResources().getDrawable(R.drawable.icon_photos_tab));
         Intent photosIntent = new Intent(this, PhotosActivity.class);
         photoed.setContent(photosIntent);
@@ -100,9 +99,7 @@ public class homepage extends TabActivity {
         tabHost.addTab(plant); // Adding videos tab
         tabHost.addTab(songster); // Adding songs tab
 //        tabHost.addTab(pushT); // Adding songs tab
-
         tabHost.addTab(feedbacked); // Adding songs tab
-
 //        tabHost.addTab(point); // Adding videos tab
         tabHost.addTab(seta); // Adding videos tab
     }
