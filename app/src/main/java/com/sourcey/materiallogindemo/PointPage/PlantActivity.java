@@ -83,7 +83,7 @@ public class PlantActivity extends AppCompatActivity {
                 }, 2000);
     }
     private void setGrowthprogress(double point_num){
-        growthProgress = (ProgressBar) findViewById(R.id.plantPbar);
+        growthProgress = (ProgressBar) findViewById(R.id.plantbar);
         growthProgress.setMax(1000); //設定最大值 (僅適用水平狀進度條)
 //        growthProgress.setProgress(120); //設定主要進度值 (僅適用水平狀進度條)
 //        growthProgress.setSecondaryProgress(180); //設定次要進度值 (僅適用水平狀進度條)

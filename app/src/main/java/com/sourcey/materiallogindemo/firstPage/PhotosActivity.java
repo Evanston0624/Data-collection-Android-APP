@@ -1764,7 +1764,8 @@ public class PhotosActivity extends AppCompatActivity {
         byte[] buffer1;
         int maxBufferSize = 1 * 1024 * 1024;
         String responseFromServer = "";
-        String str_URL = buffer.getServerPosition()+"/app/";
+//        String str_URL = buffer.getServerPosition()+"/app/";
+        String str_URL = buffer.getServerPosition()+"/app_webpage/sql/";
         String urlString = str_URL + "upload.php";
         if (tf) {
             urlString = str_URL + "upload_video.php";

@@ -30,7 +30,7 @@
                             android:layout_weight="2"/>
 
                         <ProgressBar
-                            android:id="@+id/plantPbar"
+                            android:id="@+id/plantbar"
                             style="?android:attr/progressBarStyleHorizontal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

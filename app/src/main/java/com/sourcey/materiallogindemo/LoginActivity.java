@@ -39,9 +39,11 @@ import com.sourcey.materiallogindemo.GPS.GPS;
 import com.sourcey.materiallogindemo.MYSQL.DBConnector;
 import com.sourcey.materiallogindemo.MYSQL.buffer;
 import com.sourcey.materiallogindemo.Phone.Phone_listener;
+import com.sourcey.materiallogindemo.PointPage.PlantActivity;
 import com.sourcey.materiallogindemo.PointPage.PointActivity;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -71,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
     /******************更新設定******************/
     public String Url = buffer.getServerPosition()+"/app_webpage/app_dl/version_n.txt";
     public String Url1 = buffer.getServerPosition()+"/app_webpage/app_dl/updateInf.txt";
-    public String version_now = "5.0.1";//當前版本號
+    public String version_now = "5.0.2";//當前版本號
     /******************更新設定******************/
     //離線GPS系統 and 圖片優化
     @BindView(R.id.input_email)
@@ -450,7 +452,7 @@ public class LoginActivity extends AppCompatActivity {
                                     onLoginSuccess();
                                     success();
                                     dialog.dismiss();
-
+                                    uploadVersion(account);
                                     // onLoginFailed();
                                     //progressDialog.dismiss();
                                 }
@@ -463,6 +465,24 @@ public class LoginActivity extends AppCompatActivity {
             _loginButton.setEnabled(true);
             Toast.makeText(this, "           網路已斷線\n將'無法登入'或'自動登出'", Toast.LENGTH_SHORT).show();
         }
+    }
+    private void uploadVersion(String account){
+        Integer success = 0;
+        try {
+            String result = DBConnector.executeQuery(buffer.getServerPosition() + "/app/updateVersion.php?at=" + account + "&vs="+version_now);
+            if (result.indexOf("\nnull\n") < 0) {
+
+                JSONObject jsonObject = new JSONObject(result);
+                success = jsonObject.getInt("success");
+            }
+        } catch (JSONException e) {
+            Log.e("error DayWork time", e.toString());
+        }
+//        if(success == 1){
+//            Toast.makeText(LoginActivity.this, DiaInf[3], Toast.LENGTH_LONG).show();
+//        }else{
+//            Toast.makeText(LoginActivity.this, DiaInf[4], Toast.LENGTH_LONG).show();
+//        }
     }
 }
 
