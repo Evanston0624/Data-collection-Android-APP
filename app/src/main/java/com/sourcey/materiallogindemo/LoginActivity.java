@@ -140,10 +140,10 @@ public class LoginActivity extends AppCompatActivity {
                     task1.execute(url);
                     String updateInf = task1.get();
                     //設定更新視窗
-                    new AlertDialog.Builder(LoginActivity.this).setTitle("更新提示")//設定視窗標題
+                    new AlertDialog.Builder(LoginActivity.this).setTitle("Update prompt")//設定視窗標題
                             .setIcon(R.mipmap.ic_launcher)//設定對話視窗圖示
-                            .setMessage("以有新版本可供更新\n" + updateInf)
-                            .setPositiveButton("下載新的安裝檔", new DialogInterface.OnClickListener() {
+                            .setMessage("To update with a new version\n" + updateInf)
+                            .setPositiveButton("Download the new installer", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     Uri uri = Uri.parse(buffer.getServerPosition()+"/app_webpage/app_dl/mastr.apk");//下載網址
@@ -309,15 +309,15 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginSuccess() {
-        Toast.makeText(getBaseContext(), "認證" +
-                "成功", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Certification" +
+                "success", Toast.LENGTH_LONG).show();
         _loginButton.setEnabled(true);
         finish();
     }
 
     //this alert Login failed
     public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "帳號或密碼為空，帳號密碼至少4個字", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "The account or password is empty, and the account and password must be at least 4 characters", Toast.LENGTH_LONG).show();
 
         _loginButton.setEnabled(true);
     }
@@ -331,13 +331,13 @@ public class LoginActivity extends AppCompatActivity {
         //判斷帳號是否為空
         //if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
         if (email.isEmpty() || email.length() < 4) {
-            _emailText.setError("帳號為空 或 小於4個字");
+            _emailText.setError("Account number is empty or less than 4 characters");
             valid = false;
         }
 
         //判斷密碼是否為空
         if (password.isEmpty() || password.length() < 4) {
-            _passwordText.setError("密碼為空 或 最小4個字");
+            _passwordText.setError("Password is empty or minimum 4 characters");
             valid = false;
         }
 
@@ -433,7 +433,7 @@ public class LoginActivity extends AppCompatActivity {
             if (SearchAccount.CheckAccount(account, password).equals(account)) {
                     //if(1==1){
                     dialog = ProgressDialog.show(this,
-                            "登入中", "請稍後...", true);
+                            "loading", "please wait...", true);
 
                     String path = Environment.getExternalStorageDirectory().getPath() + "/RDataR/";
 
@@ -459,11 +459,12 @@ public class LoginActivity extends AppCompatActivity {
                             }, 2000);
             } else {
                 _loginButton.setEnabled(true);
-                Toast.makeText(getBaseContext(), "帳號錯誤!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "Account error!", Toast.LENGTH_LONG).show();
             }
         } else {
             _loginButton.setEnabled(true);
-            Toast.makeText(this, "           網路已斷線\n將'無法登入'或'自動登出'", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "           Internet disconnected\n" +
+                    "will 'unable to log in' or 'automatically logged out''", Toast.LENGTH_SHORT).show();
         }
     }
     private void uploadVersion(String account){

@@ -25,7 +25,7 @@
         android:layout_below="@+id/writeeditText"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="14dp"
-        android:text="確定送出" />
+        android:text="OK to send" />
 
     <EditText
         android:id="@+id/writeeditText"
@@ -34,7 +34,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:ems="10"
-        android:hint="撰寫文字" >
+        android:hint="write text" >
         <requestFocus />
     </EditText>
 </RelativeLayout>

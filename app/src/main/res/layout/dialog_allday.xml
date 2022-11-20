@@ -65,7 +65,7 @@
         android:layout_marginTop="20dp"
         android:layout_toStartOf="@+id/positive"
         android:layout_toEndOf="@+id/negative"
-        android:text="送出每日情緒" />
+        android:text="Send your daily mood" />
     <!--sleeping time============================================================================-->
     <ImageView
         android:id="@+id/sleepimageView"
@@ -128,7 +128,7 @@
         android:layout_marginStart="0dp"
         android:layout_marginTop="20dp"
         android:layout_toEndOf="@+id/sleephourspinner"
-        android:text="時" />
+        android:text="Hour" />
 
     <Spinner
         android:id="@+id/sleepminspinner"
@@ -148,7 +148,7 @@
         android:layout_marginStart="0dp"
         android:layout_marginTop="20dp"
         android:layout_toEndOf="@+id/sleepminspinner"
-        android:text="分" />
+        android:text="minute" />
 
     <!--get up time==============================================================================-->
 
@@ -160,7 +160,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="2dp"
         android:layout_toEndOf="@+id/daygetupbutton"
-        android:text="送出睡眠時間" />
+        android:text="send sleep time" />
 
     <Button
         android:id="@+id/daygetupbutton"
@@ -170,6 +170,6 @@
         android:layout_alignStart="@+id/sleepimageView"
         android:layout_marginStart="10dp"
         android:layout_marginTop="2dp"
-        android:text="送出起床時間" />
+        android:text="send wake up time" />
     <requestFocus />
 </RelativeLayout>

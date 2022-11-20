@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <!--  Screen Design for VIDEOS -->
-    <TextView android:text="施工中，目前只有登出"
+    <TextView android:text="Under construction, currently only log out"
         android:padding="15dip"
         android:textSize="18dip"
         android:layout_width="fill_parent"

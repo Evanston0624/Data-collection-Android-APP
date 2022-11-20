@@ -51,7 +51,7 @@ public class FeedbackActivity  extends AppCompatActivity {
         getSupportActionBar().hide();
 
         dialog = ProgressDialog.show(this,
-                "讀取歷史資訊資訊中", "請稍後...", true);
+                "Loading", "please wait...", true);
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {

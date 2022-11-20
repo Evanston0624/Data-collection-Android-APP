@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="點擊麥克風-敘述近期狀況"
+            android:text="Click on the microphone - narrate the recent situation"
             android:textSize="50px" />
 
         <ImageButton

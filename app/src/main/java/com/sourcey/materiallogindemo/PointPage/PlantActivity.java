@@ -69,7 +69,7 @@ public class PlantActivity extends AppCompatActivity {
         //設定隱藏標題
         getSupportActionBar().hide();
         dialog = ProgressDialog.show(this,
-                "載入資訊中", "請稍後...", true);
+                "loading", "please wait...", true);
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {

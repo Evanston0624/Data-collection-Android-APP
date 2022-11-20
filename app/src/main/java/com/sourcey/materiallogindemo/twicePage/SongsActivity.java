@@ -39,7 +39,7 @@ public class SongsActivity extends AppCompatActivity {
 
 
         dialog = ProgressDialog.show(this,
-                "讀取歷史軌跡資訊中", "請稍後...", true);
+                "loading", "please wait...", true);
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {

@@ -1,78 +1,81 @@
 <resources>
-    <string name="app_name">成功大學多媒體人機通訊實驗室</string>
+    <string name="app_name">NCKU Multimedia Human-Computer Communication Laboratory</string>
 
     <string name="hello_world">Hello world!</string>
 
     <string name="first">First</string>
     <string name="second">Second</string>
     <string name="third">Third</string>
-	
-	<string name="wello">wello</string>
-    <string name="alarm">鬧鐘</string>
-    <string name="login">登入</string>
-    <string name="email">信箱</string>
-    <string name="password">密碼</string>
 
-    <string name="action_login">登錄</string>
+    <string name="wello">wello</string>
+    <string name="alarm">Alarm clock</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">password</string>
 
-    <string name="stn_changetime">更改時間</string>
-    <string name="stn_chooseweek">選擇星期</string>
-    <string name="stn_chooseday">選擇一日</string>
-    <string name="stn_today">今天</string>
-    <string name="stn_now">現在</string>
-    <string name="stn_week">星期</string>
-    <string name="stn_confirmation_txt">你想要退出，不儲存?</string>
-    <string name="stn_confirmation">確認</string>
-    <string name="stn_save_alarm">儲存</string>
-    <string name="stn_quit_without_saving">退出</string>
+    <string name="action_login">Login</string>
 
-    <string name="stn_note_once">若只想響一次，請不要選擇星期</string>
-    <string name="stn_note_noweek">如果你不選擇星期，那麼鬧鐘將每週響起。</string>
+    <string name="loading">Loading information</string>
+    <string name="wait">please wait</string>
 
-    <string name="stn_create">保留</string>
-    <string name="stn_cancel">取消</string>
+    <string name="stn_changetime">Change time</string>
+    <string name="stn_chooseweek">Choose week</string>
+    <string name="stn_chooseday">Choose a day</string>
+    <string name="stn_today">Today</string>
+    <string name="stn_now">now</string>
+    <string name="stn_week">week</string>
+    <string name="stn_confirmation_txt">Do you want to exit without saving?</string>
+    <string name="stn_confirmation">Confirmation</string>
+    <string name="stn_save_alarm">Save</string>
+    <string name="stn_quit_without_saving">Quit</string>
 
-    <string name="mon">一</string>
-    <string name="tue">二</string>
-    <string name="wed">三</string>
-    <string name="thu">四</string>
-    <string name="fri">五</string>
-    <string name="sat">六</string>
-    <string name="sun">日</string>
+    <string name="stn_note_once">If you only want to beep once, please do not select the day of the week</string>
+    <string name="stn_note_noweek">If you do not select a week, the alarm will go off every week. </string>
 
-    <string name="monday">星期一</string>
-    <string name="tuesday">星期二</string>
-    <string name="wednesday">星期三</string>
-    <string name="thursday">星期四</string>
-    <string name="friday">星期五</string>
-    <string name="saturday">星期六</string>
-    <string name="sunday">星期日</string>
+    <string name="stn_create">Reserved</string>
+    <string name="stn_cancel">Cancel</string>
 
-    <string name="once">一次</string>
-    <string name="everyday">每天</string>
-    <string name="weekends">周末</string>
-    <string name="weekdays">平日</string>
+    <string name="mon">one</string>
+    <string name="tue">Two</string>
+    <string name="wed">Three</string>
+    <string name="thu">Four</string>
+    <string name="fri">Five</string>
+    <string name="sat">Six</string>
+    <string name="sun">Day</string>
 
-    <string name="ev">偶</string>
-    <string name="od">奇</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
 
-    <string name="even">偶數</string>
-    <string name="odd">奇數</string>
-    <string name="everyweek">每週</string>
+    <string name="once">once</string>
+    <string name="everyday">everyday</string>
+    <string name="weekends">Weekends</string>
+    <string name="weekdays">Weekdays</string>
 
-    <string name="log_in">登入</string>
-    <string name="sign_up">註冊</string>
-    <string name="welcome">歡迎!</string>
-    <string name="alarm_turnon">回答問題</string>
-    <string name="alarm_turnoff">關閉鬧鐘</string>
-    <string name="alarm_setaside">延後5分鐘</string>
-    <string name="off">關閉</string>
-    <string name="on">開啟</string>
-    <string name="edit">編輯</string>
-    <string name="delete">刪除</string>
-    <string name="InStorage">儲存中</string>
-    <string name="Send">確認送出</string>
-    <string name="no_alarms">沒有任何鬧鐘，要新增一個嗎?</string>
+    <string name="ev">even</string>
+    <string name="od">odd</string>
+
+    <string name="even">even</string>
+    <string name="odd">odd number</string>
+    <string name="everyweek">Weekly</string>
+
+    <string name="log_in">Login</string>
+    <string name="sign_up">Sign up</string>
+    <string name="welcome">Welcome!</string>
+    <string name="alarm_turnon">Answer Question</string>
+    <string name="alarm_turnoff">Turn off alarm</string>
+    <string name="alarm_setaside">Snooze 5 minutes</string>
+    <string name="off">off</string>
+    <string name="on">On</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="InStorage">Storing</string>
+    <string name="Send">Confirm Send</string>
+    <string name="no_alarms">No alarms, would you like to add one?</string>
     <string name="not_found">[day not found]</string>
     <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
 
@@ -81,195 +84,195 @@
 
     <string name="action_settings">Settings</string>
     <string name="cancel">Cancel</string>
-    <string name="alarm_settings">新的鬧鐘</string>
+    <string name="alarm_settings">New alarms</string>
 
     <!--//use feedback//-->
-    <string name="feedbacktitle">有什麼話要跟我們說嗎?\n在下面留言吧!</string>
+    <string name="feedbacktitle">Anything to tell us?\nLeave a comment below!</string>
     <!--//use feedback//-->
 
     <!--//use feedback//-->
-    <string name="waterdroplets">水滴;</string>
+    <string name="waterdroplets">Waterdroplets;</string>
     <!--//use feedback//-->
 
 
     <!--//Chart//-->
-    <string name="ChartEmotion">情緒</string>
-    <string name="ChartDailyMood">每日情緒(0~6分)</string>
-    <string name="ChartSleep">入睡時間(0~23時)</string>
-    <string name="ChartGetup">起床時間(0~23時)</string>
-    <string name="ChartLong">睡了多久</string>
-    <string name="ChartGPS">GPS(公里數)</string>
+    <string name="ChartEmotion">Emotion</string>
+    <string name="ChartDailyMood">Daily Mood (0~6 points)</string>
+    <string name="ChartSleep">Sleep time (0~23 hours)</string>
+    <string name="ChartGetup">Get up time (0~23 hours)</string>
+    <string name="ChartLong">How long have you slept</string>
+    <string name="ChartGPS">GPS(km)</string>
     <!--//Chart//-->
 
     <!--//Exhange//-->
-    <string name="ExPointOne">兌換一張</string>
-    <string name="ExPointAll">兌換全部</string>
+    <string name="ExPointOne">Redeem one</string>
+    <string name="ExPointAll">Exchange All</string>
     <string name="ExTextView"></string>
-    <string name="ExTextView2">每100點Point可以兌換100元7-11禮券，於回診時與曾鈺晴小姐兌換，可使用Line先連絡哦</string>
+    <string name="ExTextView2">Every 100 points can be exchanged for a 7-11 gift certificate of 100 yuan, which can be exchanged with Ms. Tsang Yuqing when returning to the clinic. You can use Line to contact first</string>
     <string name="ExSpinner"> </string>
-    <string name="HistPoint">兌換紀錄</string>
+    <string name="HistPoint">Exchange Record</string>
     <!--//Exhange//-->
 
 
     <!--//Datatype//-->
-    <string name="dailymood">每日心情</string>
-    <string name="wakeup">起床時間</string>
-    <string name="sleep">睡眠時間</string>
-    <string name="emo_mark">影音情緒</string>
-    <string name="emo_voice">錄音情緒</string>
-    <string name="emo_av">錄影情緒</string>
-    <string name="selfscale">自評量表</string>
-    <string name="dass">DASS量表</string>
-    <string name="asrm">ASRM量表</string>
+    <string name="dailymood">Daily Mood</string>
+    <string name="wakeup">Wakeup time</string>
+    <string name="sleep">Sleep time</string>
+    <string name="emo_mark">Video mood</string>
+    <string name="emo_voice">Recording emotions</string>
+    <string name="emo_av">recording emotions</string>
+    <string name="selfscale">Self-rating scale</string>
+    <string name="dass">DASS scale</string>
+    <string name="asrm">ASRM scale</string>
     <!--//Datatype//-->
 
 
     <!--//Emotion//-->
-    <string name="angry">生氣</string>
-    <string name="boredom">無聊</string>
-    <string name="disgust">厭惡</string>
-    <string name="anxiety">焦慮</string>
-    <string name="happiness">開心</string>
-    <string name="sadness">難過</string>
-    <string name="surprised">驚訝</string>
+    <string name="angry">Angry</string>
+    <string name="boredom">boring</string>
+    <string name="disgust">Disgust</string>
+    <string name="anxiety">Anxiety</string>
+    <string name="happiness">happy</string>
+    <string name="sadness">sadness</string>
+    <string name="surprised">surprised</string>
     <!--//Emotion//-->
 
     <!--//Mic//-->
-    <string name="RecordingStart">點擊麥克風-敘述近期狀況</string>
-    <string name="RecordingFinish">再次點擊-結束錄音</string>
+    <string name="RecordingStart">Click on the microphone - describe the recent situation</string>
+    <string name="RecordingFinish">Click again-end recording</string>
     <!--//Mic//-->
 
     <!--//data collection finish//-->
-    <string name="collec_fini">已完成目標</string>
-    <string name="collec_unfini">未完成目標</string>
+    <string name="collec_fini">Goal completed</string>
+    <string name="collec_unfini">Unfinished goal</string>
     <!--//finish//-->
 
     <!--//GPS//-->
-    <string name="OpenGPS">請開啟GPS連結</string>
-    <string name="OpenGPSMessage">為了提高定位的精準度，更好的為您服務，請開啟GPS</string>
-    <string name="StartedGPS">GPS服務已啟動</string>
-    <string name="StartupGPS">GPS服務啟動完成</string>
+    <string name="OpenGPS">Please open GPS link</string>
+    <string name="OpenGPSMessage">In order to improve the accuracy of positioning and serve you better, please turn on GPS</string>
+    <string name="StartedGPS">GPS service started</string>
+    <string name="StartupGPS">GPS service startup completed</string>
     <!--//GPS//-->
 
     <!--//Loadding//-->
-    <string name="LoadIn">登入中</string>
+    <string name="LoadIn">Login</string>
     <string-array name="sleepandgetup">
-        <item>起床時間</item><item>睡覺時間</item>
+        <item>Wake up time</item><item>Sleep time</item>
     </string-array>
 
     <!--//PlantPage//-->
-    <string name="growthProgress">生長進度:</string>
-        <string-array name="monarray">
-            <item>01</item><item>02</item><item>03</item><item>04</item><item>05</item>
-            <item>06</item><item>07</item><item>08</item><item>09</item><item>10</item>
-            <item>11</item><item>12</item>
-        </string-array>
-        <string-array name="dayarray">
-            <item>01</item><item>02</item><item>03</item><item>04</item><item>05</item>
-            <item>06</item><item>07</item><item>08</item><item>09</item><item>10</item>
-            <item>11</item><item>12</item><item>13</item><item>14</item><item>15</item>
-            <item>16</item><item>17</item><item>18</item><item>19</item><item>20</item>
-            <item>21</item><item>22</item><item>23</item><item>24</item><item>25</item>
-            <item>26</item><item>27</item><item>28</item><item>29</item><item>30</item>
-            <item>31</item>
-        </string-array>
+    <string name="growthProgress">Growth Progress:</string>
+    <string-array name="monarray">
+        <item>01</item><item>02</item><item>03</item><item>04</item><item>05</item>
+        <item>06</item><item>07</item><item>08</item><item>09</item><item>10</item>
+        <item>11</item><item>12</item>
+    </string-array>
+    <string-array name="dayarray">
+        <item>01</item><item>02</item><item>03</item><item>04</item><item>05</item>
+        <item>06</item><item>07</item><item>08</item><item>09</item><item>10</item>
+        <item>11</item><item>12</item><item>13</item><item>14</item><item>15</item>
+        <item>16</item><item>17</item><item>18</item><item>19</item><item>20</item>
+        <item>21</item><item>22</item><item>23</item><item>24</item><item>25</item>
+        <item>26</item><item>27</item><item>28</item><item>29</item><item>30</item>
+        <item>31</item>
+    </string-array>
 
-        <string-array name="hourarray">
-            <item>00</item><item>01</item><item>02</item><item>03</item><item>04</item>
-            <item>05</item><item>06</item><item>07</item><item>08</item><item>09</item>
-            <item>10</item><item>11</item><item>12</item><item>13</item><item>14</item>
-            <item>15</item><item>16</item><item>17</item><item>18</item><item>19</item>
-            <item>20</item><item>21</item><item>22</item><item>23</item>
-        </string-array>
+    <string-array name="hourarray">
+        <item>00</item><item>01</item><item>02</item><item>03</item><item>04</item>
+        <item>05</item><item>06</item><item>07</item><item>08</item><item>09</item>
+        <item>10</item><item>11</item><item>12</item><item>13</item><item>14</item>
+        <item>15</item><item>16</item><item>17</item><item>18</item><item>19</item>
+        <item>20</item><item>21</item><item>22</item><item>23</item>
+    </string-array>
 
-        <string-array name="minarray">
-            <item>00</item><item>01</item><item>02</item><item>03</item><item>04</item><item>05</item>
-            <item>06</item><item>07</item><item>08</item><item>09</item><item>10</item>
-            <item>11</item><item>12</item><item>13</item><item>14</item><item>15</item>
-            <item>16</item><item>17</item><item>18</item><item>19</item><item>20</item>
-            <item>21</item><item>22</item><item>23</item><item>24</item><item>25</item>
-            <item>26</item><item>27</item><item>28</item><item>29</item><item>30</item>
-            <item>31</item><item>32</item><item>33</item><item>34</item><item>35</item>
-            <item>36</item><item>37</item><item>38</item><item>39</item><item>40</item>
-            <item>41</item><item>42</item><item>43</item><item>44</item><item>45</item>
-            <item>46</item><item>47</item><item>48</item><item>49</item><item>50</item>
-            <item>51</item><item>52</item><item>53</item><item>54</item><item>55</item>
-            <item>56</item><item>57</item><item>58</item><item>59</item>
-        </string-array>
+    <string-array name="minarray">
+        <item>00</item><item>01</item><item>02</item><item>03</item><item>04</item><item>05</item>
+        <item>06</item><item>07</item><item>08</item><item>09</item><item>10</item>
+        <item>11</item><item>12</item><item>13</item><item>14</item><item>15</item>
+        <item>16</item><item>17</item><item>18</item><item>19</item><item>20</item>
+        <item>21</item><item>22</item><item>23</item><item>24</item><item>25</item>
+        <item>26</item><item>27</item><item>28</item><item>29</item><item>30</item>
+        <item>31</item><item>32</item><item>33</item><item>34</item><item>35</item>
+        <item>36</item><item>37</item><item>38</item><item>39</item><item>40</item>
+        <item>41</item><item>42</item><item>43</item><item>44</item><item>45</item>
+        <item>46</item><item>47</item><item>48</item><item>49</item><item>50</item>
+        <item>51</item><item>52</item><item>53</item><item>54</item><item>55</item>
+        <item>56</item><item>57</item><item>58</item><item>59</item>
+    </string-array>
 
-        <string-array name="PointText">
-            <item>累計點數</item>
-            <item>每日情緒、睡眠紀錄1次</item>
-            <item>聲音、影像情緒資訊記錄1次</item>
-            <item>一周有GPS紀錄5天</item>
-            <item>一個月有GPS紀錄20天</item>
-            <item>一個月有GPS紀錄28天</item>
-            <item>兩個月有GPS紀錄55天</item>
-            <item>三個月有GPS紀錄80天</item>
-            <item>每日情緒、睡眠一周紀錄5天</item>
-            <item>每日情緒、睡眠一個月紀錄20天</item>
-            <item>每日情緒、睡眠一個月紀錄28天</item>
-            <item>每日情緒、睡眠兩個月紀錄55天</item>
-            <item>每日情緒、睡眠三個月紀錄80天</item>
-            <item>聲音、影像情緒資訊一周紀錄5天</item>
-            <item>聲音、影像情緒資訊一個月紀錄20天</item>
-            <item>聲音、影像情緒資訊一個月紀錄28天</item>
-            <item>聲音、影像情緒資訊兩個月紀錄55天</item>
-            <item>聲音、影像情緒資訊三個月紀錄80天</item>
-            <item>填寫每周的量表1次</item>
-            <item>一個月寫每周的量表3次</item>
-            <item>兩個月填寫每周的量表7次</item>
-            <item>三個月填寫每周的量表12次</item>
-            <item>每日情緒、睡眠、GPS、情緒資訊皆有5天</item>
-            <item>每日情緒、睡眠、GPS、情緒資訊皆有20天</item>
-            <item>每日情緒、睡眠、GPS、情緒資訊皆有28天</item>
-            <item>每日情緒、睡眠、GPS、情緒資訊皆有55天</item>
-            <item>每日情緒、睡眠、GPS、情緒資訊皆有80天</item>
-        </string-array>
+    <string-array name="PointText">
+        <item>Accumulated points</item>
+        <item>Daily mood, sleep record 1 time</item>
+        <item>Sound and video emotional information recorded once</item>
+        <item>GPS records 5 days a week</item>
+        <item>20 days a month with GPS records</item>
+        <item>28 days a month with GPS records</item>
+        <item>There are 55 days of GPS records in two months</item>
+        <item>3 months with GPS records for 80 days</item>
+        <item>Daily mood, sleep record 5 days a week</item>
+        <item>Daily mood, sleep record 20 days a month</item>
+        <item>Daily mood, sleep record 28 days a month</item>
+        <item>Daily mood and sleep records for 55 days for two months</item>
+        <item>Daily mood and sleep records for 3 months for 80 days</item>
+        <item>Sound and video emotional information is recorded 5 days a week</item>
+        <item>Sound and video emotional information is recorded 20 days a month</item>
+        <item>Sound and video emotional information is recorded 28 days a month</item>
+        <item>Sound and video emotional information recorded for 55 days in two months</item>
+        <item>Sound and video emotional information is recorded for 80 days for three months</item>
+        <item>Fill out the weekly scale once</item>
+        <item>Write the weekly scale 3 times a month</item>
+        <item>Complete the weekly scale 7 times for two months</item>
+        <item>Three months to fill out the weekly scale 12 times</item>
+        <item>Daily mood, sleep, GPS, mood information for 5 days</item>
+        <item>Daily mood, sleep, GPS, mood information for 20 days</item>
+        <item>Daily mood, sleep, GPS, mood information for 28 days</item>
+        <item>Daily mood, sleep, GPS, mood information for 55 days</item>
+        <item>Daily mood, sleep, GPS, mood information for 80 days</item>
+    </string-array>
     <string-array name="PointTextV2">
-        <item>累計點數</item>
-        <item>每日情緒、睡眠紀錄1次</item>
-        <item>聲音、影像情緒資訊記錄1次</item>
-        <item>一周有GPS紀錄5天</item>
-        <item>一個月有GPS紀錄20天</item>
-        <item>一個月有GPS紀錄28天</item>
-        <item>兩個月有GPS紀錄55天</item>
-        <item>三個月有GPS紀錄80天</item>
-        <item>每日情緒、睡眠一周紀錄5天</item>
-        <item>每日情緒、睡眠一個月紀錄20天</item>
-        <item>每日情緒、睡眠一個月紀錄28天</item>
-        <item>每日情緒、睡眠兩個月紀錄55天</item>
-        <item>每日情緒、睡眠三個月紀錄80天</item>
-        <item>文字情緒資訊一周紀錄5天</item>
-        <item>文字情緒資訊一個月紀錄20天</item>
-        <item>文字情緒資訊一個月紀錄28天</item>
-        <item>文字情緒資訊兩個月紀錄55天</item>
-        <item>文字情緒資訊三個月紀錄80天</item>
-        <item>聲音、影像情緒資訊一周紀錄5天</item>
-        <item>聲音、影像情緒資訊一個月紀錄20天</item>
-        <item>聲音、影像情緒資訊一個月紀錄28天</item>
-        <item>聲音、影像情緒資訊兩個月紀錄55天</item>
-        <item>聲音、影像情緒資訊三個月紀錄80天</item>
-        <item>填寫每周的量表1次</item>
-        <item>一個月寫每周的量表3次</item>
-        <item>兩個月填寫每周的量表7次</item>
-        <item>三個月填寫每周的量表12次</item>
-        <item>每日情緒、睡眠、GPS、情緒資訊皆有5天</item>
-        <item>每日情緒、睡眠、GPS、情緒資訊皆有20天</item>
-        <item>每日情緒、睡眠、GPS、情緒資訊皆有28天</item>
-        <item>每日情緒、睡眠、GPS、情緒資訊皆有55天</item>
-        <item>每日情緒、睡眠、GPS、情緒資訊皆有80天</item>
+        <item>Accumulated points</item>
+        <item>Daily mood, sleep record 1 time</item>
+        <item>Sound and video emotional information recorded once</item>
+        <item>GPS records 5 days a week</item>
+        <item>20 days a month with GPS records</item>
+        <item>28 days a month with GPS records</item>
+        <item>There are 55 days of GPS records in two months</item>
+        <item>3 months with GPS records for 80 days</item>
+        <item>Daily mood, sleep record 5 days a week</item>
+        <item>Daily mood, sleep record 20 days a month</item>
+        <item>Daily mood, sleep record 28 days a month</item>
+        <item>Daily mood and sleep records for 55 days for two months</item>
+        <item>Daily mood and sleep records for 3 months for 80 days</item>
+        <item>Text sentiment information is recorded 5 days a week</item>
+        <item>Text sentiment information is recorded for 20 days a month</item>
+        <item>Text sentiment information is recorded 28 days a month</item>
+        <item>Text sentiment information is recorded for 55 days in two months</item>
+        <item>Text mood information is recorded for 3 months and 80 days</item>
+        <item>Sound and video emotional information is recorded 5 days a week</item>
+        <item>Sound and video emotional information is recorded 20 days a month</item>
+        <item>Sound and video emotional information is recorded 28 days a month</item>
+        <item>Sound and video emotional information recorded for 55 days in two months</item>
+        <item>Sound and video emotional information is recorded for 80 days for three months</item>
+        <item>Fill out the weekly scale once</item>
+        <item>Write the weekly scale 3 times a month</item>
+        <item>Complete the weekly scale 7 times for two months</item>
+        <item>Three months to fill out the weekly scale 12 times</item>
+        <item>Daily mood, sleep, GPS, mood information for 5 days</item>
+        <item>Daily mood, sleep, GPS, mood information for 20 days</item>
+        <item>Daily mood, sleep, GPS, mood information for 28 days</item>
+        <item>Daily mood, sleep, GPS, mood information for 55 days</item>
+        <item>Daily mood, sleep, GPS, mood information for 80 days</item>
     </string-array>
     <string-array name="FeedbackTextSt">
-        <item>持續的紀錄，資訊會更完善哦</item>
-        <item>過去七天的移動距離平均是</item>
-        <item>以前的移動距離平均是</item>
-        <item>過去七天的起床時間大約是</item>
-        <item>以前的起床時間大約是</item>
-        <item>過去七天的睡眠時間大約是</item>
-        <item>以前的睡眠時間大約是</item>
-        <item>過去七天的每日心情平均是</item>
-        <item>以前的每日心情平均是</item>
+        <item>Continuous record, the information will be more perfect</item>
+        <item>The average distance traveled over the past seven days is</item>
+        <item>The average previous travel distance was</item>
+        <item>About waking times for the past seven days</item>
+        <item>The previous wake-up time was about</item>
+        <item>Approximate sleep duration for the past seven days</item>
+        <item>The previous sleep time was approximately</item>
+        <item>The average daily mood for the past seven days is</item>
+        <item>The previous daily mood average was</item>
     </string-array>
 
     <string-array name="PointLoadValue">
@@ -328,30 +331,30 @@
     <!--</integer-array>-->
 
     <string-array name="DayWork">
-        <item>每日事項區(每天中午12點更新)</item>
-        <item>今天的情緒標記</item>
-        <item>今天的每日心情</item>
-        <item>昨天的起床時間</item>
-        <item>昨天的睡覺時間</item>
-        <item>上週的DASS21問卷</item>
-        <item>上週的Altman問卷</item>
+        <item>Daily event area (updated at 12 noon every day)</item>
+        <item>Today's sentiment tag</item>
+        <item>Today's Daily Mood</item>
+        <item>Wake up time yesterday</item>
+        <item>Yesterday's bedtime</item>
+        <item>Last week's DASS21 questionnaire</item>
+        <item>Last week's Altman questionnaire</item>
     </string-array>
 
     <string-array name="DialogMessage">
-        <item>做的很棒 要多加油哦</item>
-        <item>每次的紀錄都讓自己更好</item>
-        <item>持續的記錄能使自己更了解自己哦</item>
-        <item>植物生長的水滴可兌換禮卷呢</item>
-        <item>時常記錄能獲得獎勵哦</item>
-        <item>善於與人溝通，適度採納別人意見</item>
-        <item>生活不會否定任何人，就怕自己先否定生活</item>
-        <item>生活中總有許多值得我們追求和嚮往的東西</item>
-        <item>生命，就是以不斷出發的姿勢得到重生</item>
-        <item>生活不是等待風暴過去，而是學會在雨中翩翩起舞</item>
-        <item>面前有陰影，是因為你的背後有陽光</item>
+        <item>It's a great job, keep up the good work</item>
+        <item>Every record makes me better</item>
+        <item>Continuous recording can help you understand yourself better</item>
+        <item>Water droplets grown by plants can be exchanged for gift vouchers</item>
+        <item>Record often to get rewards</item>
+        <item>Good at communicating with others and adopting other people's opinions appropriately</item>
+        <item>Life will not deny anyone, just be afraid of denying life first</item>
+        <item>There are always many things in life worthy of our pursuit and yearning</item>
+        <item>Life is to be reborn with a constant attitude</item>
+        <item>Life is not about waiting for the storm to pass, but learning to dance in the rain</item>
+        <item>There is a shadow in front of you because there is sunshine behind you</item>
     </string-array>
-    <!--植物種類-->
-    <!--從1開始-->
+    <!--Plant species-->
+    <!--Start from 1-->
     <string-array name="PlantType">
         <item>plant_choose</item>
         <item>sunflower</item>
@@ -360,30 +363,30 @@
     </string-array>
 
     <string-array name="UploadMessage">
-        <item>上傳成功</item>
-        <item>上傳失敗</item>
+        <item>Upload successful</item>
+        <item>Upload failed</item>
     </string-array>
     <string-array name="NotYetPlanted">
-        <item>還沒種植植物呢!\n選擇一種植物來種植吧!</item>
-        <item>選這個</item>
-        <item>晚點選</item>
-        <item>兌換成功!</item>
-        <item>兌換失敗請稍後再試!</item>
+        <item>No plants yet!\nChoose a plant to plant!</item>
+        <item>Select this</item>
+        <item>Late selection</item>
+        <item>Successful redemption!</item>
+        <item>Redemption failed, please try again later!</item>
     </string-array>
     <string-array name="WaterChangeInf">
-        <item>植物長大了</item>
-        <item>植物成長茁壯!\n要兌換成10點水滴且重新開始嗎?\n水滴可於回診時與助理兌換禮券</item>
-        <item>兌換</item>
-        <item>兌換成功!</item>
-        <item>兌換失敗請稍後再試!</item>
-        <item>先不要</item>
+        <item>The plant has grown up</item>
+        <item>Plants are growing strong!\nWant to exchange for 10 droplets and start over?\nDroplets can be exchanged for gift vouchers with the assistant at the return visit</item>
+        <item>Redeem</item>
+        <item>Successful redemption!</item>
+        <item>Redemption failed, please try again later!</item>
+        <item>Not yet</item>
     </string-array>
     <string-array name="WitheredPlants">
-        <item>植物枯萎了</item>
-        <item>太久沒有上線了!\n 有想要復活植物嗎?</item>
-        <item>復活</item>
-        <item>復活成功!</item>
-        <item>復活失敗請稍後再試!</item>
-        <item>先不要</item>
+        <item>Plant withered</item>
+        <item>It's been a while!\n Want to resurrect a plant?</item>
+        <item>Resurrection</item>
+        <item>Resurrection successful!</item>
+        <item>Resurrection failed, please try again later!</item>
+        <item>Not yet</item>
     </string-array>
 </resources>

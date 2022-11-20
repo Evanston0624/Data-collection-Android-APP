@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
-                android:hint="姓名" />
+                android:hint="Name" />
         </android.support.design.widget.TextInputLayout>
 
         <!-- Address Label -->
@@ -44,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPostalAddress"
-                android:hint="帳號" />
+                android:hint="Account" />
         </android.support.design.widget.TextInputLayout>
 
 
@@ -75,7 +75,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:hint="手機號碼" />
+                android:hint="Phone Number" />
         </android.support.design.widget.TextInputLayout>
 
         <!-- Password Label -->
@@ -89,7 +89,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:hint="密碼"/>
+                android:hint="Password"/>
         </android.support.design.widget.TextInputLayout>
 
         <!-- Password Re-enter Label -->
@@ -103,7 +103,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:hint="請再輸入一次密碼"/>
+                android:hint="Please re-enter the password"/>
         </android.support.design.widget.TextInputLayout>
 
         <!-- Medical number Label -->
@@ -117,7 +117,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
-                android:hint="醫療編號(選填)" />
+                android:hint="Medical number (optional)" />
         </android.support.design.widget.TextInputLayout>
         <!-- Signup Button -->
         <android.support.v7.widget.AppCompatButton
@@ -127,14 +127,14 @@
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
             android:padding="12dp"
-            android:text="創建帳號"
+            android:text="create an account"
             android:background="@color/accent"/>
 
         <TextView android:id="@+id/link_login"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:text="已經是會員？ 登錄"
+            android:text="Already a member? Log in"
             android:gravity="center"
             android:textSize="16dip"/>
 
