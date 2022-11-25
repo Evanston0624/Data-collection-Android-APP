@@ -1,15 +1,19 @@
 # Data-collection-Android-APP 
 - The training and testing data are not included here.
 - If you have any questions about the code, please email: g192e1654k@gmail.com
+- APK download link : http://140.116.82.102:8080/app_webpage/app_dl/mastr.apk
 
 # Exhibit
 - ![image](https://github.com/Evanston0624/Data-collection-Android-APP/tree/main/result/colection.png)
+
 - ![image](https://github.com/Evanston0624/Data-collection-Android-APP/tree/main/result/feedback.png)
-- ![image](https://github.com/Evanston0624/Data-collection-Android-APP/tree/main/result/feedback2.png)
+
 - ![image](https://github.com/Evanston0624/Data-collection-Android-APP/tree/main/result/plant.png)
 
+- ![image](https://github.com/Evanston0624/Data-collection-Android-APP/tree/main/result/point.png)
 # Introduction
-## Lifestyle and mood record APP
+- Lifestyle and mood record APP
+
 ## Types of Data Collected:
 - GPS
 - Sleep time
@@ -18,11 +22,14 @@
 - Audio-visual
 - Mood scale
 
-## Feedback on the user's lifestyle through line charts and statistical results.
-## Design of some reward mechanism (Point system or plant system).
+## User feedback
+- Feedback on the user's lifestyle through line charts and statistical results.
+
+## Bonus system
+- Achieve specific data collection conditions to get points. Points can be exchanged for rewards.
+- Achieve specific data collection conditions to grow plants. When plants grow strong, you can get rewards.
 
 ===========================================
 # Run
-## If you want to use this APP, please confirm the URL location in the code.
-
-## Please refer to Data-collection-HTTP-Server for the .php that connects to the database.
+- If you want to use this APP, please confirm the URL location in the code.
+- Refer to Data-collection-HTTP-Server for the .php that connects to the database.
