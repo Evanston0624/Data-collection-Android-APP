@@ -29,7 +29,6 @@
 - Achieve specific data collection conditions to get points. Points can be exchanged for rewards.
 - Achieve specific data collection conditions to grow plants. When plants grow strong, you can get rewards.
 
-===========================================
 # Run
 - If you want to use this APP, please confirm the URL location in the code.
 - Refer to Data-collection-HTTP-Server for the .php that connects to the database.
